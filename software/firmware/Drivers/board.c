@@ -81,9 +81,9 @@ void SysTick_Handler(void)
 #include "stm32f20x_40x_spi.h"
 
 /*
-SPI2_MOSI: PA7
-SPI2_MISO: PA6
-SPI2_SCK : PA5
+SPI1_MOSI: PA7
+SPI1_MISO: PA6
+SPI1_SCK : PA5
 
 CS0: PA4
 */
