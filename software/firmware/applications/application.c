@@ -49,15 +49,17 @@ void rt_init_thread_entry(void* parameter)
 		lwip_sys_init();
 		rt_kprintf("TCP/IP initialized!\n");
 		
-		set_if("w0","192.168.2.9","192.168.2.2","255.255.255.0");
-		rw009_join("rtthread_ddwrt","rtthread");
+		set_if("w0","192.168.1.9","192.168.1.1","255.255.255.0");
+		rw009_join("rtthread_11n","rtthread_finsh");
 	}
 #endif
+		telnet_srv();
 #ifdef RT_USING_FINSH
 	/* init finsh */
 	finsh_system_init();
 	finsh_set_device(RT_CONSOLE_DEVICE_NAME);
 #endif
+
 	sys_led_init();
 }
 
