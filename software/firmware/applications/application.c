@@ -20,7 +20,7 @@
 #include <board.h>
 #include <rtthread.h>
 
-#ifdef RT_USING_FINSH
+#ifdef RT_USING_FISH
 #include "shell.h"
 #endif
 
@@ -33,7 +33,7 @@
 
 void rt_init_thread_entry(void* parameter)
 {
-  sys_led_init();
+	rt_hw_spi_init();
 /* LwIP Initialization */
 #ifdef RT_USING_LWIP
 	{
@@ -42,14 +42,15 @@ void rt_init_thread_entry(void* parameter)
 		/* register ethernetif device */
 		eth_system_device_init();
 
-		/* initialize eth interface */
-		//rt_hw_stm32_eth_init();
+		/* initialize wifi interface */
+		rt_hw_wifi_init("spi10");
 
 		/* init lwip system */
 		lwip_sys_init();
 		rt_kprintf("TCP/IP initialized!\n");
 		
-		rt_hw_wifi_init("spi10");
+		set_if("w0","192.168.2.9","192.168.2.2","255.255.255.0");
+		rw009_join("rtthread_ddwrt","rtthread");
 	}
 #endif
 #ifdef RT_USING_FINSH
@@ -57,6 +58,7 @@ void rt_init_thread_entry(void* parameter)
 	finsh_system_init();
 	finsh_set_device(RT_CONSOLE_DEVICE_NAME);
 #endif
+	sys_led_init();
 }
 
 int rt_application_init()
