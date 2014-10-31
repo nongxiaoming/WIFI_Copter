@@ -19,6 +19,7 @@
 
 #include <board.h>
 #include <rtthread.h>
+#include <rtdevice.h>
 
 #ifdef RT_USING_FISH
 #include "shell.h"
@@ -31,8 +32,11 @@
 #include "stm32f2x7_eth.h"
 #endif
 
+
 void rt_init_thread_entry(void* parameter)
 {
+	rt_i2c_core_init();
+	rt_hw_i2c_init();
 	rt_hw_spi_init();
 /* LwIP Initialization */
 #ifdef RT_USING_LWIP
