@@ -1,14 +1,14 @@
-#ifndef __ANO_FILTER_H
-#define __ANO_FILTER_H
+#ifndef __FILTER_H
+#define __FILTER_H
 
 #include "ANO_Math.h"
 
-class ANO_Filter
+class Filter
 {
 	
 public:
 
-	ANO_Filter(){
+	Filter(){
 	}
 
 	//一阶低通滤波器系数计算
