@@ -1,20 +1,20 @@
 /******************** (C) COPYRIGHT 2014 ANO Tech ***************************
  * 作者		 ：匿名科创
- * 文件名  ：ANO_PID.cpp
+ * 文件名  ：pid.cpp
  * 描述    ：PID运算库
  * 官网    ：www.anotc.com
  * 淘宝    ：anotc.taobao.com
  * 技术Q群 ：190169595
 **********************************************************************************/
-#include "ANO_PID.h"
+#include "pid.h"
 
 
-int32_t ANO_PID::get_p(int32_t error)
+int32_t PID::get_p(int32_t error)
 {
     return error * kP / 64;
 }
 
-int32_t ANO_PID::get_i(int32_t error, uint16_t dt)
+int32_t PID::get_i(int32_t error, uint16_t dt)
 {
     if((kI != 0) && (dt != 0)) {
         integrator += (error * dt / 2048 ) * kI;
@@ -26,12 +26,12 @@ int32_t ANO_PID::get_i(int32_t error, uint16_t dt)
     return 0;
 }
 
-void ANO_PID::reset_I(void)
+void PID::reset_I(void)
 {
 	integrator = 0;
 }
 
-int32_t ANO_PID::get_d(int32_t error, uint16_t dt)
+int32_t PID::get_d(int32_t error, uint16_t dt)
 {
     if ((kD != 0) && (dt != 0)) {			
 			int32_t derivative;
@@ -43,12 +43,12 @@ int32_t ANO_PID::get_d(int32_t error, uint16_t dt)
     return 0;
 }
 
-int32_t ANO_PID::get_pi(int32_t error, uint16_t dt)
+int32_t PID::get_pi(int32_t error, uint16_t dt)
 {
     return get_p(error) + get_i(error, dt);
 }
 
-int32_t ANO_PID::get_pid(int32_t error, uint16_t dt)
+int32_t PID::get_pid(int32_t error, uint16_t dt)
 {
     return get_p(error) + get_i(error, dt) + get_d(error, dt);
 }

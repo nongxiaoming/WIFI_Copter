@@ -1,15 +1,15 @@
-#ifndef __ANO_PID_H
-#define __ANO_PID_H
+#ifndef __PID_H
+#define __PID_H
 
 #include <stdint.h>
 #include "ANO_Math.h"
 
-class ANO_PID
+class PID
 {
 	
 public:
 	
-	ANO_PID(){
+	PID(){
 		kP = kI = kD = 0;
 		imax = 0;
 	}
