@@ -6,11 +6,11 @@
  * 淘宝    ：anotc.taobao.com
  * 技术Q群 ：190169595
 **********************************************************************************/
-#include "ANO_Param.h"
+#include "params.h"
 #include "sensor.h"
 #include "board.h"
 
-ANO_Param param;
+Params params;
 
 #define EE_FirstInitFlag 0
 #define EE_6050_ACC_X_OFFSET_ADDR	1
@@ -32,7 +32,7 @@ ANO_Param param;
 uint16_t FirstInitFlag = 0x33;
 
 
-void ANO_Param::Init(void)
+void Params::Init(void)
 {
 
 	if(READ_FirstInitFlag()!= FirstInitFlag)	//板子从未初始化
@@ -45,25 +45,25 @@ void ANO_Param::Init(void)
 	
 }
 
-void ANO_Param::SAVE_FirstInitFlag(void)
+void Params::SAVE_FirstInitFlag(void)
 {
 	EE_WriteVariable(VirtAddVarTab[EE_FirstInitFlag], FirstInitFlag);
 }
 
-uint16_t ANO_Param::READ_FirstInitFlag(void)
+uint16_t Params::READ_FirstInitFlag(void)
 {
 	uint16_t temp;
 	EE_ReadVariable(VirtAddVarTab[EE_FirstInitFlag], &temp);
 	return temp;
 }
 
-void ANO_Param::SAVE_ACC_OFFSET(void)
+void Params::SAVE_ACC_OFFSET(void)
 {
 	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_X_OFFSET_ADDR], sensor.Acc_Offset.x);
 	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_Y_OFFSET_ADDR], sensor.Acc_Offset.y);
 	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_Z_OFFSET_ADDR], sensor.Acc_Offset.z);
 }
-void ANO_Param::READ_ACC_OFFSET(void)
+void Params::READ_ACC_OFFSET(void)
 {
 	uint16_t temp[3];
 	EE_ReadVariable(VirtAddVarTab[EE_6050_ACC_X_OFFSET_ADDR], &temp[0]);
@@ -73,13 +73,13 @@ void ANO_Param::READ_ACC_OFFSET(void)
 	sensor.Acc_Offset.y = temp[1];
 	sensor.Acc_Offset.z = temp[2];
 }
-void ANO_Param::SAVE_GYRO_OFFSET(void)
+void Params::SAVE_GYRO_OFFSET(void)
 {
 	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_X_OFFSET_ADDR], sensor.Gyro_Offset.x);
 	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_Y_OFFSET_ADDR], sensor.Gyro_Offset.y);
 	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_Z_OFFSET_ADDR], sensor.Gyro_Offset.z);
 }
-void ANO_Param::READ_GYRO_OFFSET(void)
+void Params::READ_GYRO_OFFSET(void)
 {
 	uint16_t temp[3];
 	EE_ReadVariable(VirtAddVarTab[EE_6050_GYRO_X_OFFSET_ADDR], &temp[0]);
@@ -89,7 +89,7 @@ void ANO_Param::READ_GYRO_OFFSET(void)
 	sensor.Gyro_Offset.y = temp[1];
 	sensor.Gyro_Offset.z = temp[2];
 }
-void ANO_Param::SAVE_PID(void)
+void Params::SAVE_PID(void)
 {
 	u16 _temp;
 	_temp = pidctrl.pid[PIDROLL].kP;
@@ -113,7 +113,7 @@ void ANO_Param::SAVE_PID(void)
 
 }
 
-void ANO_Param::READ_PID(void)
+void Params::READ_PID(void)
 {
 	u16 _temp;
 	EE_ReadVariable(VirtAddVarTab[EE_PID_ROL_P],&_temp);
@@ -138,7 +138,7 @@ void ANO_Param::READ_PID(void)
 	pidctrl.pid[PIDYAW].kD = _temp ;
 }
 
-void ANO_Param::READ_CONF(void)
+void Params::READ_CONF(void)
 {
 	READ_PID();
 	READ_ACC_OFFSET();

@@ -86,7 +86,7 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 	if(*(data_buf+2)==0X12)								//PID3
 	{
 		Send_Check(sum);
-		param.SAVE_PID();
+		params.SAVE_PID();
 	}
 	if(*(data_buf+2)==0X16)								//OFFSET
 	{

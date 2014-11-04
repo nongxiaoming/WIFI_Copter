@@ -1,10 +1,10 @@
-#ifndef __ANO_PARAM_H
-#define __ANO_PARAM_H
+#ifndef __PARAMS_H
+#define __PARAMS_H
 
 #include "ANO_Config.h"
 
 
-class ANO_Param
+class Params
 {
 	
 public:
@@ -25,7 +25,7 @@ private:
 	void READ_CONF(void);
 };
 
-extern ANO_Param param;
+extern Params params;
 
 #endif
 

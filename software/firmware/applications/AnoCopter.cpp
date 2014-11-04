@@ -16,7 +16,7 @@ int main(void)
 	ANO_Hexacopter_board_Init();
 	
 	//初始化参数
-	param.Init();
+	params.Init();
 	
 	//初始化IMU（惯性测量单元）
 	imu.Init();	
