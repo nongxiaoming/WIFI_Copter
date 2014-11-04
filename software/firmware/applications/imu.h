@@ -1,9 +1,9 @@
-#ifndef __ANO_IMU_H
-#define __ANO_IMU_H
+#ifndef __IMU_H
+#define __IMU_H
 
 #include "ANO_Config.h"
 
-class IMU : public ANO_Filter
+class IMU : public Filter
 {
 	
 public:

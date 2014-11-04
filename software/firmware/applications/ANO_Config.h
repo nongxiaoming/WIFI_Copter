@@ -2,9 +2,9 @@
 #define __ANO_CONFIG_H
 
 #include "board.h"
-#include "ANO_PID.h"
-#include "ANO_Filter.h"
-#include "ANO_IMU.h"
+#include "pid.h"
+#include "filter.h"
+#include "imu.h"
 #include "ANO_Scheduler.h"
 #include "ANO_DT.h"
 #include "ANO_Motor.h"
@@ -26,7 +26,8 @@
 
 /*-------------------无线数据发送方式选择-----------------*/
 //#define ANO_DT_USE_Bluetooth
-#define ANO_DT_USE_NRF24l01
+//#define ANO_DT_USE_NRF24l01
+#define ANO_DT_USE_WIFI
 /*--------------------------------------------------------*/
 
 

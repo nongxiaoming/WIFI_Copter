@@ -7,6 +7,7 @@
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
 #include "ANO_Param.h"
+#include "sensor.h"
 #include "board.h"
 
 ANO_Param param;
@@ -58,9 +59,9 @@ uint16_t ANO_Param::READ_FirstInitFlag(void)
 
 void ANO_Param::SAVE_ACC_OFFSET(void)
 {
-	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_X_OFFSET_ADDR], mpu6050.Acc_Offset.x);
-	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_Y_OFFSET_ADDR], mpu6050.Acc_Offset.y);
-	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_Z_OFFSET_ADDR], mpu6050.Acc_Offset.z);
+	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_X_OFFSET_ADDR], sensor.Acc_Offset.x);
+	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_Y_OFFSET_ADDR], sensor.Acc_Offset.y);
+	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_Z_OFFSET_ADDR], sensor.Acc_Offset.z);
 }
 void ANO_Param::READ_ACC_OFFSET(void)
 {
@@ -68,15 +69,15 @@ void ANO_Param::READ_ACC_OFFSET(void)
 	EE_ReadVariable(VirtAddVarTab[EE_6050_ACC_X_OFFSET_ADDR], &temp[0]);
 	EE_ReadVariable(VirtAddVarTab[EE_6050_ACC_Y_OFFSET_ADDR], &temp[1]);
 	EE_ReadVariable(VirtAddVarTab[EE_6050_ACC_Z_OFFSET_ADDR], &temp[2]);
-	mpu6050.Acc_Offset.x = temp[0];
-	mpu6050.Acc_Offset.y = temp[1];
-	mpu6050.Acc_Offset.z = temp[2];
+	sensor.Acc_Offset.x = temp[0];
+	sensor.Acc_Offset.y = temp[1];
+	sensor.Acc_Offset.z = temp[2];
 }
 void ANO_Param::SAVE_GYRO_OFFSET(void)
 {
-	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_X_OFFSET_ADDR], mpu6050.Gyro_Offset.x);
-	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_Y_OFFSET_ADDR], mpu6050.Gyro_Offset.y);
-	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_Z_OFFSET_ADDR], mpu6050.Gyro_Offset.z);
+	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_X_OFFSET_ADDR], sensor.Gyro_Offset.x);
+	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_Y_OFFSET_ADDR], sensor.Gyro_Offset.y);
+	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_Z_OFFSET_ADDR], sensor.Gyro_Offset.z);
 }
 void ANO_Param::READ_GYRO_OFFSET(void)
 {
@@ -84,9 +85,9 @@ void ANO_Param::READ_GYRO_OFFSET(void)
 	EE_ReadVariable(VirtAddVarTab[EE_6050_GYRO_X_OFFSET_ADDR], &temp[0]);
 	EE_ReadVariable(VirtAddVarTab[EE_6050_GYRO_Y_OFFSET_ADDR], &temp[1]);
 	EE_ReadVariable(VirtAddVarTab[EE_6050_GYRO_Z_OFFSET_ADDR], &temp[2]);
-	mpu6050.Gyro_Offset.x = temp[0];
-	mpu6050.Gyro_Offset.y = temp[1];
-	mpu6050.Gyro_Offset.z = temp[2];
+	sensor.Gyro_Offset.x = temp[0];
+	sensor.Gyro_Offset.y = temp[1];
+	sensor.Gyro_Offset.z = temp[2];
 }
 void ANO_Param::SAVE_PID(void)
 {

@@ -7,7 +7,7 @@
  * 技术Q群 ：190169595
 **********************************************************************************/
 #include "ANO_FlyControl.h"
-
+#include "sensor.h"
 ANO_FlyControl fc;
 
 
@@ -34,7 +34,7 @@ void ANO_FlyControl::Attitude_Loop(void)
 	//计算角度误差值
 	errorAngle[ROLL] = constrain_int32((rc.Command[ROLL] * 2) , -((int)FLYANGLE_MAX), +FLYANGLE_MAX) - imu.angle.x * 10; 
 	errorAngle[PITCH] = constrain_int32((rc.Command[PITCH] * 2) , -((int)FLYANGLE_MAX), +FLYANGLE_MAX) - imu.angle.y * 10; 
-	errorAngle[YAW] = rc.Command[YAW] * 5 - mpu6050.Get_Gyro().z / 4;	
+	errorAngle[YAW] = rc.Command[YAW] * 5 - sensor.Get_Gyro().z / 4;	
 	
 	for(u8 i=0; i<3;i++)
 	{

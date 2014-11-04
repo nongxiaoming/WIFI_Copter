@@ -17,7 +17,7 @@ class ANO_FlyControl
 
 public:
 	
-	ANO_PID pid[PIDITEMS];
+	PID pid[PIDITEMS];
 
 	ANO_FlyControl();
 

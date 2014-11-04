@@ -7,6 +7,7 @@
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
 #include "ANO_DT.h"
+#include "Sensor.h"
 
 #define BYTE0(dwTemp)       (*(char *)(&dwTemp))
 #define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))
@@ -29,13 +30,13 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 	if(*(data_buf+2)==0X01)
 	{
 		if(*(data_buf+4)==0X01)
-			mpu6050.Acc_CALIBRATED = 1;
+			sensor.Acc_CALIBRATED = 1;
 		if(*(data_buf+4)==0X02)
-			mpu6050.Gyro_CALIBRATED = 1;
+			sensor.Gyro_CALIBRATED = 1;
 		if(*(data_buf+4)==0X03)
 		{
-			mpu6050.Acc_CALIBRATED = 1;		
-			mpu6050.Gyro_CALIBRATED = 1;			
+			sensor.Acc_CALIBRATED = 1;		
+			sensor.Gyro_CALIBRATED = 1;			
 		}
 	}
 	
@@ -209,13 +210,13 @@ void ANO_DT::Send_Senser(void)
 	_temp = imu.Acc.z;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = mpu6050.Get_Gyro().x;	
+	_temp = sensor.Get_Gyro().x;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = mpu6050.Get_Gyro().y;	
+	_temp = sensor.Get_Gyro().y;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = mpu6050.Get_Gyro().z;	
+	_temp = sensor.Get_Gyro().z;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
 	
