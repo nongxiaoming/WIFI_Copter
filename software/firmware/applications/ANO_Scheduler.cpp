@@ -26,7 +26,7 @@ static void ANO_Loop_500Hz(void)	//2ms执行一次
 	imu.getAttitude();
 	
 	//飞行器姿态控制
-	fc.Attitude_Loop();	
+	pidctrl.Attitude_Loop();	
 }
 
 static void ANO_Loop_200Hz(void)	//5ms执行一次

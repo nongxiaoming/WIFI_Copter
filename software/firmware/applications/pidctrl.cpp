@@ -6,19 +6,20 @@
  * 淘宝    ：anotc.taobao.com
  * 技术Q群 ：190169595
 **********************************************************************************/
-#include "ANO_FlyControl.h"
+#include "pidctrl.h"
 #include "sensor.h"
-ANO_FlyControl fc;
+
+PIDCtrl pidctrl;
 
 
-ANO_FlyControl::ANO_FlyControl()
+PIDCtrl::PIDCtrl()
 {
 	//重置PID参数
 	PID_Reset();
 }
 
 //重置PID参数
-void ANO_FlyControl::PID_Reset(void)
+void PIDCtrl::PID_Reset(void)
 {
 	pid[PIDROLL].set_pid(55, 25, 65, 2000000);
 	pid[PIDPITCH].set_pid(55, 25, 65, 2000000);
@@ -26,7 +27,7 @@ void ANO_FlyControl::PID_Reset(void)
 }
 
 //飞行器姿态控制
-void ANO_FlyControl::Attitude_Loop(void)
+void PIDCtrl::Attitude_Loop(void)
 {
 	int32_t PIDTerm[3];
 	int32_t	errorAngle[3];

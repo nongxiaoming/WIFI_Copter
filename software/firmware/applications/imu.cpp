@@ -7,6 +7,7 @@
  * 技术Q群 ：190169595
 **********************************************************************************/
 #include "imu.h"
+#include "sensor.h"
 
 IMU imu;
 
@@ -27,13 +28,13 @@ void IMU::Init()
 void IMU::updateSensor()
 {
 	//读取加速度
-	mpu6050.Read_Acc_Data();
+	sensor.Read_Acc_Data();
 	//读取角速度
-	mpu6050.Read_Gyro_Data();	
+	sensor.Read_Gyro_Data();	
 	//获取角速度，单位为度每秒
-	Gyro = mpu6050.Get_Gyro_in_dps();
+	Gyro = sensor.Get_Gyro_in_dps();
 	//获取加速度采样值
-	Acc = mpu6050.Get_Acc();
+	Acc = sensor.Get_Acc();
 }
 
 
@@ -92,7 +93,7 @@ void IMU::filter_Init()
 void IMU::sensor_Init()
 {
 	//初始化MPU6050，1Khz采样率，98Hz低通滤波
-	mpu6050.Init(1000,98);
+	sensor.Init(1000,98);
 }
 
 /******************* (C) COPYRIGHT 2014 ANO TECH *****END OF FILE************/

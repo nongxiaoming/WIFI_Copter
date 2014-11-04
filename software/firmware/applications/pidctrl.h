@@ -1,5 +1,5 @@
-#ifndef __ANO_FLYCONTROL_H
-#define __ANO_FLYCONTROL_H
+#ifndef __PIDCTRL_H
+#define __PIDCTRL_H
 
 #include "ANO_Config.h"
 
@@ -12,14 +12,14 @@ enum {
 		PIDITEMS
 };
 
-class ANO_FlyControl
+class PIDCtrl
 {
 
 public:
 	
 	PID pid[PIDITEMS];
 
-	ANO_FlyControl();
+	PIDCtrl();
 
 	//×ËÌ¬¿ØÖÆ
 	void Attitude_Loop(void);
@@ -29,7 +29,7 @@ private:
 	void PID_Reset(void);
 };
 
-extern ANO_FlyControl fc;
+extern PIDCtrl pidctrl;
 
 #endif
 
