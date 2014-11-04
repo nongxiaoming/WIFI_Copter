@@ -4,6 +4,7 @@
 
 #define MOTORS_NUM_MAX    4
 
+static rt_uint16_t pwm_value[MOTORS_NUM_MAX];
 
 static rt_err_t rt_motors_init(rt_device_t dev)
 {
@@ -79,18 +80,17 @@ static rt_size_t rt_motors_read(rt_device_t dev, rt_off_t pos, void *buffer,
                              rt_size_t size)
 {
     rt_ubase_t index = 0;
-    rt_ubase_t nr = size;
-    rt_uint8_t *value = buffer;
+    rt_uint16_t *value = buffer;
 
     RT_ASSERT(dev != RT_NULL);
     RT_ASSERT((pos + size) <= MOTORS_NUM_MAX);
 
-    for (index = 0; index < nr; index++)
+    for (index = 0; index < size; index++)
     {
-
-        value++;
+        *value = pwm_value[pos+index];
+			   value++;
     }
-    return index;
+    return size;
 }
 
 static rt_size_t rt_motors_write(rt_device_t dev, rt_off_t pos,
@@ -98,23 +98,32 @@ static rt_size_t rt_motors_write(rt_device_t dev, rt_off_t pos,
 {
     rt_ubase_t index = 0;
     rt_ubase_t nw = size;
-    const rt_uint8_t *value = buffer;
+    const rt_uint16_t *value = buffer;
 
     RT_ASSERT(dev != RT_NULL);
     RT_ASSERT((pos + size) <= MOTORS_NUM_MAX);
 
-    for (index = 0; index < nw; index++)
+    for (index = 0; index < size; index++)
     {
-        if (*value++)
+			  if((*value>=1000)&&(*value<=2000))
+				{
+				  pwm_value[pos+index] = *value;
+				}else	if (*value<1000)
         {
-            
+            pwm_value[pos+index]=1000;
         }
         else
         {
-            
+          pwm_value[pos+index]=2000;  
         }
+        value++;
     }
-    return index;
+	TIM2->CCR1 = pwm_value[0] - 1000;
+	TIM2->CCR2 = pwm_value[1] - 1000;
+	TIM1->CCR1 = pwm_value[2] - 1000;
+	TIM1->CCR4 = pwm_value[3] - 1000;
+
+    return size;
 }
 
 static rt_err_t rt_motors_control(rt_device_t dev, rt_uint8_t cmd, void *args)
