@@ -1,21 +1,21 @@
 /******************** (C) COPYRIGHT 2014 ANO Tech *******************************
  * 作者		 ：匿名科创
- * 文件名  ：ANO_IMU.cpp
+ * 文件名  ：imu.cpp
  * 描述    ：飞行器姿态计算
  * 官网    ：www.anotc.com
  * 淘宝    ：anotc.taobao.com
  * 技术Q群 ：190169595
 **********************************************************************************/
-#include "ANO_IMU.h"
+#include "imu.h"
 
-ANO_IMU imu;
+IMU imu;
 
-ANO_IMU::ANO_IMU()
+IMU::IMU()
 {
 }
 
 //IMU初始化
-void ANO_IMU::Init()
+void IMU::Init()
 {
 	//滤波器参数初始化
 	filter_Init();
@@ -24,7 +24,7 @@ void ANO_IMU::Init()
 }
 
 //更新传感器数据
-void ANO_IMU::updateSensor()
+void IMU::updateSensor()
 {
 	//读取加速度
 	mpu6050.Read_Acc_Data();
@@ -38,7 +38,7 @@ void ANO_IMU::updateSensor()
 
 
 //计算飞行器姿态
-void ANO_IMU::getAttitude()
+void IMU::getAttitude()
 {
 	//加速度数据一阶低通滤波
 	Acc_lpf_1st = LPF_1st(Acc_lpf_1st, Acc, ano.factor.acc_lpf);
@@ -51,7 +51,7 @@ void ANO_IMU::getAttitude()
 #define Kp 2.0f        //加速度权重，越大则向加速度测量值收敛越快
 #define Ki 0.001f      //误差积分增益
 //四元数更新姿态
-void ANO_IMU::Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
+void IMU::Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
 {
 	Vector3f V_gravity, V_error, V_error_I;
 	
@@ -81,7 +81,7 @@ void ANO_IMU::Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
 }
 
 
-void ANO_IMU::filter_Init()
+void IMU::filter_Init()
 {
 	//加速度一阶低通滤波器系数计算
 	ano.factor.acc_lpf = LPF_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
@@ -89,7 +89,7 @@ void ANO_IMU::filter_Init()
 	ano.factor.gyro_cf = CF_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);	
 }
 
-void ANO_IMU::sensor_Init()
+void IMU::sensor_Init()
 {
 	//初始化MPU6050，1Khz采样率，98Hz低通滤波
 	mpu6050.Init(1000,98);

@@ -1,18 +1,43 @@
-#ifndef _IMU_H_
-#define _IMU_H_
-#include "stm32f2xx.h"
-//#include "MPU6050.h"
-#include "sensor.h"
+#ifndef __ANO_IMU_H
+#define __ANO_IMU_H
 
-extern vs16 	Mx_Offset,My_Offset,Mz_Offset;
-extern float 	My_Gain,Mz_Gain;
-extern float 	AngleOffset_Rol,AngleOffset_Pit; 
+#include "ANO_Config.h"
 
-void Prepare_Data(rt_axes3i_t *acc_in,rt_axes3i_t *acc_out);
+class IMU : public ANO_Filter
+{
+	
+public:
 
-void IMUupdate(rt_axes3i_t *gyr, rt_axes3i_t *acc, rt_angle3f_t *angle);
+	IMU();
+	
+	//欧拉角表示的飞行器姿态
+	Vector3f angle;
+	
+	Vector3f Gyro, Acc, Acc_lpf_1st, Acc_lpf_2nd; 
+	
+	void Init();
+	
+	//更新传感器数据
+	void updateSensor();	
+	
+	//计算飞行器姿态
+	void getAttitude();
+	
+private:
+	
+	Quaternion Q;
 
-void Cal_Compass(void);
-void Get_CompassAngle(rt_axes3i_t *mag, rt_axes3i_t *acc, float *heading);
+	//基于四元数和互补滤波的姿态解算
+	void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT);
+
+	//滤波器参数初始化
+	void filter_Init();
+	//传感器初始化
+	void sensor_Init();
+
+};
+
+extern IMU imu;
 
 #endif
+
