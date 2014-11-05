@@ -6,21 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>738</width>
-    <height>500</height>
+    <width>855</width>
+    <height>505</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="Chart" name="widget" native="true">
+   <widget class="PrimaryFlightDisplay" name="widget_2" native="true">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>251</width>
-      <height>71</height>
+      <y>40</y>
+      <width>421</width>
+      <height>391</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="ModelViewWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>40</y>
+      <width>401</width>
+      <height>391</height>
      </rect>
     </property>
    </widget>
@@ -30,7 +40,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>738</width>
+     <width>855</width>
      <height>23</height>
     </rect>
    </property>
@@ -48,9 +58,15 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>Chart</class>
+   <class>PrimaryFlightDisplay</class>
    <extends>QWidget</extends>
-   <header location="global">qchart/chart.h</header>
+   <header location="global">primaryflightdisplay.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ModelViewWidget</class>
+   <extends>QWidget</extends>
+   <header>modelviewwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

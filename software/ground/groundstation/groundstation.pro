@@ -25,7 +25,6 @@ QT       += core gui\
          opengl \
           svg \
            xml \
-          webkit \
           sql \
           declarative\
           network
@@ -36,12 +35,12 @@ TARGET = QGroundStation
 TEMPLATE = app
 
 win32 {
-    RC_FILE = openpilotgcs.rc
+    RC_FILE = groundstation.rc
     target.path = /bin
     INSTALLS += target
 } else:macx {
     LIBS += -framework CoreFoundation
-    ICON = openpilotgcs.icns
+    ICON = groundstation.icns
     QMAKE_INFO_PLIST = Info.plist
     FILETYPES.files = profile.icns prifile.icns
     FILETYPES.path = Contents/Resources
@@ -51,18 +50,20 @@ win32 {
     INSTALLS    += target
 }
 
-OTHER_FILES += openpilotgcs.rc
+OTHER_FILES += groundstation.rc
 
 RESOURCES += \
-    appresources.qrc
+    groundstation.qrc
 
 
 SOURCES += main.cpp\
         mainwindow.cpp\
-PrimaryFlightDisplay.cpp
+PrimaryFlightDisplay.cpp \
+    modelviewwidget.cpp
 
 HEADERS  += mainwindow.h\
-PrimaryFlightDisplay.h
+PrimaryFlightDisplay.h \
+    modelviewwidget.h
 
 
 FORMS    += mainwindow.ui
@@ -72,7 +73,7 @@ INCLUDEPATH +=.
 
 LIBS +=-l$$qtLibraryName(QChart)\
        -l$$qtLibraryName(ExtensionSystem)\
-       -l$$qtLibraryName(Utils)
-
+       -l$$qtLibraryName(Utils)\
+       -l$$qtLibraryName(GLC_lib)
 
 DESTDIR=$${PROJECT_BINDIR}

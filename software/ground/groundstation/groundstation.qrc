@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>models/default_background.png</file>
+        <file>models/quad_+.3ds</file>
+        <file>models/quad_X.3ds</file>
+    </qresource>
+</RCC>

@@ -1,15 +1,16 @@
-
 #include <QMessageBox>
-#include <QtWidgets/QApplication>
+#include <QApplication>
 #include <QMainWindow>
+#include "mainwindow.h"
 
-
-int main(int argc, char * *argv)
+int main(int argc, char **argv)
 {
+    QApplication a(argc, argv);
+
+        MainWindow w;
+        w.show();
+
+        return a.exec();
 
 
-
-
-
-    return 0;
 }
