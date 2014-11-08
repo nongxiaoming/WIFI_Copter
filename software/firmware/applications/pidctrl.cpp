@@ -50,7 +50,34 @@ void PIDCtrl::Attitude_Loop(void)
 	PIDTerm[YAW] = -constrain_int32(PIDTerm[YAW], -300 - abs(rc.Command[YAW]), +300 + abs(rc.Command[YAW]));		
 	
 	//PID输出转为电机控制量
-	motor.writeMotor(rc.Command[THROTTLE], PIDTerm[ROLL], PIDTerm[PITCH], PIDTerm[YAW]);
+	MotorCtrl(rc.Command[THROTTLE], PIDTerm[ROLL], PIDTerm[PITCH], PIDTerm[YAW]);
 }
+void PIDCtrl::MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw)
+{
+	//六轴X型
+	motorPWM[0] = throttle - 0.5 * pidTermRoll + 0.866 *  pidTermPitch + pidTermYaw; //后右
+	motorPWM[1] = throttle - 0.5 * pidTermRoll - 0.866 *  pidTermPitch + pidTermYaw; //前右
+	motorPWM[2] = throttle + 0.5 * pidTermRoll + 0.866 *  pidTermPitch - pidTermYaw; //后左
+	motorPWM[3] = throttle + 0.5 * pidTermRoll - 0.866 *  pidTermPitch - pidTermYaw; //前左
 
+				
+	for (u8 i = 0; i < 6; i++) 
+		motorPWM[i] = constrain_uint16(motorPWM[i], MINTHROTTLE, MAXTHROTTLE);
+
+	//如果未解锁，则将电机输出设置为最低
+	if(!ano.f.ARMED || rc.rawData[THROTTLE] < 1200)	
+		for(u8 i=0; i< 4 ; i++)
+			motorPWM[i] = 1000;
+
+	//写入电机PWM
+	//pwm.SetPwm(motorPWM);
+	
+}
+void PIDCtrl::getPWM(uint16_t* pwm)
+{
+	*(pwm) = motorPWM[0];
+	*(pwm+1) = motorPWM[1];
+	*(pwm+2) = motorPWM[2];
+	*(pwm+3) = motorPWM[3];
+}
 /************************ (C) COPYRIGHT 2014 ANO TECH *****END OF FILE**********************/
