@@ -60,10 +60,6 @@ if GetDepend(['RT_USING_BSP_CMSIS']):
     src += [cwd + '/CMSIS/CM3/CoreSupport/core_cm3.c']
 elif GetDepend(['RT_USING_RTT_CMSIS']):
     path += [RTT_ROOT + '/components/CMSIS/Include']
-
-if GetDepend('RT_USING_LWIP') == True:
-	src = src + ['STM32F2x7_ETH_Driver/src/stm32f2x7_eth.c']
-	path = path + [cwd + '/STM32F2x7_ETH_Driver/inc']
 	
 
 CPPDEFINES = ['USE_STDPERIPH_DRIVER']
