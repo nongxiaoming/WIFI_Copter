@@ -13,7 +13,7 @@
 int main(void)
 {
 	//初始化飞控板的硬件设置
-	ANO_Hexacopter_board_Init();
+//	ANO_Hexacopter_board_Init();
 	
 	//初始化参数
 	params.Init();

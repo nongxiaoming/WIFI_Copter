@@ -276,7 +276,7 @@ void ANO_DT::Send_MotoPWM(void)
 {
 	u8 _cnt=0;
 	uint16_t Moto_PWM[6];
-	motor.getPWM(Moto_PWM);
+	pidctrl.getPWM(Moto_PWM);
 	
 	for(u8 i=0;i<6;i++)
 		Moto_PWM[i] -= 1000;

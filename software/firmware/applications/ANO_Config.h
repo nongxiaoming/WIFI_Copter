@@ -7,7 +7,6 @@
 #include "imu.h"
 #include "ANO_Scheduler.h"
 #include "ANO_DT.h"
-#include "ANO_Motor.h"
 #include "ANO_RC.h"
 #include "pidctrl.h"
 #include "params.h"
