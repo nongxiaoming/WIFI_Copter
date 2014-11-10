@@ -20,8 +20,11 @@
 #include <board.h>
 #include <rtthread.h>
 #include <rtdevice.h>
+#include "drv_led.h"
+#include "spi_wifi_rw009.h"
+#include "telnet.h"
 
-#ifdef RT_USING_FISH
+#ifdef RT_USING_FINSH
 #include "shell.h"
 #endif
 
@@ -29,9 +32,9 @@
 #include <lwip/sys.h>
 #include <lwip/api.h>
 #include <netif/ethernetif.h>
-#include "stm32f2x7_eth.h"
 #endif
 
+extern void set_if(char* netif_name, char* ip_addr, char* gw_addr, char* nm_addr);
 
 void rt_init_thread_entry(void* parameter)
 {
@@ -57,7 +60,7 @@ void rt_init_thread_entry(void* parameter)
 		rw009_join("rtthread_11n","rtthread_finsh");
 	}
 #endif
-		telnet_srv();
+		telnet_server_init();
 #ifdef RT_USING_FINSH
 	/* init finsh */
 	finsh_system_init();
