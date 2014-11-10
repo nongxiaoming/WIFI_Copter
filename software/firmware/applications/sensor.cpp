@@ -130,7 +130,7 @@ void Sensor::CalOffset_Gyro(void)
 			Gyro_Offset.z = tempGyro.z/cnt_g;
 			cnt_g = 0;
 			Gyro_CALIBRATED = 0;
-			param.SAVE_GYRO_OFFSET();//保存数据
+			params.SAVE_GYRO_OFFSET();//保存数据
 			return;
 		}
 		cnt_g++;
