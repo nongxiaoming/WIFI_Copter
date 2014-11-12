@@ -1,7 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>models/default_background.png</file>
+        <file>models/easystar.3ds</file>
         <file>models/quad_+.3ds</file>
         <file>models/quad_X.3ds</file>
+        <file>models/quad_X.jpg</file>
+        <file>models/TEXTURE.JPG</file>
     </qresource>
 </RCC>
