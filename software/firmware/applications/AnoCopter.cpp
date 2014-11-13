@@ -10,24 +10,24 @@
 **********************************************************************************/
 #include "ANO_Config.h"
 
-int main(void)
-{
-	//初始化飞控板的硬件设置
-//	ANO_Hexacopter_board_Init();
-	
-	//初始化参数
-	params.Init();
-	
-	//初始化IMU（惯性测量单元）
-	imu.Init();	
-	
-	while(1)
-	{
-		ANO_Loop();
-	}
-	
-	return 0;
-}
+//int main(void)
+//{
+//	//初始化飞控板的硬件设置
+////	ANO_Hexacopter_board_Init();
+//	
+//	//初始化参数
+//	params.Init();
+//	
+//	//初始化IMU（惯性测量单元）
+//	imu.Init();	
+//	
+//	while(1)
+//	{
+//		ANO_Loop();
+//	}
+//	
+//	return 0;
+//}
 
 
 /******************* (C) COPYRIGHT 2014 ANO TECH *****END OF FILE************/

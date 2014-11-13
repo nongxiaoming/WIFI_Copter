@@ -15,6 +15,10 @@
 #ifndef STM32F20X_40X_SPI_H_INCLUDED
 #define STM32F20X_40X_SPI_H_INCLUDED
 
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+
 #include <stdint.h>
 #include <rtthread.h>
 #include <drivers/spi.h>
@@ -51,5 +55,8 @@ struct stm32_spi_cs
 rt_err_t stm32_spi_register(SPI_TypeDef * SPI,
                             struct stm32_spi_bus * stm32_spi,
                             const char * spi_bus_name);
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif // STM32F20X_40X_SPI_H_INCLUDED
