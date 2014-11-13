@@ -16,6 +16,10 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+
 #include <stm32f2xx.h>
 
 /* board configuration */
@@ -42,6 +46,10 @@
 void rt_hw_board_init(void);
 void rt_hw_usart_init(void);
 int rt_hw_spi_init(void);
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif
 
