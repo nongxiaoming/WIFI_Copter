@@ -23,6 +23,7 @@
 #include "drv_led.h"
 #include "spi_wifi_rw009.h"
 #include "telnet.h"
+#include "stm32_i2c.h"
 
 #ifdef RT_USING_FINSH
 #include "shell.h"
