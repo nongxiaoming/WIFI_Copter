@@ -35,7 +35,8 @@
 #include <netif/ethernetif.h>
 #endif
 
-extern void set_if(char* netif_name, char* ip_addr, char* gw_addr, char* nm_addr);
+extern "C" void set_if(char* netif_name, char* ip_addr, char* gw_addr, char* nm_addr);
+extern "C" int lwip_system_init(void);
 
 void rt_init_thread_entry(void* parameter)
 {
@@ -54,7 +55,7 @@ void rt_init_thread_entry(void* parameter)
 		rt_hw_wifi_init("spi10");
 
 		/* init lwip system */
-		lwip_sys_init();
+		lwip_system_init();
 		rt_kprintf("TCP/IP initialized!\n");
 		
 		set_if("w0","192.168.1.9","192.168.1.1","255.255.255.0");
