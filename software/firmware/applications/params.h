@@ -3,6 +3,11 @@
 
 #include "ANO_Config.h"
 
+typedef struct
+{
+ uint32_t magic;
+	
+}params_t;
 
 class Params
 {
