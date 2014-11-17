@@ -2,7 +2,7 @@
 #define __SENSOR_H
 
 #include <rtthread.h>
-
+#include "params.h"
 #include "ANO_Math.h"
 
 #define CALIBRATING_GYRO_CYCLES             1000
@@ -16,7 +16,7 @@ public:
 
 	bool Acc_CALIBRATED;
 	bool Gyro_CALIBRATED;
-	Vector3i Acc_Offset,Gyro_Offset;
+	vector3i_t Acc_Offset,Gyro_Offset;
 
 	//≥ı ºªØ6050
 	void Init(uint16_t sample_rate, uint16_t lpf);

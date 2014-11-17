@@ -87,8 +87,9 @@ void Sensor::CalOffset_Acc(void)
 
 			if(cnt_a==0)
 			{
-				Acc_Offset(0, 0, 0);
-				tempAcc(0, 0, 0);
+				Acc_Offset.x=0;
+				Acc_Offset.y=0;
+				Acc_Offset.z=0;
 				cnt_a = 1;
 				return;
 			}			
@@ -117,7 +118,9 @@ void Sensor::CalOffset_Gyro(void)
 		static uint16_t cnt_g=0;
 		if(cnt_g==0)
 		{
-			Gyro_Offset(0, 0, 0);
+			Gyro_Offset.x=0;
+			Gyro_Offset.y=0;
+			Gyro_Offset.z=0;
 			tempGyro(0, 0, 0);
 			cnt_g = 1;
 			return;

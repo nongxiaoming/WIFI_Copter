@@ -3,10 +3,18 @@
 
 #include "ANO_Config.h"
 
+typedef struct 
+{
+ int16_t x;
+ int16_t y;
+ int16_t z;
+}vector3i_t;
+
 typedef struct
 {
  uint32_t magic;
-	
+ vector3i_t acc_offset;
+ vector3i_t gyro_offset;
 }params_t;
 
 class Params
