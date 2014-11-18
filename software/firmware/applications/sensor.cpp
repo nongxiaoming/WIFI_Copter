@@ -1,5 +1,5 @@
-#include "sensor.h"
 #include "params.h"
+#include "sensor.h"
 
 Sensor sensor;
 

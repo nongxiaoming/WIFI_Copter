@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 #include "ANO_Math.h"
+#include "params.h"
+
+
 
 class PID
 {
@@ -10,14 +13,12 @@ class PID
 public:
 	
 	PID(){
-		kP = kI = kD = 0;
+		value.kp = value.ki = value.kd = 0;
 		imax = 0;
 	}
 
 	//PID参数
-	uint16_t kP;
-	uint16_t kI;
-	uint16_t kD;
+  rt_pid_t value;
 	
 	//返回PID计算的值
 	int32_t get_pid(int32_t error, uint16_t dt);
@@ -33,7 +34,7 @@ public:
 									 const uint16_t i,
 									 const uint16_t d,
 									 const uint32_t  imaxval) {
-			kP = p; kI = i; kD = d; imax = imaxval;
+			value.kp = p; value.ki = i; value.kd = d; imax = imaxval;
 	}
 	
 private:

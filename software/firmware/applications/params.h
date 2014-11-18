@@ -12,9 +12,19 @@ typedef struct
 
 typedef struct
 {
+	uint16_t kp;
+	uint16_t ki;
+	uint16_t kd;
+}rt_pid_t;
+
+typedef struct
+{
  uint32_t magic;
  vector3i_t acc_offset;
  vector3i_t gyro_offset;
+ rt_pid_t roll_pid;
+ rt_pid_t pitch_pid;
+ rt_pid_t yaw_pid;
 }params_t;
 
 class Params

@@ -11,13 +11,13 @@
 
 int32_t PID::get_p(int32_t error)
 {
-    return error * kP / 64;
+    return error * value.kp / 64;
 }
 
 int32_t PID::get_i(int32_t error, uint16_t dt)
 {
-    if((kI != 0) && (dt != 0)) {
-        integrator += (error * dt / 2048 ) * kI;
+    if((value.ki != 0) && (dt != 0)) {
+        integrator += (error * dt / 2048 ) * value.ki;
 				//»ý·ÖÏÞ·ù
 				integrator = constrain_int32(integrator, -imax, +imax);		
 				
@@ -33,12 +33,12 @@ void PID::reset_I(void)
 
 int32_t PID::get_d(int32_t error, uint16_t dt)
 {
-    if ((kD != 0) && (dt != 0)) {			
+    if ((value.kd != 0) && (dt != 0)) {			
 			int32_t derivative;
 			derivative = error - last_error; 
 			last_error = error;
 			derivative = (derivative * ((uint16_t)0xFFFF / (dt / 16 ))) / 64;
-			return (derivative * kD) / 4;
+			return (derivative * value.kd) / 4;
     }
     return 0;
 }

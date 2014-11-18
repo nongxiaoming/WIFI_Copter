@@ -2,6 +2,7 @@
 #define __PIDCTRL_H
 
 #include "ANO_Config.h"
+#include "pid.h"
 
 #define FLYANGLE_MAX 250  //最大飞行倾角25度
 #define MINTHROTTLE 1100

@@ -2,14 +2,12 @@
 #define __ANO_CONFIG_H
 
 #include "board.h"
-#include "pid.h"
 #include "filter.h"
 #include "imu.h"
 #include "ANO_Scheduler.h"
 #include "ANO_DT.h"
 #include "ANO_RC.h"
-#include "pidctrl.h"
-#include "params.h"
+
 
 /*----------------------IMU--------------------*/
 #define ANO_IMU_USE_DCM_CF

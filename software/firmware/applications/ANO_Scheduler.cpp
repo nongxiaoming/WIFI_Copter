@@ -7,6 +7,7 @@
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
 #include "ANO_Scheduler.h"
+#include "pidctrl.h"
 
 ANO_Scheduler scheduler;
 

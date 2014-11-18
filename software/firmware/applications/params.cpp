@@ -12,25 +12,6 @@
 
 Params params;
 
-#define EE_FirstInitFlag 0
-#define EE_6050_ACC_X_OFFSET_ADDR	1
-#define EE_6050_ACC_Y_OFFSET_ADDR	2
-#define EE_6050_ACC_Z_OFFSET_ADDR	3
-#define EE_6050_GYRO_X_OFFSET_ADDR	4
-#define EE_6050_GYRO_Y_OFFSET_ADDR	5
-#define EE_6050_GYRO_Z_OFFSET_ADDR	6
-#define EE_PID_ROL_P	7
-#define EE_PID_ROL_I	8
-#define EE_PID_ROL_D	9
-#define EE_PID_PIT_P	10
-#define EE_PID_PIT_I	11
-#define EE_PID_PIT_D	12
-#define EE_PID_YAW_P	13
-#define EE_PID_YAW_I	14
-#define EE_PID_YAW_D	15
-
-uint16_t FirstInitFlag = 0x33;
-
 
 void Params::Init(void)
 {
