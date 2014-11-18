@@ -75,9 +75,9 @@ void PIDCtrl::MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermP
 }
 void PIDCtrl::getPWM(uint16_t* pwm)
 {
-	*(pwm) = motorPWM[0];
-	*(pwm+1) = motorPWM[1];
-	*(pwm+2) = motorPWM[2];
-	*(pwm+3) = motorPWM[3];
+	pwm[0] = motorPWM[0];
+	pwm[1] = motorPWM[1];
+	pwm[2] = motorPWM[2];
+	pwm[3] = motorPWM[3];
 }
 /************************ (C) COPYRIGHT 2014 ANO TECH *****END OF FILE**********************/
