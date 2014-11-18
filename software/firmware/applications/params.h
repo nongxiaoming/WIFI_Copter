@@ -1,6 +1,7 @@
 #ifndef __PARAMS_H
 #define __PARAMS_H
 
+#include <rtthread.h>
 #include "ANO_Config.h"
 
 typedef struct 
@@ -15,17 +16,19 @@ typedef struct
 	uint16_t kp;
 	uint16_t ki;
 	uint16_t kd;
-}rt_pid_t;
+}pid_t;
 
 typedef struct
 {
  uint32_t magic;
  vector3i_t acc_offset;
  vector3i_t gyro_offset;
- rt_pid_t roll_pid;
- rt_pid_t pitch_pid;
- rt_pid_t yaw_pid;
+ pid_t roll_pid;
+ pid_t pitch_pid;
+ pid_t yaw_pid;
 }params_t;
+
+#define MAGIC 0x12345678
 
 class Params
 {
@@ -33,19 +36,20 @@ class Params
 public:
 	
 	void Init(void);
-
-	void SAVE_ACC_OFFSET(void);
-	void SAVE_GYRO_OFFSET(void);
-	void SAVE_PID(void);
-
+	void set_acc_offset(vector3i_t offset);
+  vector3i_t get_acc_offset(void);
+  void set_gyro_offset(vector3i_t offset);
+  vector3i_t get_gyro_offset(void);
+	void set_roll_pid(pid_t val);
+  pid_t get_roll_pid(void);
+  void set_pitch_pid(pid_t val);
+  pid_t get_pitch_pid(void);
+  void set_yaw_pid(pid_t val);
+  pid_t get_yaw_pid(void);
+  void Save(void);
 private:
-	
-	void SAVE_FirstInitFlag(void);
-	uint16_t READ_FirstInitFlag(void);
-	void READ_ACC_OFFSET(void);
-	void READ_GYRO_OFFSET(void);
-	void READ_PID(void);
-	void READ_CONF(void);
+	 params_t *value;
+	 rt_err_t Read(void);
 };
 
 extern Params params;

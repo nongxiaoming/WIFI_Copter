@@ -16,116 +16,71 @@ Params params;
 void Params::Init(void)
 {
 
-//	if(READ_FirstInitFlag()!= FirstInitFlag)	//板子从未初始化
-//	{
-//		SAVE_PID();
-//	}
-//	
-//	READ_CONF();
-//	SAVE_FirstInitFlag();
+   this->value = (params_t*)rt_malloc(sizeof(params_t));
+	 if(this->Read()==RT_EOK)
+   {
+	  
+	 }else
+   {
+	   this->Save();
+	 }
 	
 }
 
-void Params::SAVE_FirstInitFlag(void)
+void Params::set_acc_offset(vector3i_t offset)
 {
-//	EE_WriteVariable(VirtAddVarTab[EE_FirstInitFlag], FirstInitFlag);
+ this->value->acc_offset = offset;
+}
+vector3i_t Params::get_acc_offset(void)
+{
+  return this->value->acc_offset;
 }
 
-uint16_t Params::READ_FirstInitFlag(void)
+void Params::set_gyro_offset(vector3i_t offset)
 {
-//	uint16_t temp;
-//	EE_ReadVariable(VirtAddVarTab[EE_FirstInitFlag], &temp);
-	return 0;//temp;
+ this->value->gyro_offset = offset;
+}
+vector3i_t Params::get_gyro_offset(void)
+{
+ return this->value->gyro_offset;
 }
 
-void Params::SAVE_ACC_OFFSET(void)
+void Params::set_roll_pid(pid_t val)
 {
-//	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_X_OFFSET_ADDR], sensor.Acc_Offset.x);
-//	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_Y_OFFSET_ADDR], sensor.Acc_Offset.y);
-//	EE_WriteVariable(VirtAddVarTab[EE_6050_ACC_Z_OFFSET_ADDR], sensor.Acc_Offset.z);
+this->value->roll_pid = val;
 }
-void Params::READ_ACC_OFFSET(void)
+pid_t Params::get_roll_pid(void)
 {
-//	uint16_t temp[3];
-//	EE_ReadVariable(VirtAddVarTab[EE_6050_ACC_X_OFFSET_ADDR], &temp[0]);
-//	EE_ReadVariable(VirtAddVarTab[EE_6050_ACC_Y_OFFSET_ADDR], &temp[1]);
-//	EE_ReadVariable(VirtAddVarTab[EE_6050_ACC_Z_OFFSET_ADDR], &temp[2]);
-//	sensor.Acc_Offset.x = temp[0];
-//	sensor.Acc_Offset.y = temp[1];
-//	sensor.Acc_Offset.z = temp[2];
-}
-void Params::SAVE_GYRO_OFFSET(void)
-{
-//	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_X_OFFSET_ADDR], sensor.Gyro_Offset.x);
-//	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_Y_OFFSET_ADDR], sensor.Gyro_Offset.y);
-//	EE_WriteVariable(VirtAddVarTab[EE_6050_GYRO_Z_OFFSET_ADDR], sensor.Gyro_Offset.z);
-}
-void Params::READ_GYRO_OFFSET(void)
-{
-//	uint16_t temp[3];
-//	EE_ReadVariable(VirtAddVarTab[EE_6050_GYRO_X_OFFSET_ADDR], &temp[0]);
-//	EE_ReadVariable(VirtAddVarTab[EE_6050_GYRO_Y_OFFSET_ADDR], &temp[1]);
-//	EE_ReadVariable(VirtAddVarTab[EE_6050_GYRO_Z_OFFSET_ADDR], &temp[2]);
-//	sensor.Gyro_Offset.x = temp[0];
-//	sensor.Gyro_Offset.y = temp[1];
-//	sensor.Gyro_Offset.z = temp[2];
-}
-void Params::SAVE_PID(void)
-{
-//	u16 _temp;
-//	_temp = pidctrl.pid[PIDROLL].kP;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_ROL_P],_temp);
-//	_temp = pidctrl.pid[PIDROLL].kI;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_ROL_I],_temp);
-//	_temp = pidctrl.pid[PIDROLL].kD;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_ROL_D],_temp);
-//	_temp = pidctrl.pid[PIDPITCH].kP;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_PIT_P],_temp);
-//	_temp = pidctrl.pid[PIDPITCH].kI;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_PIT_I],_temp);
-//	_temp = pidctrl.pid[PIDPITCH].kD;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_PIT_D],_temp);
-//	_temp = pidctrl.pid[PIDYAW].kP;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_YAW_P],_temp);
-//	_temp = pidctrl.pid[PIDYAW].kI;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_YAW_I],_temp);
-//	_temp = pidctrl.pid[PIDYAW].kD;
-//	EE_WriteVariable(VirtAddVarTab[EE_PID_YAW_D],_temp);
-
+ return this->value->roll_pid;
 }
 
-void Params::READ_PID(void)
+void Params::set_pitch_pid(pid_t val)
 {
-//	u16 _temp;
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_ROL_P],&_temp);
-//	pidctrl.pid[PIDROLL].kP = _temp;
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_ROL_I],&_temp);
-//	pidctrl.pid[PIDROLL].kI = _temp ;
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_ROL_D],&_temp);
-//	pidctrl.pid[PIDROLL].kD = _temp ;
-//	
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_PIT_P],&_temp);
-//	pidctrl.pid[PIDPITCH].kP = _temp ;
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_PIT_I],&_temp);
-//	pidctrl.pid[PIDPITCH].kI = _temp ;
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_PIT_D],&_temp);
-//	pidctrl.pid[PIDPITCH].kD = _temp ;
-//	
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_YAW_P],&_temp);
-//	pidctrl.pid[PIDYAW].kP = _temp ;
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_YAW_I],&_temp);
-//	pidctrl.pid[PIDYAW].kI = _temp ;
-//	EE_ReadVariable(VirtAddVarTab[EE_PID_YAW_D],&_temp);
-//	pidctrl.pid[PIDYAW].kD = _temp ;
+this->value->pitch_pid = val;
+}
+pid_t Params::get_pitch_pid(void)
+{
+ return this->value->pitch_pid;
 }
 
-void Params::READ_CONF(void)
+void Params::set_yaw_pid(pid_t val)
 {
-	READ_PID();
-	READ_ACC_OFFSET();
-	READ_GYRO_OFFSET();
+this->value->yaw_pid = val;
+}
+pid_t Params::get_yaw_pid(void)
+{
+ return this->value->yaw_pid;
 }
 
+rt_err_t Params::Read(void)
+{
+
+	return RT_EOK;
+}
+void Params::Save(void)
+{
+
+}
 
 
 
