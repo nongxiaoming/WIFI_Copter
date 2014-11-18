@@ -101,7 +101,8 @@ void Sensor::CalOffset_Acc(void)
 				Acc_Offset.z = tempAcc.z/cnt_a - ACC_1G;
 				cnt_a = 0;
 				Acc_CALIBRATED = 0;
-				params.SAVE_ACC_OFFSET();//保存数据
+				params.set_acc_offset(Acc_Offset);
+				params.Save();//保存数据
 				return;
 			}
 			cnt_a++;		
@@ -133,7 +134,8 @@ void Sensor::CalOffset_Gyro(void)
 			Gyro_Offset.z = tempGyro.z/cnt_g;
 			cnt_g = 0;
 			Gyro_CALIBRATED = 0;
-			params.SAVE_GYRO_OFFSET();//保存数据
+			params.set_gyro_offset(Gyro_Offset);
+			params.Save();//保存数据
 			return;
 		}
 		cnt_g++;

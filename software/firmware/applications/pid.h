@@ -18,7 +18,7 @@ public:
 	}
 
 	//PID参数
-  rt_pid_t value;
+  pid_t value;
 	
 	//返回PID计算的值
 	int32_t get_pid(int32_t error, uint16_t dt);
