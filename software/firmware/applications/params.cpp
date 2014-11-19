@@ -103,7 +103,7 @@ void Params::Save(void)
 	 
 	  FLASH_EraseSector(PARAMS_SAVE_Sector, VoltageRange_3);
 	
-    for( ; address<address_end; )
+    while(address < address_end)
     {
         rt_base_t level;
         FLASH_Status status;
