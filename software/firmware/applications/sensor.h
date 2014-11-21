@@ -20,10 +20,8 @@ public:
 
 	//初始化6050
 	void Init(uint16_t sample_rate, uint16_t lpf);
-	//读取加速度
-	void Read_Acc_Data(void);
-	//读取角速度
-	void Read_Gyro_Data(void);
+	//读取加速度 角速度
+	void ReadData(void);
 	//返回加速度的值
 	Vector3f Get_Acc(void);
 	//返回角速度的值
@@ -36,7 +34,7 @@ private:
 	rt_uint8_t mpu6050_buffer[14]; //接收数据缓存区
 	Vector3f Acc_ADC,Gyro_ADC;
 	Vector3f Gyro_dps;
-
+  rt_device_t  mpu6050;
 	//加速度零偏矫正
 	void CalOffset_Acc(void);
 	//陀螺仪零偏矫正

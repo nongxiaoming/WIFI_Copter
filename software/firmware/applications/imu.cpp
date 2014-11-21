@@ -27,10 +27,8 @@ void IMU::Init()
 //更新传感器数据
 void IMU::updateSensor()
 {
-	//读取加速度
-	sensor.Read_Acc_Data();
-	//读取角速度
-	sensor.Read_Gyro_Data();	
+	//读取加速度和角速度
+	sensor.ReadData();
 	//获取角速度，单位为度每秒
 	Gyro = sensor.Get_Gyro_in_dps();
 	//获取加速度采样值

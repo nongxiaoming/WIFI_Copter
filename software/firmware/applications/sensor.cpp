@@ -1,5 +1,6 @@
 #include "params.h"
 #include "sensor.h"
+#include "mpu6050.h"
 
 Sensor sensor;
 
@@ -12,51 +13,31 @@ Sensor::Sensor()
 void Sensor::Init(uint16_t sample_rate, uint16_t lpf)
 {
 	uint8_t default_filter;
-
+  this->mpu6050 = rt_device_find("mpu6050");
+	if(this->mpu6050 == RT_NULL)
+	{
+	 rt_kprintf("can not find mpu6050 device!\n");
+	 return ;
+	}
+	rt_device_open(this->mpu6050,RT_DEVICE_FLAG_RDWR);
+	rt_device_control(this->mpu6050,1,&sample_rate);
+	rt_device_control(this->mpu6050,1,&lpf);
 }
 
-//读取加速度
-void Sensor::Read_Acc_Data(void)
+//读取加速度和角速度
+void Sensor::ReadData(void)
 {
-	int16_t acc_temp[3];
-	
-//	mpu6050_buffer[0] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_XOUT_L); 
-//	mpu6050_buffer[1] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_XOUT_H);
-//	acc_temp[0] = ((((int16_t)mpu6050_buffer[1]) << 8) | mpu6050_buffer[0])- Acc_Offset.x;  //加速度X轴
+	  rt_device_read(this->mpu6050,MPU6050_RA_ACCEL_XOUT_H,this->mpu6050_buffer,sizeof(this->mpu6050_buffer));
+    
+	  Acc_ADC.x = ((mpu6050_buffer[0] << 8) | mpu6050_buffer[1])- Acc_Offset.x;
+    Acc_ADC.y = ((mpu6050_buffer[2] << 8) | mpu6050_buffer[3])- Acc_Offset.y;
+    Acc_ADC.z = ((mpu6050_buffer[4] << 8) | mpu6050_buffer[5])- Acc_Offset.z;
+    Gyro_ADC.x = ((mpu6050_buffer[8] << 8) | mpu6050_buffer[9])-Gyro_Offset.x;
+    Gyro_ADC.y = ((mpu6050_buffer[10] << 8) | mpu6050_buffer[11])-Gyro_Offset.y;
+    Gyro_ADC.z = ((mpu6050_buffer[12] << 8) | mpu6050_buffer[13])-Gyro_Offset.z;
 
-//	mpu6050_buffer[2] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_YOUT_L);
-//	mpu6050_buffer[3] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_YOUT_H);
-//	acc_temp[1] = ((((int16_t)mpu6050_buffer[3]) << 8) | mpu6050_buffer[2])- Acc_Offset.y;  //加速度Y轴
-
-//	mpu6050_buffer[4] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_ZOUT_L);
-//	mpu6050_buffer[5] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_ZOUT_H);
-//	acc_temp[2] = ((((int16_t)mpu6050_buffer[5]) << 8) | mpu6050_buffer[4])- Acc_Offset.z;  //加速度Z轴
-	
-	Acc_ADC((float)acc_temp[0],(float)acc_temp[1],(float)acc_temp[2]);
-	
-	CalOffset_Acc();
-}
-
-//读取角速度
-void Sensor::Read_Gyro_Data(void)
-{
-	int16_t gyro_temp[3];
-	
-//	mpu6050_buffer[6] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_XOUT_L); 
-//	mpu6050_buffer[7] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_XOUT_H);
-//	gyro_temp[0] = ((((int16_t)mpu6050_buffer[7]) << 8) | mpu6050_buffer[6])- Gyro_Offset.x;	//陀螺仪X轴
-
-//	mpu6050_buffer[8] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_YOUT_L);
-//	mpu6050_buffer[9] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_YOUT_H);
-//	gyro_temp[1] = ((((int16_t)mpu6050_buffer[9]) << 8) | mpu6050_buffer[8])- Gyro_Offset.y;	//陀螺仪Y轴
-
-//	mpu6050_buffer[10] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_ZOUT_L);
-//	mpu6050_buffer[11] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_ZOUT_H);
-//	gyro_temp[2] = ((((int16_t)mpu6050_buffer[11]) << 8) | mpu6050_buffer[10])- Gyro_Offset.z;	  //陀螺仪Z轴		
-	
-	Gyro_ADC((float)gyro_temp[0], (float)gyro_temp[1], (float)gyro_temp[2]);
-	
 	CalOffset_Gyro();
+	CalOffset_Acc();
 }
 
 Vector3f Sensor::Get_Acc(void)
