@@ -157,5 +157,11 @@ void rt_hw_board_init()
 	rt_console_set_device(RT_CONSOLE_DEVICE_NAME);
 #endif
 }
-
+#include <finsh.h>
+int reset(void)
+{
+	NVIC_SystemReset();
+	return 0;
+}
+FINSH_FUNCTION_EXPORT(reset, reset board);
 /*@}*/
