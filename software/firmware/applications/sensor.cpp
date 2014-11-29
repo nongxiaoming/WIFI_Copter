@@ -12,7 +12,7 @@ Sensor::Sensor()
 //MPU6050初始化，传入参数：采样率，低通滤波频率
 void Sensor::Init(uint16_t sample_rate, uint16_t lpf)
 {
-	uint8_t default_filter;
+	//uint8_t default_filter;
   this->mpu6050 = rt_device_find("mpu6050");
 	if(this->mpu6050 == RT_NULL)
 	{
@@ -20,8 +20,8 @@ void Sensor::Init(uint16_t sample_rate, uint16_t lpf)
 	 return ;
 	}
 	rt_device_open(this->mpu6050,RT_DEVICE_FLAG_RDWR);
-	rt_device_control(this->mpu6050,1,&sample_rate);
-	rt_device_control(this->mpu6050,1,&lpf);
+//	rt_device_control(this->mpu6050,1,&sample_rate);
+//	rt_device_control(this->mpu6050,1,&lpf);
 }
 
 //读取加速度和角速度
@@ -52,9 +52,10 @@ Vector3f Sensor::Get_Gyro(void)
 
 Vector3f Sensor::Get_Gyro_in_dps(void)
 {
-//	Gyro_dps.x = radians(Gyro_ADC.x * MPU6050G_s2000dps);   // dps
-//	Gyro_dps.y = radians(Gyro_ADC.y * MPU6050G_s2000dps);   // dps
-//	Gyro_dps.z = radians(Gyro_ADC.z * MPU6050G_s2000dps);   // dps	
+	Gyro_dps.x = radians(Gyro_ADC.x * MPU6050G_S2000DPS);   // dps
+	Gyro_dps.y = radians(Gyro_ADC.y * MPU6050G_S2000DPS);   // dps
+	Gyro_dps.z = radians(Gyro_ADC.z * MPU6050G_S2000DPS);   // dps	
+	
 	return Gyro_dps;
 }
 

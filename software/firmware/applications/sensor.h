@@ -8,6 +8,10 @@
 #define CALIBRATING_GYRO_CYCLES             1000
 #define CALIBRATING_ACC_CYCLES              400
 
+#define MPU6050G_S250DPS            ((float)0.0076335f)  // 0.0087500 dps/LSB
+#define MPU6050G_S500DPS            ((float)0.0152671f)  // 0.0175000 dps/LSB
+#define MPU6050G_S2000DPS           ((float)0.0609756f)  // 0.0700000 dps/LSB
+	
 class Sensor
 {
 public:
