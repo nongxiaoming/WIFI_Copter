@@ -132,7 +132,7 @@ static rt_err_t rt_motors_control(rt_device_t dev, rt_uint8_t cmd, void *args)
     return RT_EOK;
 }
 
-void rt_led_hw_init(void)
+void rt_motors_hw_init(void)
 {
 	 rt_device_t device = RT_NULL;
 	 device = rt_malloc(sizeof(struct rt_device));
