@@ -18,10 +18,13 @@ IMU::IMU()
 //IMU初始化
 void IMU::Init()
 {
-	//滤波器参数初始化
-	filter_Init();
-	//传感器初始化
-	sensor_Init();	
+	//加速度一阶低通滤波器系数计算
+	ano.factor.acc_lpf = LPF_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
+	//互补滤波器系数计算
+	ano.factor.gyro_cf = CF_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);
+	
+	//初始化MPU6050，1Khz采样率，98Hz低通滤波
+	sensor.Init(1000,98);	
 }
 
 //更新传感器数据
@@ -77,21 +80,6 @@ void IMU::Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
 	
 	//四元数转欧拉角
 	Q.to_euler(&angle.x, &angle.y, &angle.z);
-}
-
-
-void IMU::filter_Init()
-{
-	//加速度一阶低通滤波器系数计算
-	ano.factor.acc_lpf = LPF_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
-	//互补滤波器系数计算
-	ano.factor.gyro_cf = CF_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);	
-}
-
-void IMU::sensor_Init()
-{
-	//初始化MPU6050，1Khz采样率，98Hz低通滤波
-	sensor.Init(1000,98);
 }
 
 /******************* (C) COPYRIGHT 2014 ANO TECH *****END OF FILE************/
