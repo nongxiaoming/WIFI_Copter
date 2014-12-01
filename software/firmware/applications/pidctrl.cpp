@@ -18,6 +18,16 @@ PIDCtrl::PIDCtrl()
 	PID_Reset();
 }
 
+void PIDCtrl::Init(void)
+{
+  this->moto_dev = rt_device_find("motor");
+	 if(this->moto_dev == RT_NULL)
+   {
+	  rt_kprintf("can not found motors device!\n");
+		 return ;
+	 }
+	 rt_device_open(this->moto_dev,RT_DEVICE_FLAG_RDWR);
+}
 //重置PID参数
 void PIDCtrl::PID_Reset(void)
 {
@@ -27,7 +37,7 @@ void PIDCtrl::PID_Reset(void)
 }
 
 //飞行器姿态控制
-void PIDCtrl::Attitude_Loop(void)
+void PIDCtrl::Attitude(void)
 {
 	int32_t PIDTerm[3];
 	int32_t	errorAngle[3];
@@ -70,7 +80,10 @@ void PIDCtrl::MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermP
 			motorPWM[i] = 1000;
 
 	//写入电机PWM
-	//pwm.SetPwm(motorPWM);
+	if(this->moto_dev != RT_NULL)
+  {
+  rt_device_write(this->moto_dev,0,this->motorPWM,4);
+	}
 	
 }
 void PIDCtrl::getPWM(uint16_t* pwm)

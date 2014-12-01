@@ -3,6 +3,7 @@
 
 #include "ANO_Config.h"
 #include "pid.h"
+#include "rtthread.h"
 
 #define FLYANGLE_MAX 250  //最大飞行倾角25度
 #define MINTHROTTLE 1100
@@ -23,15 +24,16 @@ public:
 	PID pid[PIDITEMS];
 
 	PIDCtrl();
-  
- void getPWM(uint16_t* pwm);
+  void Init(void);
+
+  void getPWM(uint16_t* pwm);
 	//姿态控制
-	void Attitude_Loop(void);
+	void Attitude(void);
 	
 private:
-	
 	void PID_Reset(void);
   void MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw);
+  rt_device_t moto_dev;
   uint16_t motorPWM[4];
 };
 
