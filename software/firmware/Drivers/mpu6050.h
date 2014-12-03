@@ -2,6 +2,10 @@
 #define __MPU6500_H
 #include <rtthread.h>
 
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+	 
 /**
   * @brief  Internal register Memory
   */
@@ -363,4 +367,9 @@ typedef struct
 
 void rt_hw_mpu6050_init(const char *i2c_bus_name, rt_uint16_t addr);
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
 #endif
+
