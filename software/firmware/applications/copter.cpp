@@ -22,6 +22,7 @@
 
 static void attitude_thread_entry(void* parameter)
 {	
+	while(1){
 	//更新传感器数据	
 	imu.updateSensor();		
 	
@@ -32,17 +33,21 @@ static void attitude_thread_entry(void* parameter)
 	pidctrl.Attitude();
 	
   rt_thread_delay(2);	
+	}
 }
 
 static void data_transmit_thread_entry(void* parameter)
 {
+	while(1){
 	//发送飞行器数据
 	dt.Data_Exchange();
-	rt_thread_delay(10);	
+	rt_thread_delay(10);
+	}	
 }
 
 static void receiver_thread_entry(void* parameter)
 {
+	while(1){
 	//遥控通道数据处理
 	rc.Cal_Command();
 	
@@ -53,6 +58,7 @@ static void receiver_thread_entry(void* parameter)
 	dt.Failsafe_Check();
 	
 	rt_thread_delay(20);	
+	}
 }
 
 int apps_copter_init(void)
