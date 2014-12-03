@@ -20,7 +20,7 @@ PIDCtrl::PIDCtrl()
 
 void PIDCtrl::Init(void)
 {
-  this->moto_dev = rt_device_find("motor");
+  this->moto_dev = rt_device_find("motors");
 	 if(this->moto_dev == RT_NULL)
    {
 	  rt_kprintf("can not found motors device!\n");
