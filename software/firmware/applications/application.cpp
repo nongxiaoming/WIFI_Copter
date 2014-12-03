@@ -24,6 +24,9 @@
 #include "spi_wifi_rw009.h"
 #include "telnet.h"
 #include "stm32_i2c.h"
+#include "copter.h"
+#include "mpu6050.h"
+#include "drv_motors.h"
 
 #ifdef RT_USING_FINSH
 #include "shell.h"
@@ -43,6 +46,8 @@ void rt_init_thread_entry(void* parameter)
 	rt_i2c_core_init();
 	rt_hw_i2c_init();
 	rt_hw_spi_init();
+	rt_hw_mpu6050_init("i2c1", MPU6050_DEFAULT_ADDRESS);
+	rt_motors_hw_init();
 /* LwIP Initialization */
 #ifdef RT_USING_LWIP
 	{
@@ -62,7 +67,9 @@ void rt_init_thread_entry(void* parameter)
 		rw009_join("rtthread_11n","rtthread_finsh");
 	}
 #endif
+	  apps_copter_init();
 		telnet_server_init();
+	
 #ifdef RT_USING_FINSH
 	/* init finsh */
 	finsh_system_init();
