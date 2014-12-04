@@ -27,12 +27,12 @@ XMainWindow::XMainWindow(QWidget *parent)
     this->setSizeGripEnabled(true);
     title_widget = new XTitleWidget();
     content_widget = new ContentWidget();
-	main_menu = new MainMenu();
+    main_menu = new XMainMenu();
 	character_widget = new CharacterWidget();
 	about_us_dialog = new AboutUsDialog(this);
-	setting_dialog = new SettingDialog(this);
+    //setting_dialog = new SettingDialog(this);
     skin_manager = new XSkinManager(this);
-	system_tray = new SystemTray(this);
+    //system_tray = new SystemTray(this);
   content_widget->setWindowOpacity(0.8);
 	QVBoxLayout *center_layout = new QVBoxLayout();
     center_layout->addWidget(content_widget);
@@ -51,7 +51,7 @@ XMainWindow::XMainWindow(QWidget *parent)
 	connect(title_widget, SIGNAL(showMainMenu()), this, SLOT(showMainMenu()));
 	connect(title_widget, SIGNAL(showMax()), this, SLOT(showMax()));
 	connect(title_widget, SIGNAL(showMin()), this, SLOT(showMinimized()));
-	connect(title_widget, SIGNAL(closeWidget()), this, SLOT(hide()));
+    connect(title_widget, SIGNAL(closeWidget()), this, SLOT(close()));
 
 	connect(main_menu, SIGNAL(showSettingDialog()), this, SLOT(showSettingDialog()));
 	connect(main_menu, SIGNAL(showNewCharacter()), this, SLOT(showNewCharacter()));
@@ -59,9 +59,9 @@ XMainWindow::XMainWindow(QWidget *parent)
 
     connect(this->skin_manager, SIGNAL(changeSkin(QString)), this, SLOT(changeSkin(QString)));
 
-	connect(system_tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconIsActived(QSystemTrayIcon::ActivationReason)));
+    //connect(system_tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconIsActived(QSystemTrayIcon::ActivationReason)));
 	
-	system_tray->show();
+    //system_tray->show();
 }
 
 XMainWindow::~XMainWindow()
@@ -95,7 +95,7 @@ void XMainWindow::paintEvent(QPaintEvent *)
 
 	QPainter painter2(this);
 	painter2.setPen(Qt::gray);
-	static const QPointF points[4] = {QPointF(0, 100), QPointF(0, this->height()-1), QPointF(this->width()-1, this->height()-1), QPointF(this->width()-1, 100)};
+    static const QPointF points[4] = {QPointF(0, 100), QPointF(0, this->height()-1), QPointF(this->width()-1, this->height()-1), QPointF(this->width()-1, 100)};
 	painter2.drawPolyline(points, 4);
 }
 
@@ -170,7 +170,7 @@ void XMainWindow::showNewCharacter()
 
 void XMainWindow::showSettingDialog()
 {
-	setting_dialog->exec();
+    //setting_dialog->exec();
 }
 
 void XMainWindow::changeSkin(QString skin_name)

@@ -16,8 +16,6 @@ SOURCES += main.cpp\
     xframe/about_us.cpp \
     xframe/character_widget.cpp \
     xframe/content_widget.cpp \
-    xframe/main_menu.cpp \
-    xframe/setting_dialog.cpp \
     xframe/system_tray.cpp \
     xframe/util.cpp \
     xframe/xlabel.cpp \
@@ -26,14 +24,13 @@ SOURCES += main.cpp\
     xframe/xpushbutton.cpp \
     xframe/xskinitem.cpp \
     xframe/xskinmanager.cpp \
-    xframe/xtitlewidget.cpp
+    xframe/xtitlewidget.cpp \
+    xframe/xmainmenu.cpp
 
 HEADERS += \
     xframe/about_us.h \
     xframe/character_widget.h \
     xframe/content_widget.h \
-    xframe/main_menu.h \
-    xframe/setting_dialog.h \
     xframe/system_tray.h \
     xframe/util.h \
     xframe/xlabel.h \
@@ -42,7 +39,8 @@ HEADERS += \
     xframe/xtoolbutton.h \
     xframe/xpushbutton.h \
     xframe/xtitlewidget.h \
-    xframe/xskinmanager.h
+    xframe/xskinmanager.h \
+    xframe/xmainmenu.h
 
 
 RESOURCES += \

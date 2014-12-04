@@ -1,15 +1,15 @@
-#ifndef MAINMENU_H
-#define MAINMENU_H
+#ifndef XMAINMENU_H
+#define XMAINMENU_H
 
 #include <QMenu>
 
-class MainMenu : public QMenu
+class XMainMenu : public QMenu
 {
 	Q_OBJECT
 
 public:
 
-	explicit MainMenu(QWidget *parent = 0);
+    explicit XMainMenu(QWidget *parent = 0);
 
 	void translateActions();
 

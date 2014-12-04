@@ -1,13 +1,13 @@
-#include "main_menu.h"
+#include "xmainmenu.h"
 
-MainMenu::MainMenu(QWidget *widget)
+XMainMenu::XMainMenu(QWidget *widget)
 	: QMenu(widget)
 {
 	this->createActions();
 	this->translateActions();
 }
 
-void MainMenu::createActions()
+void XMainMenu::createActions()
 {
 	//创建菜单项
 	action_setting = new QAction(this);
@@ -43,7 +43,7 @@ void MainMenu::createActions()
 	QObject::connect(action_about_us, SIGNAL(triggered()), this, SIGNAL(showAboutUs()));
 }
 
-void MainMenu::translateActions()
+void XMainMenu::translateActions()
 {
 	action_setting->setText(tr("setting"));
 	action_new_character->setText(tr("new character"));
