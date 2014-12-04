@@ -42,7 +42,7 @@ XTitleWidget::XTitleWidget(QWidget *parent)
 
 	QStringList string_list;
 	string_list<<":/toolWidget/tiJian"<<":/toolWidget/muMa"<<":/toolWidget/louDong"<<":/toolWidget/xiTong"
-		<<":/toolWidget/qingLi"<<":/toolWidget/jiaSu"<<":/toolWidget/menZhen"<<":/toolWidget/ruanJian";
+        <<":/toolWidget/qingLi"<<":/toolWidget/jiaSu"<<":/toolWidget/plot"<<":/toolWidget/fw_update";
 
 	QHBoxLayout *button_layout = new QHBoxLayout();
 
@@ -97,8 +97,8 @@ void XTitleWidget::translateLanguage()
 	button_list.at(3)->setText(tr("repair"));
 	button_list.at(4)->setText(tr("clear"));
 	button_list.at(5)->setText(tr("optimize"));
-	button_list.at(6)->setText(tr("expert"));
-	button_list.at(7)->setText(tr("software"));
+    button_list.at(6)->setText(tr("Plot"));
+    button_list.at(7)->setText(tr("FW Update"));
 }
 
 void XTitleWidget::mousePressEvent(QMouseEvent *e)
