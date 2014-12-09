@@ -24,18 +24,18 @@ void IMU::Init()
 	ano.factor.gyro_cf = CF_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);
 	
 	//初始化MPU6050，1Khz采样率，98Hz低通滤波
-	sensor.Init(1000,98);	
+	Sensor_Init(1000,98);	
 }
 
 //更新传感器数据
 void IMU::updateSensor()
 {
 	//读取加速度和角速度
-	sensor.ReadData();
+	Sensor_ReadData();
 	//获取角速度，单位为度每秒
-	Gyro = sensor.Get_Gyro_in_dps();
+	Gyro = Sensor_GetGyro_in_dps();
 	//获取加速度采样值
-	Acc = sensor.Get_Acc();
+	Acc = Sensor_GetAcc();
 }
 
 

@@ -211,13 +211,13 @@ void ANO_DT::Send_Senser(void)
 	_temp = imu.Acc.z;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = sensor.Get_Gyro().x;	
+	_temp = Sensor_GetGyro().x;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = sensor.Get_Gyro().y;	
+	_temp = Sensor_GetGyro().y;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = sensor.Get_Gyro().z;	
+	_temp = Sensor_GetGyro().z;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
 	

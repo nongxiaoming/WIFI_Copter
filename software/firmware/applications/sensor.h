@@ -12,41 +12,23 @@
 #define MPU6050G_S500DPS            ((float)0.0152671f)  // 0.0175000 dps/LSB
 #define MPU6050G_S2000DPS           ((float)0.0609756f)  // 0.0700000 dps/LSB
 	
-class Sensor
+struct Sensor
 {
-public:
-	
-	Sensor(void);
-
 	bool Acc_CALIBRATED;
 	bool Gyro_CALIBRATED;
 	vector3i_t Acc_Offset,Gyro_Offset;
-
-	//初始化6050
-	void Init(uint16_t sample_rate, uint16_t lpf);
-	//读取加速度 角速度
-	void ReadData(void);
-	//返回加速度的值
-	Vector3f Get_Acc(void);
-	//返回角速度的值
-	Vector3f Get_Gyro(void);
-	//返回单位为度每秒的角速度
-	Vector3f Get_Gyro_in_dps(void);
-
-private:
-	
-	rt_uint8_t mpu6050_buffer[14]; //接收数据缓存区
-	Vector3f Acc_ADC,Gyro_ADC;
-	Vector3f Gyro_dps;
-  rt_device_t  mpu6050;
-	//加速度零偏矫正
-	void CalOffset_Acc(void);
-	//陀螺仪零偏矫正
-	void CalOffset_Gyro(void);
-
-	void delayms(uint16_t ms);
 };
 
+	//初始化6050
+	void Sensor_Init(uint16_t sample_rate, uint16_t lpf);
+	//读取加速度 角速度
+	void Sensor_ReadData(void);
+	//返回加速度的值
+	Vector3f Sensor_GetAcc(void);
+	//返回角速度的值
+	Vector3f Sensor_GetGyro(void);
+	//返回单位为度每秒的角速度
+	Vector3f Sensor_GetGyro_in_dps(void);
 extern Sensor sensor;
 
 
