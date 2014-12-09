@@ -7,9 +7,9 @@ struct IMU
 {
 
 	//欧拉角表示的飞行器姿态
-	Vector3f angle;
+	vector3f_t angle;
 	
-	Vector3f Gyro, Acc, Acc_lpf_1st, Acc_lpf_2nd; 
+	vector3f_t Gyro, Acc, Acc_lpf_1st, Acc_lpf_2nd; 
 	
 
 	

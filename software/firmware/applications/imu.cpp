@@ -14,7 +14,7 @@ struct IMU  imu;
 static	Quaternion Q;
 
 	//基于四元数和互补滤波的姿态解算
-static	void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT);
+static	void Quaternion_CF(vector3f_t gyro,vector3f_t acc, float deltaT);
 
 //IMU初始化
 void IMU_Init()
@@ -54,27 +54,36 @@ void IMU_GetAttitude()
 #define Kp 2.0f        //加速度权重，越大则向加速度测量值收敛越快
 #define Ki 0.001f      //误差积分增益
 //四元数更新姿态
-static void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
+static void Quaternion_CF(vector3f_t gyro,vector3f_t acc, float deltaT)
 {
-	Vector3f V_gravity, V_error, V_error_I;
-	
+	vector3f_t V_gravity, V_error, V_error_I;
+	float len;
 	//重力加速度归一化
-	acc.normalize();
+	len = Vector3_length(acc);
+	acc.x /= len;
+	acc.y /= len;
+	acc.z /= len;
 	
 	//提取四元数的等效余弦矩阵中的重力分量
-	Q.vector_gravity(V_gravity);
+	Q.vector_gravity(&V_gravity);
 	
 	//向量叉积得出姿态误差
-	V_error = acc % V_gravity;
+	V_error.x = acc.y*V_gravity.z - acc.z*V_gravity.y;
+	V_error.y = acc.z*V_gravity.x - acc.x*V_gravity.z;
+	V_error.z = acc.x*V_gravity.y - acc.y*V_gravity.x;
 	
 	//对误差进行积分	
-	V_error_I += V_error * Ki;
+	V_error_I.x += V_error.x * Ki;
+	V_error_I.y += V_error.y * Ki;
+	V_error_I.z += V_error.z * Ki;
 	
 	//互补滤波，姿态误差补偿到角速度上，修正角速度积分漂移
-	imu.Gyro += V_error * Kp + V_error_I;		
+	imu.Gyro.x += V_error.x * Kp + V_error_I.x;
+	imu.Gyro.y += V_error.y * Kp + V_error_I.y;
+	imu.Gyro.z += V_error.z * Kp + V_error_I.z;
 	
 	//一阶龙格库塔法更新四元数
-	Q.Runge_Kutta_1st(imu.Gyro, deltaT);
+	Q.Runge_Kutta_1st(&imu.Gyro, deltaT);
 	
 	//四元数归一化
 	Q.normalize();

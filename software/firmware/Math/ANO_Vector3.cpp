@@ -331,26 +331,26 @@ bool Vector3<T>::is_nan(void) const
 
 		
 //只给浮点型定义了
-template void Vector3<float>::rotate(enum Rotation);
-template float Vector3<float>::length(void) const;
-template Vector3<float> Vector3<float>::operator %(const Vector3<float> &v) const;
-template float Vector3<float>::operator *(const Vector3<float> &v) const;
+//template void Vector3<float>::rotate(enum Rotation);
+//template float Vector3<float>::length(void) const;
+//template Vector3<float> Vector3<float>::operator %(const Vector3<float> &v) const;
+//template float Vector3<float>::operator *(const Vector3<float> &v) const;
 
-template Vector3<float> &Vector3<float>::operator *=(const float num);
-template Vector3<float> &Vector3<float>::operator /=(const float num);
-template Vector3<float> &Vector3<float>::operator -=(const Vector3<float> &v);
-template Vector3<float> &Vector3<float>::operator +=(const Vector3<float> &v);
-template Vector3<float> Vector3<float>::operator /(const float num) const;
-template Vector3<float> Vector3<float>::operator *(const float num) const;
-template Vector3<float> Vector3<float>::operator +(const Vector3<float> &v) const;
-template Vector3<float> Vector3<float>::operator -(const Vector3<float> &v) const;
-template Vector3<float> Vector3<float>::operator -(void) const;
-template bool Vector3<float>::operator ==(const Vector3<float> &v) const;
-template bool Vector3<float>::operator !=(const Vector3<float> &v) const;
-template float Vector3<float>::angle(const Vector3<float> &v) const;
-template void Vector3<float>::get_rollpitch(Vector3<float> &angle);
-template void Vector3<float>::get_yaw(Vector3<float> &angle);
-template bool Vector3<float>::is_nan(void) const;
+//template Vector3<float> &Vector3<float>::operator *=(const float num);
+//template Vector3<float> &Vector3<float>::operator /=(const float num);
+//template Vector3<float> &Vector3<float>::operator -=(const Vector3<float> &v);
+//template Vector3<float> &Vector3<float>::operator +=(const Vector3<float> &v);
+//template Vector3<float> Vector3<float>::operator /(const float num) const;
+//template Vector3<float> Vector3<float>::operator *(const float num) const;
+//template Vector3<float> Vector3<float>::operator +(const Vector3<float> &v) const;
+//template Vector3<float> Vector3<float>::operator -(const Vector3<float> &v) const;
+//template Vector3<float> Vector3<float>::operator -(void) const;
+//template bool Vector3<float>::operator ==(const Vector3<float> &v) const;
+//template bool Vector3<float>::operator !=(const Vector3<float> &v) const;
+//template float Vector3<float>::angle(const Vector3<float> &v) const;
+//template void Vector3<float>::get_rollpitch(Vector3<float> &angle);
+//template void Vector3<float>::get_yaw(Vector3<float> &angle);
+//template bool Vector3<float>::is_nan(void) const;
 
 
 

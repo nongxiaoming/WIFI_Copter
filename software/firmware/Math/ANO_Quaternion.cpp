@@ -2,11 +2,11 @@
 
 
 // 返回该四元数的等效旋转矩阵中的重力分量
-void Quaternion::vector_gravity(Vector3f &v)
+void Quaternion::vector_gravity(vector3f_t *v)
 {
-  v.x = 2*(q2*q4 - q1*q3);								
-  v.y = 2*(q1*q2 + q3*q4);						  
-  v.z = 1-2*(q2*q2 + q3*q3);
+  v->x = 2*(q2*q4 - q1*q3);								
+  v->y = 2*(q1*q2 + q3*q4);						  
+  v->z = 1-2*(q2*q2 + q3*q3);
 }
 
 //四元数归一化
@@ -21,12 +21,12 @@ void Quaternion::normalize(void)
 }
 
 //一阶龙格库塔法更新四元数
-void Quaternion::Runge_Kutta_1st(Vector3f &g, float deltaT)
+void Quaternion::Runge_Kutta_1st(vector3f_t *g, float deltaT)
 {
-  q1 += 0.5 * (-q2*g.x - q3*g.y - q4*g.z)* deltaT;
-  q2 += 0.5 * (q1*g.x + q3*g.z - q4*g.y)* deltaT;
-  q3 += 0.5 * (q1*g.y - q2*g.z + q4*g.x)* deltaT;
-  q4 += 0.5 * (q1*g.z + q2*g.y - q3*g.x)* deltaT;	
+  q1 += 0.5 * (-q2*g->x - q3*g->y - q4*g->z)* deltaT;
+  q2 += 0.5 * (q1*g->x + q3*g->z - q4*g->y)* deltaT;
+  q3 += 0.5 * (q1*g->y - q2*g->z + q4*g->x)* deltaT;
+  q4 += 0.5 * (q1*g->z + q2*g->y - q3*g->x)* deltaT;	
 }
 
 //欧拉角转四元数

@@ -12,10 +12,10 @@
 	float ComplementaryFilter_Factor_Cal(float deltaT, float tau);
 	
 	//Ò»½×µÍÍ¨ÂË²¨Æ÷
-	Vector3f LowPassFilter_1st(Vector3f oldData, Vector3f newData, float lpf_factor);
+	vector3f_t LowPassFilter_1st(vector3f_t oldData, vector3f_t newData, float lpf_factor);
 
 	//Ò»½×»¥²¹ÂË²¨Æ÷
-	Vector3f ComplementaryFilter_1st(Vector3f gyroData, Vector3f accData, float cf_factor);
+	vector3f_t ComplementaryFilter_1st(vector3f_t gyroData, vector3f_t accData, float cf_factor);
 	
 	
 #endif

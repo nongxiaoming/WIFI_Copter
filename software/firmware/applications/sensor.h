@@ -24,11 +24,11 @@ struct Sensor
 	//读取加速度 角速度
 	void Sensor_ReadData(void);
 	//返回加速度的值
-	Vector3f Sensor_GetAcc(void);
+	vector3f_t Sensor_GetAcc(void);
 	//返回角速度的值
-	Vector3f Sensor_GetGyro(void);
+	vector3f_t Sensor_GetGyro(void);
 	//返回单位为度每秒的角速度
-	Vector3f Sensor_GetGyro_in_dps(void);
+	vector3f_t Sensor_GetGyro_in_dps(void);
 extern struct Sensor sensor;
 
 

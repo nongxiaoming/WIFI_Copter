@@ -29,10 +29,10 @@ public:
 		void normalize(void);
 
     // 返回该四元数的等效旋转矩阵中的重力分量
-    void vector_gravity(Vector3f &v);
+    void vector_gravity(vector3f_t *v);
 
 		//一阶龙格库塔法更新四元数
-		void Runge_Kutta_1st(Vector3f &g, float deltaT);
+		void Runge_Kutta_1st(vector3f_t *g, float deltaT);
 		
     //欧拉角转四元数
     void from_euler(float roll, float pitch, float yaw);

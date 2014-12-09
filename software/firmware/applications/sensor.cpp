@@ -5,8 +5,8 @@
 struct Sensor  sensor;
 
 static rt_uint8_t mpu6050_buffer[14]; //接收数据缓存区
-static Vector3f Acc_ADC,Gyro_ADC;
-static Vector3f Gyro_dps;
+static vector3f_t Acc_ADC,Gyro_ADC;
+static vector3f_t Gyro_dps;
 static rt_device_t  mpu6050;
 
 	//加速度零偏矫正
@@ -43,17 +43,17 @@ void Sensor_ReadData(void)
 	Sensor_CalOffset_Acc();
 }
 
-Vector3f Sensor_GetAcc(void)
+vector3f_t Sensor_GetAcc(void)
 {
  return Acc_ADC;	
 }
 
-Vector3f Sensor_GetGyro(void)
+vector3f_t Sensor_GetGyro(void)
 {
  return Gyro_ADC;		
 }
 
-Vector3f Sensor_GetGyro_in_dps(void)
+vector3f_t Sensor_GetGyro_in_dps(void)
 {
 	Gyro_dps.x = radians(Gyro_ADC.x * MPU6050G_S2000DPS);   // dps
 	Gyro_dps.y = radians(Gyro_ADC.y * MPU6050G_S2000DPS);   // dps
@@ -67,7 +67,7 @@ static void Sensor_CalOffset_Acc(void)
 {
 	if(sensor.Acc_CALIBRATED)
 		{
-			static Vector3f	tempAcc;
+			static vector3f_t	tempAcc;
 			static uint16_t cnt_a=0;
 
 			if(cnt_a==0)
@@ -78,7 +78,9 @@ static void Sensor_CalOffset_Acc(void)
 				cnt_a = 1;
 				return;
 			}			
-			tempAcc += Acc_ADC;
+			tempAcc.x += Acc_ADC.x;
+			tempAcc.y += Acc_ADC.y;
+			tempAcc.z += Acc_ADC.z;
 			if(cnt_a == CALIBRATING_ACC_CYCLES)
 			{
 				sensor.Acc_Offset.x = tempAcc.x/cnt_a;
@@ -111,7 +113,9 @@ static void Sensor_CalOffset_Gyro(void)
 			cnt_g = 1;
 			return;
 		}
-		tempGyro += Gyro_ADC;
+		tempGyro.x += Gyro_ADC.x;
+		tempGyro.y += Gyro_ADC.y;
+		tempGyro.z += Gyro_ADC.z;
 		if(cnt_g == CALIBRATING_GYRO_CYCLES)
 		{
 			sensor.Gyro_Offset.x = tempGyro.x/cnt_g;

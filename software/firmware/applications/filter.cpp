@@ -16,9 +16,13 @@ float LowPassFilter_1st_Factor_Cal(float deltaT, float Fcut)
 }
 
 /*----------------------Ò»½×µÍÍ¨ÂË²¨Æ÷------------------------*/
-Vector3f LowPassFilter_1st(Vector3f oldData, Vector3f newData, float lpf_factor)
-{
-	return oldData * (1 - lpf_factor) + newData * lpf_factor;
+vector3f_t LowPassFilter_1st(vector3f_t oldData, vector3f_t newData, float lpf_factor)
+{ 
+	vector3f_t temp;
+	temp.x = oldData.x * (1 - lpf_factor) + newData.x * lpf_factor;
+	temp.y = oldData.y * (1 - lpf_factor) + newData.y * lpf_factor;
+	temp.z = oldData.z * (1 - lpf_factor) + newData.z * lpf_factor;
+	return temp;
 }
 
 /*----------------------»¥²¹ÂË²¨Æ÷ÏµÊý¼ÆËã-------------------------*/
@@ -28,9 +32,13 @@ float ComplementaryFilter_Factor_Cal(float deltaT, float tau)
 }
 
 /*----------------------Ò»½×»¥²¹ÂË²¨Æ÷-----------------------------*/
-Vector3f ComplementaryFilter_1st(Vector3f gyroData, Vector3f accData, float cf_factor)
+vector3f_t ComplementaryFilter_1st(vector3f_t gyroData, vector3f_t accData, float cf_factor)
 { 
-	return (gyroData * cf_factor + accData *(1 - cf_factor));	
+	vector3f_t temp;
+	temp.x=gyroData.x * cf_factor +accData.x *(1 - cf_factor);
+	temp.y=gyroData.x * cf_factor +accData.y *(1 - cf_factor);
+	temp.z=gyroData.x * cf_factor +accData.z *(1 - cf_factor);
+	return temp;	
 }
 
 
