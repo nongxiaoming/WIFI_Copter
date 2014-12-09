@@ -1,7 +1,7 @@
 #ifndef __PIDCTRL_H
 #define __PIDCTRL_H
 
-#include "ANO_Config.h"
+#include "config.h"
 #include "pid.h"
 #include "rtthread.h"
 

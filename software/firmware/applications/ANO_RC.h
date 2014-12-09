@@ -1,7 +1,7 @@
 #ifndef __ANO_RC_H
 #define __ANO_RC_H
 
-#include "ANO_Config.h"
+#include "config.h"
 
 #define RC_MID  			1500                     
 #define RC_MINCHECK		1150                      

@@ -1,5 +1,5 @@
-#ifndef __ANO_CONFIG_H
-#define __ANO_CONFIG_H
+#ifndef __CONFIG_H
+#define __CONFIG_H
 
 #include "board.h"
 #include "filter.h"
@@ -27,28 +27,17 @@
 /*--------------------------------------------------------*/
 
 
-class ANO_Config
-{
-	
-public:
-	
-	ANO_Config();
-
-	class Factor{
-		public:		
+struct Config
+{	
 			float acc_lpf;		
 			float gyro_cf;		
-	}factor;
 
-	class Flag{
-		public:
 			uint8_t ARMED;
 			uint8_t failsafe;
-	}f;
 	
 };
 
-extern ANO_Config ano;
+extern struct Config config;
 
 #endif
 

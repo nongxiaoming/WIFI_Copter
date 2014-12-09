@@ -26,7 +26,7 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 	if(!(sum==*(data_buf+num-1)))		return;		//ÅÐ¶Ïsum
 	if(!(*(data_buf)==0xAA && *(data_buf+1)==0xAF))		return;		//ÅÐ¶ÏÖ¡Í·
 	
-	ano.f.failsafe = 0;
+	config.failsafe = 0;
 /////////////////////////////////////////////////////////////////////////////////////
 	if(*(data_buf+2)==0X01)
 	{
@@ -445,11 +445,11 @@ void ANO_DT::Failsafe_Check(void)
 		if(failsafeCnt > 30)
 		{
 			failsafeCnt = 0;
-			if(!ano.f.failsafe)
-				ano.f.failsafe = 1;
+			if(!config.failsafe)
+				config.failsafe = 1;
 			else
 			{	
-				ano.f.ARMED = 0;
+				config.ARMED = 0;
 			}
 		}
 		failsafeCnt++;	

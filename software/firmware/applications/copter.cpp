@@ -8,7 +8,7 @@
  * Ã‘±¶    £∫anotc.taobao.com
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
-#include "ANO_Config.h"
+#include "config.h"
 #include "params.h"
 #include "pidctrl.h"
 

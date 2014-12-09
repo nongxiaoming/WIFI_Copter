@@ -75,18 +75,18 @@ void ANO_RC::check_sticks(void)
 	
 	if (rcDelayCommand == 100) //2s: 20ms * 100
 	{
-		if (ano.f.ARMED) //如果已经处于解锁状态
+		if (config.ARMED) //如果已经处于解锁状态
 		{ 
 			if((stick_flag & YAW_L)&&(stick_flag & THR_L))
 			{
-				ano.f.ARMED = 0;	//上锁
+				config.ARMED = 0;	//上锁
 			}
 		}
 		else
 		{
 			if((stick_flag & YAW_H)&&(stick_flag & THR_L))
 			{
-				ano.f.ARMED = 1;	//解锁
+				config.ARMED = 1;	//解锁
 			}
 		}
 		stick_flag &= 0;

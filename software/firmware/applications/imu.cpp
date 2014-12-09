@@ -20,9 +20,9 @@ static	void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT);
 void IMU_Init()
 {
 	//加速度一阶低通滤波器系数计算
-	ano.factor.acc_lpf = LowPassFilter_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
+	config.acc_lpf = LowPassFilter_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
 	//互补滤波器系数计算
-	ano.factor.gyro_cf = ComplementaryFilter_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);
+	config.gyro_cf = ComplementaryFilter_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);
 	
 	//初始化MPU6050，1Khz采样率，98Hz低通滤波
 	Sensor_Init(1000,98);	
@@ -44,7 +44,7 @@ void IMU_UpdateSensor()
 void IMU_GetAttitude()
 {
 	//加速度数据一阶低通滤波
-	imu.Acc_lpf_1st = LowPassFilter_1st(imu.Acc_lpf_1st, imu.Acc, ano.factor.acc_lpf);
+	imu.Acc_lpf_1st = LowPassFilter_1st(imu.Acc_lpf_1st, imu.Acc, config.acc_lpf);
 	
 	//四元数更新姿态
 	Quaternion_CF(imu.Gyro,imu.Acc_lpf_1st,IMU_LOOP_TIME*1e-6);

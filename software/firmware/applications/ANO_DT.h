@@ -1,7 +1,7 @@
 #ifndef __ANO_DT_H
 #define __ANO_DT_H
 
-#include "ANO_Config.h"
+#include "config.h"
 #include "ano_protocol.h"
 
 

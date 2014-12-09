@@ -1,7 +1,7 @@
 #ifndef __IMU_H
 #define __IMU_H
 
-#include "ANO_Config.h"
+#include "config.h"
 
 struct IMU 
 {

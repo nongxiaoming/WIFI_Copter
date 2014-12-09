@@ -78,7 +78,7 @@ static void MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPit
 		motorPWM[i] = constrain_uint16(motorPWM[i], MINTHROTTLE, MAXTHROTTLE);
 
 	//如果未解锁，则将电机输出设置为最低
-	if(!ano.f.ARMED || rc.rawData[THROTTLE] < 1200)	
+	if(!config.ARMED || rc.rawData[THROTTLE] < 1200)	
 		for(u8 i=0; i< 4 ; i++)
 			motorPWM[i] = 1000;
 

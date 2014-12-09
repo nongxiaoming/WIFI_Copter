@@ -2,7 +2,7 @@
 #define __PARAMS_H
 
 #include <rtthread.h>
-#include "ANO_Config.h"
+#include "config.h"
 
 typedef struct 
 {
