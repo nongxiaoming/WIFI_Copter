@@ -9,27 +9,28 @@
 #include "pidctrl.h"
 #include "sensor.h"
 
-PIDCtrl pidctrl;
+struct PID pid_group[PIDITEMS];
+
+static void PIDGroup_Reset(void);
+static void MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw);
+static rt_device_t moto_dev=RT_NULL;
+static uint16_t motorPWM[4];
 
 
-PIDCtrl::PIDCtrl()
+void PIDCtrl_Init(void)
 {
 	//重置PID参数
-	PID_Reset();
-}
-
-void PIDCtrl::Init(void)
-{
-  this->moto_dev = rt_device_find("motors");
-	 if(this->moto_dev == RT_NULL)
+	PIDGroup_Reset();
+  moto_dev = rt_device_find("motors");
+	 if(moto_dev == RT_NULL)
    {
 	  rt_kprintf("can not found motors device!\n");
 		 return ;
 	 }
-	 rt_device_open(this->moto_dev,RT_DEVICE_FLAG_RDWR);
+	 rt_device_open(moto_dev,RT_DEVICE_FLAG_RDWR);
 }
 //重置PID参数
-void PIDCtrl::PID_Reset(void)
+static void PIDGroup_Reset(void)
 {
 	PID_SET_VALUE(&pid_group[PIDROLL],55, 25, 65, 2000000);
 	PID_SET_VALUE(&pid_group[PIDPITCH],55, 25, 65, 2000000);
@@ -37,7 +38,7 @@ void PIDCtrl::PID_Reset(void)
 }
 
 //飞行器姿态控制
-void PIDCtrl::Attitude(void)
+void PIDCtrl_Attitude(void)
 {
 	int32_t PIDTerm[3];
 	int32_t	errorAngle[3];
@@ -64,7 +65,7 @@ void PIDCtrl::Attitude(void)
 	//PID输出转为电机控制量
 	MotorCtrl(rc.Command[THROTTLE], PIDTerm[ROLL], PIDTerm[PITCH], PIDTerm[YAW]);
 }
-void PIDCtrl::MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw)
+static void MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw)
 {
 	//六轴X型
 	motorPWM[0] = throttle - 0.5 * pidTermRoll + 0.866 *  pidTermPitch + pidTermYaw; //后右
@@ -82,13 +83,13 @@ void PIDCtrl::MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermP
 			motorPWM[i] = 1000;
 
 	//写入电机PWM
-	if(this->moto_dev != RT_NULL)
+	if(moto_dev != RT_NULL)
   {
-  rt_device_write(this->moto_dev,0,this->motorPWM,4);
+  rt_device_write(moto_dev,0,motorPWM,4);
 	}
 	
 }
-void PIDCtrl::getPWM(uint16_t* pwm)
+void PIDCtrl_GetPWM(uint16_t* pwm)
 {
 	pwm[0] = motorPWM[0];
 	pwm[1] = motorPWM[1];

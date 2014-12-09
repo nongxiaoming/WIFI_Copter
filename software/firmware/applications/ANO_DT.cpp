@@ -69,15 +69,15 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 
 	if(*(data_buf+2)==0X10)								//PID1
 	{
-		pidctrl.pid_group[PIDROLL].kp = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
-		pidctrl.pid_group[PIDROLL].ki = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
-		pidctrl.pid_group[PIDROLL].kd = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
-		pidctrl.pid_group[PIDPITCH].kp = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
-		pidctrl.pid_group[PIDPITCH].ki = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
-		pidctrl.pid_group[PIDPITCH].kd = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
-		pidctrl.pid_group[PIDYAW].kp = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
-		pidctrl.pid_group[PIDYAW].ki= (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
-		pidctrl.pid_group[PIDYAW].kd = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
+		pid_group[PIDROLL].kp = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
+		pid_group[PIDROLL].ki = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
+		pid_group[PIDROLL].kd = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
+		pid_group[PIDPITCH].kp = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
+		pid_group[PIDPITCH].ki = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
+		pid_group[PIDPITCH].kd = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
+		pid_group[PIDYAW].kp = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
+		pid_group[PIDYAW].ki= (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
+		pid_group[PIDYAW].kd = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
 		Send_Check(sum);
 	}
 	if(*(data_buf+2)==0X11)								//PID2
@@ -277,7 +277,7 @@ void ANO_DT::Send_MotoPWM(void)
 {
 	u8 _cnt=0;
 	uint16_t Moto_PWM[6];
-	pidctrl.getPWM(Moto_PWM);
+	PIDCtrl_GetPWM(Moto_PWM);
 	
 	for(u8 i=0;i<6;i++)
 		Moto_PWM[i] -= 1000;
@@ -319,31 +319,31 @@ void ANO_DT::Send_PID1(void)
 	data_to_send[_cnt++]=0;
 	
 	vs16 _temp;
-	_temp = pidctrl.pid_group[PIDROLL].kp ;
+	_temp = pid_group[PIDROLL].kp ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = pidctrl.pid_group[PIDROLL].ki ;
+	_temp = pid_group[PIDROLL].ki ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = pidctrl.pid_group[PIDROLL].kd ;
+	_temp = pid_group[PIDROLL].kd ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = pidctrl.pid_group[PIDPITCH].kp ;
+	_temp = pid_group[PIDPITCH].kp ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = pidctrl.pid_group[PIDPITCH].ki ;
+	_temp = pid_group[PIDPITCH].ki ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = pidctrl.pid_group[PIDPITCH].kd ;
+	_temp = pid_group[PIDPITCH].kd ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = pidctrl.pid_group[PIDYAW].kp;
+	_temp = pid_group[PIDYAW].kp;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = pidctrl.pid_group[PIDYAW].ki;
+	_temp = pid_group[PIDYAW].ki;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = pidctrl.pid_group[PIDYAW].kd;
+	_temp = pid_group[PIDYAW].kd;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
 	

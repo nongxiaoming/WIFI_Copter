@@ -30,7 +30,7 @@ static void attitude_thread_entry(void* parameter)
 	IMU_GetAttitude();
 	
 	//飞行器姿态控制
-	pidctrl.Attitude();
+	PIDCtrl_Attitude();
 	
   rt_thread_delay(2);	
 	}
@@ -71,7 +71,7 @@ int apps_copter_init(void)
 	IMU_Init();	
 	
 	//初始化pid控制
-	pidctrl.Init();
+	PIDCtrl_Init();
 
 	attitude_thread = rt_thread_create("attitude",attitude_thread_entry,RT_NULL,1024,12,5);
 	if(attitude_thread != RT_NULL)

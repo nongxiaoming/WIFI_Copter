@@ -16,28 +16,14 @@ enum {
 		PIDITEMS
 };
 
-class PIDCtrl
-{
+extern struct PID pid_group[PIDITEMS];
 
-public:
-	
-	struct PID pid_group[PIDITEMS];
+void PIDCtrl_Init(void);
 
-	PIDCtrl();
-  void Init(void);
-
-  void getPWM(uint16_t* pwm);
+void PIDCtrl_GetPWM(uint16_t* pwm);
 	//×ËÌ¬¿ØÖÆ
-	void Attitude(void);
-	
-private:
-	void PID_Reset(void);
-  void MotorCtrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw);
-  rt_device_t moto_dev;
-  uint16_t motorPWM[4];
-};
+void PIDCtrl_Attitude(void);
 
-extern PIDCtrl pidctrl;
 
 #endif
 
