@@ -31,9 +31,9 @@ void PIDCtrl::Init(void)
 //重置PID参数
 void PIDCtrl::PID_Reset(void)
 {
-	pid[PIDROLL].set_pid(55, 25, 65, 2000000);
-	pid[PIDPITCH].set_pid(55, 25, 65, 2000000);
-	pid[PIDYAW].set_pid(50, 50, 0, 2000000);
+	PID_SET_VALUE(&pid_group[PIDROLL],55, 25, 65, 2000000);
+	PID_SET_VALUE(&pid_group[PIDPITCH],55, 25, 65, 2000000);
+	PID_SET_VALUE(&pid_group[PIDYAW],50, 50, 0, 2000000);
 }
 
 //飞行器姿态控制
@@ -50,11 +50,13 @@ void PIDCtrl::Attitude(void)
 	for(u8 i=0; i<3;i++)
 	{
 		//当油门低于检查值时积分清零
-		if ((rc.rawData[THROTTLE]) < RC_MINCHECK)	
-			pid[i].reset_I();
+		if ((rc.rawData[THROTTLE]) < RC_MINCHECK)
+			{	
+			PID_RESET_I(pid_group[i]);
+			}
 		
 		//得到PID输出
-		PIDTerm[i] = pid[i].get_pid(errorAngle[i], PID_LOOP_TIME);
+		PIDTerm[i] = PID_GET_PID(&pid_group[i],errorAngle[i], PID_LOOP_TIME);
 	}
 	
 	PIDTerm[YAW] = -constrain_int32(PIDTerm[YAW], -300 - abs(rc.Command[YAW]), +300 + abs(rc.Command[YAW]));		

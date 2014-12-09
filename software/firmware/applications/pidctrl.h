@@ -21,7 +21,7 @@ class PIDCtrl
 
 public:
 	
-	PID pid[PIDITEMS];
+	struct PID pid_group[PIDITEMS];
 
 	PIDCtrl();
   void Init(void);

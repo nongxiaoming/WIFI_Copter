@@ -9,48 +9,47 @@
 #include "pid.h"
 
 
-int32_t PID::get_p(int32_t error)
-{
-    return error * value.kp / 64;
-}
+void PID_SET_VALUE(struct PID *pid,const uint16_t p,
+									 const uint16_t i,
+									 const uint16_t d,
+									 const uint32_t  imaxval) {
+			pid->kp = p; pid->ki = i; pid->kd = d; pid->imax = imaxval;
+	}
 
-int32_t PID::get_i(int32_t error, uint16_t dt)
+
+int32_t PID_GET_I(struct PID *pid,int32_t error, uint16_t dt)
 {
-    if((value.ki != 0) && (dt != 0)) {
-        integrator += (error * dt / 2048 ) * value.ki;
+    if((pid->ki != 0) && (dt != 0)) {
+        pid->integrator += (error * dt / 2048 ) * pid->ki;
 				//»ý·ÖÏÞ·ù
-				integrator = constrain_int32(integrator, -imax, +imax);		
+				pid->integrator = constrain_int32(pid->integrator, -pid->imax, +pid->imax);		
 				
-        return integrator / 8192;
+        return pid->integrator / 8192;
     }
     return 0;
 }
 
-void PID::reset_I(void)
-{
-	integrator = 0;
-}
 
-int32_t PID::get_d(int32_t error, uint16_t dt)
+int32_t PID_GET_D(struct PID *pid,int32_t error, uint16_t dt)
 {
-    if ((value.kd != 0) && (dt != 0)) {			
+    if ((pid->kd != 0) && (dt != 0)) {			
 			int32_t derivative;
-			derivative = error - last_error; 
-			last_error = error;
+			derivative = error - pid->last_error; 
+			pid->last_error = error;
 			derivative = (derivative * ((uint16_t)0xFFFF / (dt / 16 ))) / 64;
-			return (derivative * value.kd) / 4;
+			return (derivative * pid->kd) / 4;
     }
     return 0;
 }
 
-int32_t PID::get_pi(int32_t error, uint16_t dt)
+int32_t PID_GET_PI(struct PID *pid,int32_t error, uint16_t dt)
 {
-    return get_p(error) + get_i(error, dt);
+    return PID_GET_P(pid,error) + PID_GET_I(pid,error, dt);
 }
 
-int32_t PID::get_pid(int32_t error, uint16_t dt)
+int32_t PID_GET_PID(struct PID *pid,int32_t error, uint16_t dt)
 {
-    return get_p(error) + get_i(error, dt) + get_d(error, dt);
+    return PID_GET_P(pid,error) + PID_GET_I(pid,error, dt) + PID_GET_D(pid,error, dt);
 }
 
 
