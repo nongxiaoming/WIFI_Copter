@@ -24,10 +24,10 @@ static void attitude_thread_entry(void* parameter)
 {	
 	while(1){
 	//更新传感器数据	
-	imu.updateSensor();		
+	IMU_UpdateSensor();		
 	
 	//计算飞行器姿态
-	imu.getAttitude();
+	IMU_GetAttitude();
 	
 	//飞行器姿态控制
 	pidctrl.Attitude();
@@ -68,7 +68,7 @@ int apps_copter_init(void)
 	params.Init();
 	
 	//初始化IMU（惯性测量单元）
-	imu.Init();	
+	IMU_Init();	
 	
 	//初始化pid控制
 	pidctrl.Init();

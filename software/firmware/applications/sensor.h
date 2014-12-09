@@ -29,7 +29,7 @@ struct Sensor
 	Vector3f Sensor_GetGyro(void);
 	//返回单位为度每秒的角速度
 	Vector3f Sensor_GetGyro_in_dps(void);
-extern Sensor sensor;
+extern struct Sensor sensor;
 
 
 #endif

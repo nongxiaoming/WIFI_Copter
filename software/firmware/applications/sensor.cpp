@@ -2,7 +2,7 @@
 #include "sensor.h"
 #include "mpu6050.h"
 
-Sensor sensor;
+struct Sensor  sensor;
 
 static rt_uint8_t mpu6050_buffer[14]; //接收数据缓存区
 static Vector3f Acc_ADC,Gyro_ADC;

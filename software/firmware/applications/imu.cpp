@@ -9,14 +9,15 @@
 #include "imu.h"
 #include "sensor.h"
 
-IMU imu;
+struct IMU  imu;
 
-IMU::IMU()
-{
-}
+static	Quaternion Q;
+
+	//基于四元数和互补滤波的姿态解算
+static	void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT);
 
 //IMU初始化
-void IMU::Init()
+void IMU_Init()
 {
 	//加速度一阶低通滤波器系数计算
 	ano.factor.acc_lpf = LowPassFilter_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
@@ -28,32 +29,32 @@ void IMU::Init()
 }
 
 //更新传感器数据
-void IMU::updateSensor()
+void IMU_UpdateSensor()
 {
 	//读取加速度和角速度
 	Sensor_ReadData();
 	//获取角速度，单位为度每秒
-	Gyro = Sensor_GetGyro_in_dps();
+	imu.Gyro = Sensor_GetGyro_in_dps();
 	//获取加速度采样值
-	Acc = Sensor_GetAcc();
+	imu.Acc = Sensor_GetAcc();
 }
 
 
 //计算飞行器姿态
-void IMU::getAttitude()
+void IMU_GetAttitude()
 {
 	//加速度数据一阶低通滤波
-	Acc_lpf_1st = LowPassFilter_1st(Acc_lpf_1st, Acc, ano.factor.acc_lpf);
+	imu.Acc_lpf_1st = LowPassFilter_1st(imu.Acc_lpf_1st, imu.Acc, ano.factor.acc_lpf);
 	
 	//四元数更新姿态
-	Quaternion_CF(Gyro,Acc_lpf_1st,IMU_LOOP_TIME*1e-6);
+	Quaternion_CF(imu.Gyro,imu.Acc_lpf_1st,IMU_LOOP_TIME*1e-6);
 }
 
 
 #define Kp 2.0f        //加速度权重，越大则向加速度测量值收敛越快
 #define Ki 0.001f      //误差积分增益
 //四元数更新姿态
-void IMU::Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
+static void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
 {
 	Vector3f V_gravity, V_error, V_error_I;
 	
@@ -70,16 +71,16 @@ void IMU::Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
 	V_error_I += V_error * Ki;
 	
 	//互补滤波，姿态误差补偿到角速度上，修正角速度积分漂移
-	Gyro += V_error * Kp + V_error_I;		
+	imu.Gyro += V_error * Kp + V_error_I;		
 	
 	//一阶龙格库塔法更新四元数
-	Q.Runge_Kutta_1st(Gyro, deltaT);
+	Q.Runge_Kutta_1st(imu.Gyro, deltaT);
 	
 	//四元数归一化
 	Q.normalize();
 	
 	//四元数转欧拉角
-	Q.to_euler(&angle.x, &angle.y, &angle.z);
+	Q.to_euler(&imu.angle.x, &imu.angle.y, &imu.angle.z);
 }
 
 /******************* (C) COPYRIGHT 2014 ANO TECH *****END OF FILE************/
