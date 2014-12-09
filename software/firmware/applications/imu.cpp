@@ -65,7 +65,7 @@ static void Quaternion_CF(vector3f_t gyro,vector3f_t acc, float deltaT)
 	acc.z /= len;
 	
 	//提取四元数的等效余弦矩阵中的重力分量
-	Q.vector_gravity(&V_gravity);
+	Quaternion_vector_gravity(Q,&V_gravity);
 	
 	//向量叉积得出姿态误差
 	V_error.x = acc.y*V_gravity.z - acc.z*V_gravity.y;
@@ -83,13 +83,13 @@ static void Quaternion_CF(vector3f_t gyro,vector3f_t acc, float deltaT)
 	imu.Gyro.z += V_error.z * Kp + V_error_I.z;
 	
 	//一阶龙格库塔法更新四元数
-	Q.Runge_Kutta_1st(&imu.Gyro, deltaT);
+	Quaternion_Runge_Kutta_1st(&Q,&imu.Gyro, deltaT);
 	
 	//四元数归一化
-	Q.normalize();
+	Quaternion_normalize(&Q);
 	
 	//四元数转欧拉角
-	Q.to_euler(&imu.angle.x, &imu.angle.y, &imu.angle.z);
+	Quaternion_toEuler(Q,&imu.angle.x, &imu.angle.y, &imu.angle.z);
 }
 
 /******************* (C) COPYRIGHT 2014 ANO TECH *****END OF FILE************/

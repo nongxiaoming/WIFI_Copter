@@ -102,14 +102,14 @@ static void Sensor_CalOffset_Gyro(void)
 {
 	if(sensor.Gyro_CALIBRATED)
 	{
-		static Vector3f	tempGyro;
+		static vector3f_t	tempGyro;
 		static uint16_t cnt_g=0;
 		if(cnt_g==0)
 		{
 			sensor.Gyro_Offset.x=0;
 			sensor.Gyro_Offset.y=0;
 			sensor.Gyro_Offset.z=0;
-			tempGyro(0, 0, 0);
+			tempGyro.x = tempGyro.y = tempGyro.z =0;
 			cnt_g = 1;
 			return;
 		}
