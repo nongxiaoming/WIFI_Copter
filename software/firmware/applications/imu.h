@@ -3,7 +3,7 @@
 
 #include "ANO_Config.h"
 
-class IMU : public Filter
+class IMU 
 {
 	
 public:

@@ -10,25 +10,25 @@
 
 
 /*----------------------µÍÍ¨ÂË²¨Æ÷ÏµÊý¼ÆËã-------------------------*/
-float Filter::LPF_1st_Factor_Cal(float deltaT, float Fcut)
+float LowPassFilter_1st_Factor_Cal(float deltaT, float Fcut)
 {
 	return deltaT / (deltaT + 1 / (2 * M_PI * Fcut));
 }
 
 /*----------------------Ò»½×µÍÍ¨ÂË²¨Æ÷------------------------*/
-Vector3f Filter::LPF_1st(Vector3f oldData, Vector3f newData, float lpf_factor)
+Vector3f LowPassFilter_1st(Vector3f oldData, Vector3f newData, float lpf_factor)
 {
 	return oldData * (1 - lpf_factor) + newData * lpf_factor;
 }
 
 /*----------------------»¥²¹ÂË²¨Æ÷ÏµÊý¼ÆËã-------------------------*/
-float Filter::CF_Factor_Cal(float deltaT, float tau)
+float ComplementaryFilter_Factor_Cal(float deltaT, float tau)
 {
 	return tau / (deltaT + tau);
 }
 
 /*----------------------Ò»½×»¥²¹ÂË²¨Æ÷-----------------------------*/
-Vector3f Filter::CF_1st(Vector3f gyroData, Vector3f accData, float cf_factor)
+Vector3f ComplementaryFilter_1st(Vector3f gyroData, Vector3f accData, float cf_factor)
 { 
 	return (gyroData * cf_factor + accData *(1 - cf_factor));	
 }

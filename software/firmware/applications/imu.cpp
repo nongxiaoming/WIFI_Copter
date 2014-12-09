@@ -19,9 +19,9 @@ IMU::IMU()
 void IMU::Init()
 {
 	//加速度一阶低通滤波器系数计算
-	ano.factor.acc_lpf = LPF_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
+	ano.factor.acc_lpf = LowPassFilter_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
 	//互补滤波器系数计算
-	ano.factor.gyro_cf = CF_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);
+	ano.factor.gyro_cf = ComplementaryFilter_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);
 	
 	//初始化MPU6050，1Khz采样率，98Hz低通滤波
 	Sensor_Init(1000,98);	
@@ -43,7 +43,7 @@ void IMU::updateSensor()
 void IMU::getAttitude()
 {
 	//加速度数据一阶低通滤波
-	Acc_lpf_1st = LPF_1st(Acc_lpf_1st, Acc, ano.factor.acc_lpf);
+	Acc_lpf_1st = LowPassFilter_1st(Acc_lpf_1st, Acc, ano.factor.acc_lpf);
 	
 	//四元数更新姿态
 	Quaternion_CF(Gyro,Acc_lpf_1st,IMU_LOOP_TIME*1e-6);
