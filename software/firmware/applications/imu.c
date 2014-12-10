@@ -11,7 +11,7 @@
 
 struct IMU  imu;
 
-static	Quaternion Q;
+static	struct Quaternion Q;
 
 	//基于四元数和互补滤波的姿态解算
 static	void Quaternion_CF(vector3f_t gyro,vector3f_t acc, float deltaT);

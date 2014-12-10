@@ -8,30 +8,11 @@
 **********************************************************************************/
 #include "ANO_RC.h"
 
-ANO_RC rc;
+struct Commander rc;
 
-ANO_RC::ANO_RC()
-{
-	Init();
-}
 
-void ANO_RC::Init(void)
-{
-	
-}
-
-void ANO_RC::Cal_Command(void)
-{
-
-    for (u8 i = 0; i < 3; i++) 
-		{	//处理ROLL,PITCH,YAW这三个轴的数据
-			Command[i] = (rawData[i] - RC_MID) * 0.25;
-		}
-		Command[YAW] = -Command[YAW];
-		Command[THROTTLE] = rawData[THROTTLE];
-		
-}
-
+static 	int16_t lookupPitchRollRC[PITCH_LOOKUP_LENGTH];     
+static	int16_t lookupThrottleRC[THROTTLE_LOOKUP_LENGTH]; 
 
 const uint8_t stick_min_flag[4] = {1<<0,1<<2,1<<4,1<<6}; 
 const uint8_t stick_max_flag[4] = {1<<1,1<<3,1<<5,1<<7};
@@ -44,7 +25,20 @@ const uint8_t stick_max_flag[4] = {1<<1,1<<3,1<<5,1<<7};
 #define THR_L 0x40
 #define THR_H 0x80
 
-void ANO_RC::check_sticks(void)
+void Commander_Cal(void)
+{
+ 	u8 i=0;
+	
+    for (i = 0; i < 3; i++) 
+		{	//处理ROLL,PITCH,YAW这三个轴的数据
+			rc.Command[i] = (rc.rawData[i] - RC_MID) * 0.25;
+		}
+		rc.Command[YAW] = -rc.Command[YAW];
+		rc.Command[THROTTLE] = rc.rawData[THROTTLE];
+		
+}
+
+void Commander_CheckSticks(void)
 {
 	int i;
 	static uint8_t rcDelayCommand;
@@ -53,12 +47,12 @@ void ANO_RC::check_sticks(void)
 
 	for (i = 0; i < 4; i++) 
 	{
-			if(rawData[i]<900||rawData[i]>2000)	//如果摇杆值不在正常范围内，则退出检查
+			if(rc.rawData[i]<900||rc.rawData[i]>2000)	//如果摇杆值不在正常范围内，则退出检查
 				break;
 			
-			if (rawData[i] < RC_MINCHECK)
+			if (rc.rawData[i] < RC_MINCHECK)
 					stick_flag |= stick_min_flag[i];  // check for MIN
-			else if (rawData[i] > RC_MAXCHECK)
+			else if (rc.rawData[i] > RC_MAXCHECK)
 					stick_flag |= stick_max_flag[i];  // check for MAX
 	}	
 	

@@ -11,89 +11,93 @@
 #include "sensor.h"
 #include "board.h"
 
-Params params;
+
 
 #define PARAMS_SAVE_ADDRESS    ((uint32_t)0x080E0000) /* Base @ of Sector 11, 128 Kbytes */
 #define PARAMS_SAVE_Sector      FLASH_Sector_11
 
-void Params::Init(void)
+static params_t *params;
+static rt_err_t Params_Read(void);
+	 
+void Params_Init(void)
 {
 
-   this->value = (params_t*)rt_malloc(sizeof(params_t));
-	 if(this->Read()==RT_EOK)
+   params = (params_t*)rt_malloc(sizeof(params_t));
+	 if(Params_Read()==RT_EOK)
    {
 	  
 	 }else
    {
-	   this->Save();
+	   Params_Save();
 	 }
 	
 }
 
-void Params::set_acc_offset(vector3i_t offset)
+void Params_setAccOffset(vector3i_t offset)
 {
- this->value->acc_offset = offset;
+ params->acc_offset = offset;
 }
-vector3i_t Params::get_acc_offset(void)
+vector3i_t Params_getAccOffset(void)
 {
-  return this->value->acc_offset;
-}
-
-void Params::set_gyro_offset(vector3i_t offset)
-{
- this->value->gyro_offset = offset;
-}
-vector3i_t Params::get_gyro_offset(void)
-{
- return this->value->gyro_offset;
+  return params->acc_offset;
 }
 
-void Params::set_roll_pid(pid_t val)
+void Params_setGyroOffset(vector3i_t offset)
 {
-this->value->roll_pid = val;
+ params->gyro_offset = offset;
 }
-pid_t Params::get_roll_pid(void)
+vector3i_t Params_getGyroOffset(void)
 {
- return this->value->roll_pid;
-}
-
-void Params::set_pitch_pid(pid_t val)
-{
-this->value->pitch_pid = val;
-}
-pid_t Params::get_pitch_pid(void)
-{
- return this->value->pitch_pid;
+ return params->gyro_offset;
 }
 
-void Params::set_yaw_pid(pid_t val)
+void Params_setRollPid(pid_t val)
 {
-this->value->yaw_pid = val;
+params->roll_pid = val;
 }
-pid_t Params::get_yaw_pid(void)
+pid_t Params_getRollPid(void)
 {
- return this->value->yaw_pid;
+ return params->roll_pid;
 }
 
-rt_err_t Params::Read(void)
+void Params_setPitchPid(pid_t val)
 {
-  rt_memcpy(this->value,(void*)PARAMS_SAVE_ADDRESS,sizeof(params_t));
-	if(this->value->magic != MAGIC)
+params->pitch_pid = val;
+}
+pid_t Params_getPitchPid(void)
+{
+ return params->pitch_pid;
+}
+
+void Params_setYawPid(pid_t val)
+{
+params->yaw_pid = val;
+}
+pid_t Params_getYawPid(void)
+{
+ return params->yaw_pid;
+}
+
+rt_err_t Params_Read(void)
+{
+  
+  rt_memcpy(params,(void*)PARAMS_SAVE_ADDRESS,sizeof(params_t));
+	if(params->magic != MAGIC)
   {
 	 return RT_ERROR;
 	}
 	return RT_EOK;
 }
-void Params::Save(void)
+void Params_Save(void)
 {
 	 uint32_t *data;
 	 uint32_t address, address_end;
-   this->value->magic = MAGIC;
+   params->magic = MAGIC;
 
     /* Unlock the Flash */
     FLASH_Unlock();
 
-    data = (uint32_t *)this->value;
+    data = (uint32_t *)params;
     address = PARAMS_SAVE_ADDRESS;
     address_end = address + sizeof(params_t);
 	  

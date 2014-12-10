@@ -40,7 +40,7 @@ static void data_transmit_thread_entry(void* parameter)
 {
 	while(1){
 	//发送飞行器数据
-	dt.Data_Exchange();
+	Transmiter_DataExchange();
 	rt_thread_delay(10);
 	}	
 }
@@ -49,13 +49,13 @@ static void receiver_thread_entry(void* parameter)
 {
 	while(1){
 	//遥控通道数据处理
-	rc.Cal_Command();
+	Commander_Cal();
 	
 	//摇杆位置检查
-	rc.check_sticks();
+	Commander_CheckSticks();
 	
 	//失控保护检查
-	dt.Failsafe_Check();
+	Transmiter_FailsafeCheck();
 	
 	rt_thread_delay(20);	
 	}
@@ -65,7 +65,7 @@ int apps_copter_init(void)
 {
   rt_thread_t attitude_thread,data_transmit_thread,receiver_thread;
 	//初始化参数
-	params.Init();
+	Params_Init();
 	
 	//初始化IMU（惯性测量单元）
 	IMU_Init();	
