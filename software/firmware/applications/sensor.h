@@ -14,8 +14,8 @@
 	
 struct Sensor
 {
-	bool Acc_CALIBRATED;
-	bool Gyro_CALIBRATED;
+	rt_bool_t Acc_CALIBRATED;
+	rt_bool_t Gyro_CALIBRATED;
 	vector3i_t Acc_Offset,Gyro_Offset;
 };
 

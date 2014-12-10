@@ -11,18 +11,15 @@ struct IMU
 	
 	vector3f_t Gyro, Acc, Acc_lpf_1st, Acc_lpf_2nd; 
 	
-
-	
-
 };
-void IMU_Init();
+void IMU_Init(void);
 	
 	//更新传感器数据
-void IMU_UpdateSensor();	
+void IMU_UpdateSensor(void);	
 	
 	//计算飞行器姿态
-void IMU_GetAttitude();
-extern IMU imu;
+void IMU_GetAttitude(void);
+extern struct IMU  imu;
 
 #endif
 

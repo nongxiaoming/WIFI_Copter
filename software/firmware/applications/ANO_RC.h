@@ -25,31 +25,18 @@ enum {
     AUX4
 };
 
-class ANO_RC
+struct Commander
 {
-	
-public:
-	
-	ANO_RC();
-
 	uint16_t rawData[8];
 	int16_t Command[4];
-
-	//参数初始化
-	void Init(void);
-	//遥控通道数据处理
-	void Cal_Command(void);
-	//摇杆位置检测
-	void check_sticks(void);
-
-private:
-	
-	int16_t lookupPitchRollRC[PITCH_LOOKUP_LENGTH];     
-	int16_t lookupThrottleRC[THROTTLE_LOOKUP_LENGTH];  
-
 };
 
-extern ANO_RC rc;
+	//遥控通道数据处理
+void Commander_Cal(void);
+	//摇杆位置检测
+void Commander_CheckSticks(void);
+
+extern struct Commander rc;
 
 #endif
 

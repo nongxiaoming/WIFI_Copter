@@ -38,8 +38,8 @@
 #include <netif/ethernetif.h>
 #endif
 
-extern "C" void set_if(char* netif_name, char* ip_addr, char* gw_addr, char* nm_addr);
-extern "C" int lwip_system_init(void);
+extern void set_if(char* netif_name, char* ip_addr, char* gw_addr, char* nm_addr);
+extern  int lwip_system_init(void);
 
 void rt_init_thread_entry(void* parameter)
 {

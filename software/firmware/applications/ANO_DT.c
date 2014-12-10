@@ -15,13 +15,27 @@
 #define BYTE2(dwTemp)       (*((char *)(&dwTemp) + 2))
 #define BYTE3(dwTemp)       (*((char *)(&dwTemp) + 3))
 
-ANO_DT dt;
+struct Transmiter dt;
 
-void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
+static	u8 data_to_send[50];
+
+static	void Send_Status(void);
+static	void Send_Senser(void);
+static	void Send_RCData(void);
+static	void Send_MotoPWM(void);
+static	void Send_PID1(void);
+static	void Send_PID2(void);
+static	void Send_PID3(void);
+static	void Send_Check(u16 check);
+
+static	void Send_Data(u8 *dataToSend , u8 length);
+
+void Transmiter_Data_Anl(u8 *data_buf,u8 num)
 {
+		u8 i=0;
 	u8 sum = 0;
 	
-	for(u8 i=0;i<(num-1);i++)
+	for(i=0;i<(num-1);i++)
 		sum += *(data_buf+i);
 	if(!(sum==*(data_buf+num-1)))		return;		//ÅÐ¶Ïsum
 	if(!(*(data_buf)==0xAA && *(data_buf+1)==0xAF))		return;		//ÅÐ¶ÏÖ¡Í·
@@ -45,9 +59,9 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 	{
 		if(*(data_buf+4)==0X01)
 		{
-			f.Send_PID1 = 1;
-			f.Send_PID2 = 1;
-			f.Send_PID3 = 1;
+			dt.Send_PID1 = 1;
+			dt.Send_PID2 = 1;
+			dt.Send_PID3 = 1;
 		}
 		if(*(data_buf+4)==0X02)
 		{
@@ -87,7 +101,7 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 	if(*(data_buf+2)==0X12)								//PID3
 	{
 		Send_Check(sum);
-		params.Save();
+		Params_Save();
 	}
 	if(*(data_buf+2)==0X16)								//OFFSET
 	{
@@ -101,7 +115,7 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 	}
 }
 
-void ANO_DT::Check_Event(void)
+void Transmiter_CheckEvent(void)
 {
 	
 #ifdef ANO_DT_USE_NRF24l01	
@@ -110,64 +124,69 @@ void ANO_DT::Check_Event(void)
 	
 }
 
-void ANO_DT::Data_Exchange(void)
+void Transmiter_DataExchange(void)
 {
 	static u8 cnt = 0;
 	
 	switch(cnt)
 	{
 		case 1: 
-			f.Send_RCData = 1;
+			dt.Send_RCData = 1;
 			break;
 		case 2:
-			f.Send_MotoPwm = 1;
+			dt.Send_MotoPwm = 1;
 			break;
 		case 30:
 			cnt = 0;
 			break;
 		default:
 			if(cnt%3)
-				f.Send_Senser = 1;	
+				dt.Send_Senser = 1;	
 			else
-				f.Send_Status = 1;
+				dt.Send_Status = 1;
 						
 	}
 	cnt++;
 	
-	if(f.Send_Status){
-		f.Send_Status = 0;
+	if(dt.Send_Status){
+		dt.Send_Status = 0;
 		Send_Status();
 	}	
-	if(f.Send_Senser){
-		f.Send_Senser = 0;
+	if(dt.Send_Senser){
+		dt.Send_Senser = 0;
 		Send_Senser();
 	}	
-	if(f.Send_RCData){
-		f.Send_RCData = 0;
+	if(dt.Send_RCData){
+		dt.Send_RCData = 0;
 		Send_RCData();
 	}		
-	if(f.Send_MotoPwm){
-		f.Send_MotoPwm = 0;
+	if(dt.Send_MotoPwm){
+		dt.Send_MotoPwm = 0;
 		Send_MotoPWM();
 	}	
-	if(f.Send_PID1){
-		f.Send_PID1 = 0;
+	if(dt.Send_PID1){
+		dt.Send_PID1 = 0;
 		Send_PID1();
 	}	
-	if(f.Send_PID2){
-		f.Send_PID2 = 0;
+	if(dt.Send_PID2){
+		dt.Send_PID2 = 0;
 		Send_PID2();
 	}	
 }
 
-void ANO_DT::Send_Status(void)
+static void Send_Status(void)
 {
 	u8 _cnt=0;
+  u8 i=0;
+	u8 sum = 0;
+	vs16 _temp;
+	vs32 _temp2 = 0;//UltraAlt * 100;
+	
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0x01;
 	data_to_send[_cnt++]=0;
-	vs16 _temp;
+
 	_temp = (int)(imu.angle.x*100);
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
@@ -177,7 +196,7 @@ void ANO_DT::Send_Status(void)
 	_temp = (int)(imu.angle.z*100);
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	vs32 _temp2 = 0;//UltraAlt * 100;
+
 	data_to_send[_cnt++]=BYTE3(_temp2);
 	data_to_send[_cnt++]=BYTE2(_temp2);
 	data_to_send[_cnt++]=BYTE1(_temp2);
@@ -185,8 +204,7 @@ void ANO_DT::Send_Status(void)
 	
 	data_to_send[3] = _cnt-4;
 	
-	u8 sum = 0;
-	for(u8 i=0;i<_cnt;i++)
+	for(i=0;i<_cnt;i++)
 		sum += data_to_send[i];
 	data_to_send[_cnt++]=sum;
 	
@@ -194,9 +212,11 @@ void ANO_DT::Send_Status(void)
 }
 
 
-void ANO_DT::Send_Senser(void)
+static void Send_Senser(void)
 {
 	u8 _cnt=0;
+	u8 i=0;
+	u8 sum = 0;
 	vs16 _temp;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xAA;
@@ -230,17 +250,18 @@ void ANO_DT::Send_Senser(void)
 	
 	data_to_send[3] = _cnt-4;
 	
-	u8 sum = 0;
-	for(u8 i=0;i<_cnt;i++)
+	for(i=0;i<_cnt;i++)
 		sum += data_to_send[i];
 	data_to_send[_cnt++] = sum;
 	
 	Send_Data(data_to_send, _cnt);
 }
 
-void ANO_DT::Send_RCData(void)
+static void Send_RCData(void)
 {
 	u8 _cnt=0;
+	u8 i=0;
+	u8 sum = 0;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0x03;
@@ -264,8 +285,7 @@ void ANO_DT::Send_RCData(void)
 	
 	data_to_send[3] = _cnt-4;
 	
-	u8 sum = 0;
-	for(u8 i=0;i<_cnt;i++)
+	for(i=0;i<_cnt;i++)
 		sum += data_to_send[i];
 	
 	data_to_send[_cnt++]=sum;
@@ -273,13 +293,16 @@ void ANO_DT::Send_RCData(void)
 	Send_Data(data_to_send, _cnt);
 }
 
-void ANO_DT::Send_MotoPWM(void)
+static void Send_MotoPWM(void)
 {
 	u8 _cnt=0;
+	u8 i=0;
+	u8 sum = 0;
 	uint16_t Moto_PWM[6];
+	
 	PIDCtrl_GetPWM(Moto_PWM);
 	
-	for(u8 i=0;i<6;i++)
+	for(i=0;i<6;i++)
 		Moto_PWM[i] -= 1000;
 	
 	data_to_send[_cnt++]=0xAA;
@@ -301,8 +324,8 @@ void ANO_DT::Send_MotoPWM(void)
 
 	data_to_send[3] = _cnt-4;
 	
-	u8 sum = 0;
-	for(u8 i=0;i<_cnt;i++)
+	
+	for(i=0;i<_cnt;i++)
 		sum += data_to_send[i];
 	
 	data_to_send[_cnt++]=sum;
@@ -310,15 +333,19 @@ void ANO_DT::Send_MotoPWM(void)
 	Send_Data(data_to_send, _cnt);
 }
 
-void ANO_DT::Send_PID1(void)
+static void Send_PID1(void)
 {
 	u8 _cnt=0;
+	u8 i=0;
+	u8 sum = 0;
+	vs16 _temp;
+	
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0x10;
 	data_to_send[_cnt++]=0;
 	
-	vs16 _temp;
+
 	_temp = pid_group[PIDROLL].kp ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
@@ -349,8 +376,7 @@ void ANO_DT::Send_PID1(void)
 	
 	data_to_send[3] = _cnt-4;
 	
-	u8 sum = 0;
-	for(u8 i=0;i<_cnt;i++)
+	for(i=0;i<_cnt;i++)
 		sum += data_to_send[i];
 	
 	data_to_send[_cnt++]=sum;
@@ -358,15 +384,18 @@ void ANO_DT::Send_PID1(void)
 	Send_Data(data_to_send, _cnt);
 }
 
-void ANO_DT::Send_PID2(void)
+static void Send_PID2(void)
 {
 	u8 _cnt=0;
+	u8 i=0;
+	u8 sum = 0;
+	vs16 _temp=0;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0x11;
 	data_to_send[_cnt++]=0;
 	
-	vs16 _temp;
+
 	_temp = 0;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
@@ -397,8 +426,7 @@ void ANO_DT::Send_PID2(void)
 	
 	data_to_send[3] = _cnt-4;
 	
-	u8 sum = 0;
-	for(u8 i=0;i<_cnt;i++)
+	for(i=0;i<_cnt;i++)
 		sum += data_to_send[i];
 	
 	data_to_send[_cnt++]=sum;
@@ -406,8 +434,10 @@ void ANO_DT::Send_PID2(void)
 	Send_Data(data_to_send, _cnt);
 }
 
-void ANO_DT::Send_Check(u16 check)
+static void Send_Check(u16 check)
 {
+	u8 i=0;
+	u8 sum = 0;
 	data_to_send[0]=0xAA;
 	data_to_send[1]=0xAA;
 	data_to_send[2]=0xF0;
@@ -417,8 +447,7 @@ void ANO_DT::Send_Check(u16 check)
 	data_to_send[5]=BYTE1(check);
 	data_to_send[6]=BYTE0(check);
 	
-	u8 sum = 0;
-	for(u8 i=0;i<7;i++)
+	for(i=0;i<7;i++)
 		sum += data_to_send[i];
 	
 	data_to_send[7]=sum;
@@ -426,7 +455,7 @@ void ANO_DT::Send_Check(u16 check)
 	Send_Data(data_to_send, 8);
 }
 
-void ANO_DT::Send_Data(u8 *dataToSend , u8 length)
+static void Send_Data(u8 *dataToSend , u8 length)
 {
 	
 #ifdef ANO_DT_USE_Bluetooth
@@ -439,7 +468,7 @@ void ANO_DT::Send_Data(u8 *dataToSend , u8 length)
 }
 
 
-void ANO_DT::Failsafe_Check(void)
+void Transmiter_FailsafeCheck(void)
 {
 		static u8 failsafeCnt = 0;
 		if(failsafeCnt > 30)
