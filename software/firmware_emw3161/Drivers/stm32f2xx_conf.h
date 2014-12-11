@@ -36,7 +36,7 @@
 #include "stm32f2xx_exti.h"
 #include "stm32f2xx_flash.h"
 #include "stm32f2xx_fsmc.h"
-// #include "stm32f2xx_hash.h"
+#include "stm32f2xx_hash.h"
 #include "stm32f2xx_gpio.h"
 #include "stm32f2xx_i2c.h"
 #include "stm32f2xx_iwdg.h"
@@ -60,7 +60,7 @@
    clock is used, keep this define commented */
 /*#define I2S_EXTERNAL_CLOCK_VAL   12288000 */ /* Value of the external clock in Hz */
 
-#define HSE_VALUE            ((uint32_t)25000000) /*!< Value of the External oscillator in Hz */
+#define HSE_VALUE            ((uint32_t)26000000) /*!< Value of the External oscillator in Hz */
 /* Uncomment the line below to expanse the "assert_param" macro in the 
    Standard Peripheral Library drivers code */
 /* #define USE_FULL_ASSERT    1 */
