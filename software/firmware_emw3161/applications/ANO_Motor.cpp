@@ -13,23 +13,21 @@ ANO_Motor motor;
 void ANO_Motor::writeMotor(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw)
 {
 	//六轴X型
-	motorPWM[0] = throttle - 0.5 * pidTermRoll + 0.866 *  pidTermPitch + pidTermYaw; //后右
-	motorPWM[1] = throttle - 0.5 * pidTermRoll - 0.866 *  pidTermPitch + pidTermYaw; //前右
-	motorPWM[2] = throttle + 0.5 * pidTermRoll + 0.866 *  pidTermPitch - pidTermYaw; //后左
-	motorPWM[3] = throttle + 0.5 * pidTermRoll - 0.866 *  pidTermPitch - pidTermYaw; //前左
-	motorPWM[4] = throttle - pidTermRoll - pidTermYaw;	//右
-	motorPWM[5] = throttle + pidTermRoll + pidTermYaw;	//左	
+	motorPWM[0] = throttle - pidTermRoll + pidTermPitch - pidTermYaw; //后右
+	motorPWM[1] = throttle - pidTermRoll - pidTermPitch + pidTermYaw; //前右
+	motorPWM[2] = throttle + pidTermRoll + pidTermPitch + pidTermYaw; //后左
+	motorPWM[3] = throttle + pidTermRoll - pidTermPitch - pidTermYaw; //前左
 	
-	for (u8 i = 0; i < 6; i++) 
+	for (u8 i = 0; i < 4; i++) 
 		motorPWM[i] = constrain_uint16(motorPWM[i], MINTHROTTLE, MAXTHROTTLE);
 
 	//如果未解锁，则将电机输出设置为最低
 	if(!ano.f.ARMED || rc.rawData[THROTTLE] < 1200)	
-		for(u8 i=0; i< 6 ; i++)
+		for(u8 i=0; i< 4 ; i++)
 			motorPWM[i] = 1000;
 
 	//写入电机PWM
-	//pwm.SetPwm(motorPWM);
+	pwm.SetPwm(motorPWM);
 	
 }
 
