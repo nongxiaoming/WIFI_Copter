@@ -10,7 +10,7 @@
 #include "ANO_Drv_MPU6050.h"
 
 // MPU6050, 硬件I2c地址 0x68，模拟i2c地址0xD0
-#define MPU6050_ADDRESS         0xD0	// 0x68
+#define MPU6050_ADDRESS         (0x69<<1)	// 0x68
 #define DMP_MEM_START_ADDR 0x6E
 #define DMP_MEM_R_W 0x6F
 

@@ -8,8 +8,8 @@
 #define SCL_L         GPIO_ResetBits(ANO_GPIO_I2C,I2C_Pin_SCL)
 #define SDA_H         GPIO_SetBits(ANO_GPIO_I2C,I2C_Pin_SDA)
 #define SDA_L         GPIO_ResetBits(ANO_GPIO_I2C,I2C_Pin_SDA)
-#define SCL_read      GPIO_ReadOutputDataBit(ANO_GPIO_I2C,I2C_Pin_SCL)
-#define SDA_read     GPIO_ReadOutputDataBit(ANO_GPIO_I2C,I2C_Pin_SDA)
+#define SCL_read      GPIO_ReadInputDataBit(ANO_GPIO_I2C,I2C_Pin_SCL)
+#define SDA_read     GPIO_ReadInputDataBit(ANO_GPIO_I2C,I2C_Pin_SDA)
 
 class ANO_I2C_Soft
 {

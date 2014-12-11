@@ -23,7 +23,7 @@ void ANO_I2C_Soft::Init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;  
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
   GPIO_Init(ANO_GPIO_I2C, &GPIO_InitStructure);
 
   GPIO_InitStructure.GPIO_Pin =  I2C_Pin_SDA;
@@ -33,12 +33,12 @@ void ANO_I2C_Soft::Init(void)
 
 void ANO_I2C_Soft::I2C_delay(void)
 {
-   /*u8 i=0; 
+   u8 i=0; 
    while(i) 
    { 
      i--; 
    } 
-		*/ 	
+			
 }
 
 int ANO_I2C_Soft::I2C_Start(void)
