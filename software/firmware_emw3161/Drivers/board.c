@@ -7,7 +7,7 @@
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
 #include "board.h"
-#include "ANO_Scheduler.h"
+#include "scheduler.h"
 
 // cycles per microsecond
 static volatile uint32_t usTicks = 0;

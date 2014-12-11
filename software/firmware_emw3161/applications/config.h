@@ -2,14 +2,14 @@
 #define __ANO_CONFIG_H
 
 #include "board.h"
-#include "ANO_PID.h"
-#include "ANO_Filter.h"
-#include "ANO_IMU.h"
-#include "ANO_Scheduler.h"
-#include "ANO_DT.h"
-#include "ANO_Motor.h"
-#include "ANO_RC.h"
-#include "ANO_FlyControl.h"
+#include "pid.h"
+#include "filter.h"
+#include "imu.h"
+#include "scheduler.h"
+#include "dt.h"
+#include "motor.h"
+#include "rc.h"
+#include "pidctrl.h"
 #include "tcpserver.h"
 
 /*----------------------IMU--------------------*/

@@ -7,7 +7,7 @@
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
 #include "drv_uart.h"
-#include "ANO_DT.h"
+#include "dt.h"
 #include "stdio.h"
 
 void Uart1_Init(u32 br_num)

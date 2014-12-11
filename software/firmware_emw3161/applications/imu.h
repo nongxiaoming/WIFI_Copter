@@ -1,7 +1,7 @@
 #ifndef __ANO_IMU_H
 #define __ANO_IMU_H
 
-#include "ANO_Config.h"
+#include "config.h"
 
 class ANO_IMU : public ANO_Filter
 {

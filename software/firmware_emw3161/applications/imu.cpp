@@ -6,7 +6,7 @@
  * Ã‘±¶    £∫anotc.taobao.com
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
-#include "ANO_IMU.h"
+#include "imu.h"
 #include "drv_mpu6050.h"
 
 ANO_IMU imu;

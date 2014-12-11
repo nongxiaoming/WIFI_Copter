@@ -1,7 +1,7 @@
 #ifndef __ANO_FLYCONTROL_H
 #define __ANO_FLYCONTROL_H
 
-#include "ANO_Config.h"
+#include "config.h"
 
 #define FLYANGLE_MAX 250  //最大飞行倾角25度
 

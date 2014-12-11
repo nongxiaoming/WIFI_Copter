@@ -8,7 +8,7 @@
 **********************************************************************************/
 
 #include "drv_mpu6050.h"
-#include "ANO_Config.h"
+#include "config.h"
 
 // MPU6050, 硬件I2c地址 0x68，模拟i2c地址0xD0
 #define MPU6050_ADDRESS         (0xD0)	// 0x68

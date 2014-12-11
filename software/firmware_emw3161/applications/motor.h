@@ -1,7 +1,7 @@
 #ifndef __ANO_MOTOR_H
 #define __ANO_MOTOR_H
 
-#include "ANO_Config.h"
+#include "config.h"
 
 #define MINTHROTTLE 1100
 #define MAXTHROTTLE 1900

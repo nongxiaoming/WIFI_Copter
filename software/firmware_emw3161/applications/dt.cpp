@@ -6,9 +6,9 @@
  * Ã‘±¶    £∫anotc.taobao.com
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
-#include "ANO_DT.h"
+#include "dt.h"
 #include "drv_mpu6050.h"
-#include "ANO_Config.h"
+#include "config.h"
 
 #define BYTE0(dwTemp)       (*(char *)(&dwTemp))
 #define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))

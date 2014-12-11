@@ -6,7 +6,7 @@
  * Ã‘±¶    £∫anotc.taobao.com
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
-#include "ANO_Scheduler.h"
+#include "scheduler.h"
 
 ANO_Scheduler scheduler;
 
