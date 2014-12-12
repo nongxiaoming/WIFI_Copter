@@ -17,7 +17,7 @@ public:
 
 private:
 	
-	uint16_t motorPWM[6];	
+	uint16_t motorPWM[4];	
 	
 };
 

@@ -26,7 +26,6 @@ int main(void)
 		ANO_Loop();
 	}
 	
-	return 0;
 }
 
 

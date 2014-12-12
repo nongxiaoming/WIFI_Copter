@@ -406,9 +406,9 @@
           <GroupName>Applications</GroupName>
           <Files>
             <File>
-              <FileName>ANO_Config.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_Config.cpp</FilePath>
+              <FileName>params.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\applications\params.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -452,142 +452,6 @@
                   </Cads>
                 </FileArmAds>
               </FileOption>
-            </File>
-            <File>
-              <FileName>ANO_DT.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_DT.cpp</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>2</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <VariousControls>
-                      <MiscControls>--cpp</MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>ANO_Filter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_Filter.cpp</FilePath>
-              <FileOption>
-                <CommonProperty>
-                  <UseCPPCompiler>2</UseCPPCompiler>
-                  <RVCTCodeConst>0</RVCTCodeConst>
-                  <RVCTZI>0</RVCTZI>
-                  <RVCTOtherData>0</RVCTOtherData>
-                  <ModuleSelection>0</ModuleSelection>
-                  <IncludeInBuild>2</IncludeInBuild>
-                  <AlwaysBuild>2</AlwaysBuild>
-                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
-                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
-                  <PublicsOnly>2</PublicsOnly>
-                  <StopOnExitCode>11</StopOnExitCode>
-                  <CustomArgument></CustomArgument>
-                  <IncludeLibraryModules></IncludeLibraryModules>
-                  <ComprImg>1</ComprImg>
-                </CommonProperty>
-                <FileArmAds>
-                  <Cads>
-                    <interw>2</interw>
-                    <Optim>0</Optim>
-                    <oTime>2</oTime>
-                    <SplitLS>2</SplitLS>
-                    <OneElfS>2</OneElfS>
-                    <Strict>2</Strict>
-                    <EnumInt>2</EnumInt>
-                    <PlainCh>2</PlainCh>
-                    <Ropi>2</Ropi>
-                    <Rwpi>2</Rwpi>
-                    <wLevel>0</wLevel>
-                    <uThumb>2</uThumb>
-                    <uSurpInc>2</uSurpInc>
-                    <uC99>2</uC99>
-                    <useXO>2</useXO>
-                    <VariousControls>
-                      <MiscControls>--cpp</MiscControls>
-                      <Define></Define>
-                      <Undefine></Undefine>
-                      <IncludePath></IncludePath>
-                    </VariousControls>
-                  </Cads>
-                </FileArmAds>
-              </FileOption>
-            </File>
-            <File>
-              <FileName>ANO_FlyControl.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_FlyControl.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ANO_IMU.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_IMU.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ANO_Motor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_Motor.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ANO_PID.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_PID.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ANO_RC.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_RC.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>ANO_Scheduler.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\ANO_Scheduler.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>AnoCopter.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\AnoCopter.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>drv_mpu6050.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\drv_mpu6050.cpp</FilePath>
             </File>
             <File>
               <FileName>tcpserver.c</FileName>
@@ -636,6 +500,61 @@
                   </Cads>
                 </FileArmAds>
               </FileOption>
+            </File>
+            <File>
+              <FileName>config.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\config.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>copter.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\copter.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>drv_mpu6050.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\drv_mpu6050.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>dt.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\dt.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>filter.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\filter.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>imu.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\imu.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>motor.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\motor.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pid.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\pid.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>pidctrl.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\pidctrl.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>rc.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\rc.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>scheduler.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>.\applications\scheduler.cpp</FilePath>
             </File>
           </Files>
         </Group>

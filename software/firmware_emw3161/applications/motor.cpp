@@ -27,7 +27,7 @@ void ANO_Motor::writeMotor(uint16_t throttle, int32_t pidTermRoll, int32_t pidTe
 			motorPWM[i] = 1000;
 
 	//Ð´Èëµç»úPWM
-	pwm.SetPwm(motorPWM);
+	//pwm.SetPwm(motorPWM);
 	
 }
 
@@ -37,8 +37,6 @@ void ANO_Motor::getPWM(uint16_t* pwm)
 	*(pwm+1) = motorPWM[1];
 	*(pwm+2) = motorPWM[2];
 	*(pwm+3) = motorPWM[3];
-	*(pwm+4) = motorPWM[4];
-	*(pwm+5) = motorPWM[5];	
 }
 
 

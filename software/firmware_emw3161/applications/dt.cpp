@@ -325,18 +325,18 @@ void ANO_DT::Send_MotoPWM(void)
 	data_to_send[_cnt++]=0xAA;
 	data_to_send[_cnt++]=0x06;
 	data_to_send[_cnt++]=0;
-	data_to_send[_cnt++]=BYTE1(Moto_PWM[1]);
-	data_to_send[_cnt++]=BYTE0(Moto_PWM[1]);
-	data_to_send[_cnt++]=BYTE1(Moto_PWM[3]);
-	data_to_send[_cnt++]=BYTE0(Moto_PWM[3]);
-	data_to_send[_cnt++]=BYTE1(Moto_PWM[5]);
-	data_to_send[_cnt++]=BYTE0(Moto_PWM[5]);
-	data_to_send[_cnt++]=BYTE1(Moto_PWM[2]);
-	data_to_send[_cnt++]=BYTE0(Moto_PWM[2]);
 	data_to_send[_cnt++]=BYTE1(Moto_PWM[0]);
 	data_to_send[_cnt++]=BYTE0(Moto_PWM[0]);
-	data_to_send[_cnt++]=BYTE1(Moto_PWM[4]);
-	data_to_send[_cnt++]=BYTE0(Moto_PWM[4]);
+	data_to_send[_cnt++]=BYTE1(Moto_PWM[1]);
+	data_to_send[_cnt++]=BYTE0(Moto_PWM[1]);
+	data_to_send[_cnt++]=BYTE1(Moto_PWM[2]);
+	data_to_send[_cnt++]=BYTE0(Moto_PWM[2]);
+	data_to_send[_cnt++]=BYTE1(Moto_PWM[3]);
+	data_to_send[_cnt++]=BYTE0(Moto_PWM[3]);
+	data_to_send[_cnt++]=0;
+	data_to_send[_cnt++]=0;
+	data_to_send[_cnt++]=0;
+	data_to_send[_cnt++]=0;
 
 	data_to_send[3] = _cnt-4;
 	
