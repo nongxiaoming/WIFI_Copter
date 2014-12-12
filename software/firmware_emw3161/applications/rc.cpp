@@ -39,7 +39,7 @@ void ANO_RC::Cal_Command(void)
 				dif -= 360;
 			dif = -dif;
 			
-			Command[YAW] -= dif * fc.pid[PIDMAG].kP * 0.1;  	
+			Command[YAW] -= dif * fc.pid_group[PIDMAG].kP * 0.1;  	
 		} 	
 		else
 			imu.magHold = imu.angle.z;	

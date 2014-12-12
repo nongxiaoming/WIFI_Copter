@@ -90,7 +90,7 @@ void tcpserver_run(void)
               {
 							 if((recv_buf[index]==0xaa)&&(recv_buf[index+1]==0xaf)&&(recv_buf[index+2]>0)&&(recv_buf[index+2]<0xf1))
                 {
-								 if((recv_buf[index+3]==3)&&(recv_buf[index+3]<50))
+								 if(recv_buf[index+3]<50)
                  {
 								  uint8_t cmd_len = recv_buf[index+3];
 									 if(cmd_len+index<con)

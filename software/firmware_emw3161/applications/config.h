@@ -7,7 +7,6 @@
 #include "imu.h"
 #include "scheduler.h"
 #include "dt.h"
-#include "motor.h"
 #include "rc.h"
 #include "pidctrl.h"
 #include "tcpserver.h"

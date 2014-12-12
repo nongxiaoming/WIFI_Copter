@@ -79,28 +79,28 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 
 	if(*(data_buf+2)==0X10)								//PID1
 	{
-		fc.pid[PIDROLL].kP = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
-		fc.pid[PIDROLL].kI = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
-		fc.pid[PIDROLL].kD = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
-		fc.pid[PIDPITCH].kP = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
-		fc.pid[PIDPITCH].kI = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
-		fc.pid[PIDPITCH].kD = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
-		fc.pid[PIDYAW].kP = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
-		fc.pid[PIDYAW].kI = (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
-		fc.pid[PIDYAW].kD = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
+		fc.pid_group[PIDROLL].kP = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
+		fc.pid_group[PIDROLL].kI = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
+		fc.pid_group[PIDROLL].kD = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
+		fc.pid_group[PIDPITCH].kP = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
+		fc.pid_group[PIDPITCH].kI = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
+		fc.pid_group[PIDPITCH].kD = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
+		fc.pid_group[PIDYAW].kP = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
+		fc.pid_group[PIDYAW].kI = (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
+		fc.pid_group[PIDYAW].kD = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
 		Send_Check(sum);
 	}
 	if(*(data_buf+2)==0X11)								//PID2
 	{
-		fc.pid[PIDALT].kP = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
-		fc.pid[PIDALT].kI = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
-		fc.pid[PIDALT].kD = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
-		fc.pid[PIDLEVEL].kP = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
-		fc.pid[PIDLEVEL].kI = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
-		fc.pid[PIDLEVEL].kD = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
-		fc.pid[PIDMAG].kP = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
-		fc.pid[PIDMAG].kI = (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
-		fc.pid[PIDMAG].kD = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
+		fc.pid_group[PIDALT].kP = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
+		fc.pid_group[PIDALT].kI = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
+		fc.pid_group[PIDALT].kD = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
+		fc.pid_group[PIDLEVEL].kP = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
+		fc.pid_group[PIDLEVEL].kI = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
+		fc.pid_group[PIDLEVEL].kD = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
+		fc.pid_group[PIDMAG].kP = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
+		fc.pid_group[PIDMAG].kI = (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
+		fc.pid_group[PIDMAG].kD = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
 		Send_Check(sum);
 	}
 	if(*(data_buf+2)==0X12)								//PID3
@@ -315,10 +315,10 @@ void ANO_DT::Send_RCData(void)
 void ANO_DT::Send_MotoPWM(void)
 {
 	u8 _cnt=0;
-	uint16_t Moto_PWM[6];
-	motor.getPWM(Moto_PWM);
+	uint16_t Moto_PWM[MOTORS_NUM_MAX];
+	fc.getMotorsPWM(Moto_PWM);
 	
-	for(u8 i=0;i<6;i++)
+	for(u8 i=0;i<MOTORS_NUM_MAX;i++)
 		Moto_PWM[i] -= 1000;
 	
 	data_to_send[_cnt++]=0xAA;
@@ -358,31 +358,31 @@ void ANO_DT::Send_PID1(void)
 	data_to_send[_cnt++]=0;
 	
 	vs16 _temp;
-	_temp = fc.pid[PIDROLL].kP ;
+	_temp = fc.pid_group[PIDROLL].kP ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDROLL].kI ;
+	_temp = fc.pid_group[PIDROLL].kI ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDROLL].kD ;
+	_temp = fc.pid_group[PIDROLL].kD ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDPITCH].kP ;
+	_temp = fc.pid_group[PIDPITCH].kP ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDPITCH].kI ;
+	_temp = fc.pid_group[PIDPITCH].kI ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDPITCH].kD ;
+	_temp = fc.pid_group[PIDPITCH].kD ;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDYAW].kP;
+	_temp = fc.pid_group[PIDYAW].kP;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDYAW].kI;
+	_temp = fc.pid_group[PIDYAW].kI;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDYAW].kD;
+	_temp = fc.pid_group[PIDYAW].kD;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
 	
@@ -406,31 +406,31 @@ void ANO_DT::Send_PID2(void)
 	data_to_send[_cnt++]=0;
 	
 	vs16 _temp;
-	_temp = fc.pid[PIDALT].kP;
+	_temp = fc.pid_group[PIDALT].kP;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDALT].kI;
+	_temp = fc.pid_group[PIDALT].kI;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDALT].kD;
+	_temp = fc.pid_group[PIDALT].kD;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDLEVEL].kP;
+	_temp = fc.pid_group[PIDLEVEL].kP;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDLEVEL].kI;
+	_temp = fc.pid_group[PIDLEVEL].kI;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDLEVEL].kD;
+	_temp = fc.pid_group[PIDLEVEL].kD;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDMAG].kP;
+	_temp = fc.pid_group[PIDMAG].kP;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDMAG].kI;
+	_temp = fc.pid_group[PIDMAG].kI;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = fc.pid[PIDMAG].kD;
+	_temp = fc.pid_group[PIDMAG].kD;
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
 	
@@ -472,9 +472,9 @@ void ANO_DT::Send_Data(u8 *dataToSend , u8 length)
 	Uart1_Put_Buf(data_to_send,length);
 #endif
 	
-//#ifdef ANO_DT_USE_WIFI
-//	tcp_writebuf((char*)data_to_send,length);
-//#endif
+#ifdef ANO_DT_USE_WIFI
+	tcp_writebuf((char*)data_to_send,length);
+#endif
 }
 
 
