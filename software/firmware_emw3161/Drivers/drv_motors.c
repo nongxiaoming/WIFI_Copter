@@ -26,7 +26,7 @@ void Motors_Init(void)
 	/* Compute the prescaler value */
   PrescalerValue = (uint16_t) ((SystemCoreClock /2) / 20000000) - 1;
 	/* Time base configuration */
-  TIM_TimeBaseStructure.TIM_Period = Moto_PwmMax;									//重装值
+  TIM_TimeBaseStructure.TIM_Period = 999;									//重装值
   TIM_TimeBaseStructure.TIM_Prescaler = PrescalerValue;						//分频系数
   TIM_TimeBaseStructure.TIM_ClockDivision = 0;
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
@@ -52,19 +52,19 @@ void Motors_Init(void)
   TIM_Cmd(TIM2, ENABLE);
 }
 
-void Motors_PwmRflash(int32_t MOTO1_PWM,int32_t MOTO2_PWM,int32_t MOTO3_PWM,int32_t MOTO4_PWM)
+void Motors_SetPwm(uint16_t *pwm)
 {		
-	if(MOTO1_PWM>Moto_PwmMax)	MOTO1_PWM = Moto_PwmMax;
-	if(MOTO2_PWM>Moto_PwmMax)	MOTO2_PWM = Moto_PwmMax;
-	if(MOTO3_PWM>Moto_PwmMax)	MOTO3_PWM = Moto_PwmMax;
-	if(MOTO4_PWM>Moto_PwmMax)	MOTO4_PWM = Moto_PwmMax;
-	if(MOTO1_PWM<0)	MOTO1_PWM = 0;
-	if(MOTO2_PWM<0)	MOTO2_PWM = 0;
-	if(MOTO3_PWM<0)	MOTO3_PWM = 0;
-	if(MOTO4_PWM<0)	MOTO4_PWM = 0;
+	u8 i = 0;
+		for(i=0;i<MOTORS_NUM_MAX;i++)
+	{
+		if(pwm[i] < MOTORS_PWM_MIN)
+			pwm[i] = MOTORS_PWM_MIN;
+		else if(pwm[i] > MOTORS_PWM_MAX)
+			pwm[i] = MOTORS_PWM_MAX;
+	}
 	
-	TIM2->CCR1 = MOTO3_PWM;
-	TIM2->CCR2 = MOTO2_PWM;
-	TIM2->CCR3 = MOTO1_PWM;
-	TIM2->CCR4 = MOTO4_PWM;
+	TIM2->CCR1 = pwm[0]-MOTORS_PWM_MIN;
+	TIM2->CCR2 = pwm[2]-MOTORS_PWM_MIN;
+	TIM2->CCR3 = pwm[3]-MOTORS_PWM_MIN;
+	TIM2->CCR4 = pwm[1]-MOTORS_PWM_MIN;
 }

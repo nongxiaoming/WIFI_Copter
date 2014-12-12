@@ -39,7 +39,7 @@ private:
 	
 	uint8_t yawRate;
 	int32_t RateError[3];
-  uint16_t motorPWM[4];	
+  uint16_t motorPWM[MOTORS_NUM_MAX];	
 	void PID_Reset(void);
   void Motors_Ctrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw);
 };

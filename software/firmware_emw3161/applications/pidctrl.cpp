@@ -71,18 +71,19 @@ void pidctrl::Attitude_Inner_Loop(void)
 }	
 void pidctrl::Motors_Ctrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTermPitch, int32_t pidTermYaw)
 {
+	uint8_t i = 0;
 	//六轴X型
-	motorPWM[0] = throttle - pidTermRoll + pidTermPitch - pidTermYaw; //后右
-	motorPWM[1] = throttle - pidTermRoll - pidTermPitch + pidTermYaw; //前右
-	motorPWM[2] = throttle + pidTermRoll + pidTermPitch + pidTermYaw; //后左
-	motorPWM[3] = throttle + pidTermRoll - pidTermPitch - pidTermYaw; //前左
+	motorPWM[0] = throttle - pidTermRoll + pidTermPitch + pidTermYaw; //后右
+	motorPWM[1] = throttle - pidTermRoll - pidTermPitch - pidTermYaw; //前右
+	motorPWM[2] = throttle + pidTermRoll + pidTermPitch - pidTermYaw; //后左
+	motorPWM[3] = throttle + pidTermRoll - pidTermPitch + pidTermYaw; //前左
 	
-	for (u8 i = 0; i < MOTORS_NUM_MAX; i++) 
+	for (i = 0; i < MOTORS_NUM_MAX; i++) 
 		motorPWM[i] = constrain_uint16(motorPWM[i], THROTTLE_MIN, THROTTLE_MAX);
 
 	//如果未解锁，则将电机输出设置为最低
 	if(!ano.f.ARMED || rc.rawData[THROTTLE] < 1200)	
-		for(u8 i=0; i< MOTORS_NUM_MAX ; i++)
+		for(i=0; i< MOTORS_NUM_MAX ; i++)
 			motorPWM[i] = 1000;
 
 	//写入电机PWM

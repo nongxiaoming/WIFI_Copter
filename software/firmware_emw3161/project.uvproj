@@ -362,7 +362,7 @@
               <MiscControls></MiscControls>
               <Define>EMW3161  USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>applications;.;Drivers;Libraries\STM32F2xx_StdPeriph_Driver\inc;Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F2xx;.\Math;.\Libraries\MXCHIP_Library</IncludePath>
+              <IncludePath>applications;.;Drivers;Libraries\STM32F2xx_StdPeriph_Driver\inc;Libraries\CMSIS\CM3\DeviceSupport\ST\STM32F2xx;.\Math;.\Libraries\MXCHIP_Library;.\Libraries\CMSIS\CM3\CoreSupport</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -530,11 +530,6 @@
               <FileName>imu.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\applications\imu.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>motor.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\motor.cpp</FilePath>
             </File>
             <File>
               <FileName>pid.cpp</FileName>

@@ -9,6 +9,7 @@
 #include "dt.h"
 #include "drv_mpu6050.h"
 #include "config.h"
+#include "params.h"
 
 #define BYTE0(dwTemp)       (*(char *)(&dwTemp))
 #define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))
@@ -79,28 +80,38 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 
 	if(*(data_buf+2)==0X10)								//PID1
 	{
-		fc.pid_group[PIDROLL].kP = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
-		fc.pid_group[PIDROLL].kI = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
-		fc.pid_group[PIDROLL].kD = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
-		fc.pid_group[PIDPITCH].kP = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
-		fc.pid_group[PIDPITCH].kI = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
-		fc.pid_group[PIDPITCH].kD = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
-		fc.pid_group[PIDYAW].kP = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
-		fc.pid_group[PIDYAW].kI = (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
-		fc.pid_group[PIDYAW].kD = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
+		pid_t pidval;
+		pidval.kp = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
+		pidval.ki = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
+		pidval.kd = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
+		Params_setRollPid(pidval);
+		pidval.kp = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
+		pidval.ki = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
+		pidval.kd = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
+		Params_setPitchPid(pidval);
+		pidval.kp = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
+		pidval.ki = (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
+		pidval.kd = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
+		Params_setYawPid(pidval);
+		Params_Save();
 		Send_Check(sum);
 	}
 	if(*(data_buf+2)==0X11)								//PID2
 	{
-		fc.pid_group[PIDALT].kP = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
-		fc.pid_group[PIDALT].kI = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
-		fc.pid_group[PIDALT].kD = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
-		fc.pid_group[PIDLEVEL].kP = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
-		fc.pid_group[PIDLEVEL].kI = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
-		fc.pid_group[PIDLEVEL].kD = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
-		fc.pid_group[PIDMAG].kP = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
-		fc.pid_group[PIDMAG].kI = (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
-		fc.pid_group[PIDMAG].kD = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
+		pid_t pidval;
+		pidval.kp = (vs16)(*(data_buf+4)<<8)|*(data_buf+5);
+		pidval.ki = (vs16)(*(data_buf+6)<<8)|*(data_buf+7);
+		pidval.kd = (vs16)(*(data_buf+8)<<8)|*(data_buf+9);
+		Params_setAltPid(pidval);
+		pidval.kp = (vs16)(*(data_buf+10)<<8)|*(data_buf+11);
+		pidval.ki = (vs16)(*(data_buf+12)<<8)|*(data_buf+13);
+		pidval.kd = (vs16)(*(data_buf+14)<<8)|*(data_buf+15);
+		Params_setLevelPid(pidval);
+		pidval.kp = (vs16)(*(data_buf+16)<<8)|*(data_buf+17);
+		pidval.ki = (vs16)(*(data_buf+18)<<8)|*(data_buf+19);
+		pidval.kd = (vs16)(*(data_buf+20)<<8)|*(data_buf+21);
+		Params_setMagPid(pidval);
+		Params_Save();
 		Send_Check(sum);
 	}
 	if(*(data_buf+2)==0X12)								//PID3

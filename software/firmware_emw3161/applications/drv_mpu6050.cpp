@@ -9,6 +9,7 @@
 
 #include "drv_mpu6050.h"
 #include "config.h"
+#include "params.h"
 
 // MPU6050, 硬件I2c地址 0x68，模拟i2c地址0xD0
 #define MPU6050_ADDRESS         (0xD0)	// 0x68
@@ -278,6 +279,8 @@ static void CalOffset_Acc(void)
 				mpu6050.Acc_Offset.z = tempAcc.z/cnt_a - ACC_1G;
 				cnt_a = 0;
 				mpu6050.Acc_CALIBRATED = 0;
+				Params_setAccOffset(mpu6050.Acc_Offset);
+				Params_Save();
 				return;
 			}
 			cnt_a++;		
@@ -307,6 +310,8 @@ static void CalOffset_Gyro(void)
 			mpu6050.Gyro_Offset.z = tempGyro.z/cnt_g;
 			cnt_g = 0;
 			mpu6050.Gyro_CALIBRATED = 0;
+			Params_setGyroOffset(mpu6050.Gyro_Offset);
+			Params_Save();
 			return;
 		}
 		cnt_g++;

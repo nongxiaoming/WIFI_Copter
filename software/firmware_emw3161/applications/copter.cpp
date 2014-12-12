@@ -9,6 +9,7 @@
  * 技术Q群 ：190169595
 **********************************************************************************/
 #include "config.h"
+#include "params.h"
 
 int main(void)
 {
@@ -17,6 +18,9 @@ int main(void)
 	
 	//初始化IMU（惯性测量单元）
 	imu.Init();	
+	
+	//初始化参数
+	Params_Init();
 	
 	//初始化TCPServer
 	tcpserver_init();

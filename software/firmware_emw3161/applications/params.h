@@ -20,6 +20,9 @@ typedef struct
  pid_t roll_pid;
  pid_t pitch_pid;
  pid_t yaw_pid;
+ pid_t alt_pid;
+ pid_t level_pid;
+ pid_t mag_pid;
 }params_t;
 
 #define MAGIC 0x12345678
@@ -30,12 +33,19 @@ void Params_Init(void);
   Vector3i Params_getAccOffset(void);
   void Params_setGyroOffset(Vector3i offset);
   Vector3i Params_getGyroOffset(void);
+
 	void Params_setRollPid(pid_t val);
-  pid_t Params_getRollPid(void);
+
   void Params_setPitchPid(pid_t val);
-  pid_t Params_getPitchPid(void);
+
   void Params_setYawPid(pid_t val);
-  pid_t Params_getYawPid(void);
+  
+  void Params_setAltPid(pid_t val);
+	
+  void Params_setLevelPid(pid_t val);
+
+   void Params_setMagPid(pid_t val);
+	 
   void Params_Save(void);
 
 

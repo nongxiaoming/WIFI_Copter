@@ -6,10 +6,12 @@
  extern "C" {
 #endif /* __cplusplus */
 	 
-#define Moto_PwmMax 999
-
+#define MOTORS_PWM_MAX 2000
+#define MOTORS_PWM_MIN 1000
+#define MOTORS_NUM_MAX 4
+	 
 void Motors_Init(void);
-void Motors_PwmRflash(int32_t MOTO1_PWM,int32_t MOTO2_PWM,int32_t MOTO3_PWM,int32_t MOTO4_PWM);
+void Motors_SetPwm(uint16_t *pwm);
 	 
 #ifdef __cplusplus
 }
