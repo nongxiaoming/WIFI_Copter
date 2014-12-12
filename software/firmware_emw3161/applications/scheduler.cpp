@@ -39,11 +39,11 @@ static void ANO_Loop_100Hz(void)	//10ms执行一次
 {
 	//发送飞行器数据
 	dt.Data_Exchange();
-	tcpserver_run();
 }
 
 static void ANO_Loop_50Hz(void)	//20ms执行一次
 {
+	tcpserver_run();
 	//遥控通道数据处理
 	rc.Cal_Command();
 	

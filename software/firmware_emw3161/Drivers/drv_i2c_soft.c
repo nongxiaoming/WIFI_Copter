@@ -28,7 +28,7 @@ u8 I2C_ReadByte(void);  //数据从高位到低位//
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;  
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(ANO_GPIO_I2C, &GPIO_InitStructure);
 
   GPIO_InitStructure.GPIO_Pin =  I2C_Pin_SDA;
@@ -38,7 +38,7 @@ u8 I2C_ReadByte(void);  //数据从高位到低位//
 
 static void I2C_delay(void)
 {
-   u8 i=0; 
+   u8 i=1; 
    while(i) 
    { 
      i--; 

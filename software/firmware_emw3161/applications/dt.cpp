@@ -140,6 +140,7 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 	{
 
 	}
+	tcp_flush();
 }
 
 void ANO_DT::Check_Event(void)
@@ -199,6 +200,7 @@ void ANO_DT::Data_Exchange(void)
 		f.Send_PID2 = 0;
 		Send_PID2();
 	}	
+	tcp_flush();
 }
 
 void ANO_DT::Send_Status(void)
@@ -479,9 +481,9 @@ void ANO_DT::Send_Check(u16 check)
 void ANO_DT::Send_Data(u8 *dataToSend , u8 length)
 {
 	
-#ifdef ANO_DT_USE_UART
-	Uart1_Put_Buf(data_to_send,length);
-#endif
+//#ifdef ANO_DT_USE_UART
+//	Uart1_Put_Buf(data_to_send,length);
+//#endif
 	
 #ifdef ANO_DT_USE_WIFI
 	tcp_writebuf((char*)data_to_send,length);

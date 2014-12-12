@@ -133,7 +133,6 @@ void tcp_writebuf(char *buf,int len)
 		send_buf[send_datalen++] = buf[i];
 	  }
 	}
- tcp_flush();
 }
 void tcp_flush(void)
 {
