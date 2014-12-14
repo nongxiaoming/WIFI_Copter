@@ -29,10 +29,7 @@
 #ifndef DIALGADGETWIDGET_H_
 #define DIALGADGETWIDGET_H_
 
-#include "dialgadgetconfiguration.h"
 #include "extensionsystem/pluginmanager.h"
-#include "uavobjects/uavobjectmanager.h"
-#include "uavobjects/uavobject.h"
 #include <QGraphicsView>
 #include <QtSvg/QSvgRenderer>
 #include <QtSvg/QGraphicsSvgItem>
@@ -40,12 +37,12 @@
 #include <QFile>
 #include <QTimer>
 
-class DialGadgetWidget : public QGraphicsView {
+class DialWidget : public QGraphicsView {
     Q_OBJECT
 
 public:
-    DialGadgetWidget(QWidget *parent = 0);
-    ~DialGadgetWidget();
+    DialWidget(QWidget *parent = 0);
+    ~DialWidget();
     void enableOpenGL(bool flag);
     void enableSmoothUpdates(bool flag)
     {
@@ -102,9 +99,9 @@ public:
     void setDialFont(QString fontProps);
 
 public slots:
-    void updateNeedle1(UAVObject *object1); // Called by the UAVObject
-    void updateNeedle2(UAVObject *object2); // Called by the UAVObject
-    void updateNeedle3(UAVObject *object3); // Called by the UAVObject
+    void updateNeedle1(double value); // Called by the UAVObject
+    void updateNeedle2(double value); // Called by the UAVObject
+    void updateNeedle3(double value); // Called by the UAVObject
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -160,10 +157,6 @@ private:
     double needle3Target;
     double needle3Value;
 
-    // Name of the fields to read when an update is received:
-    UAVDataObject *obj1;
-    UAVDataObject *obj2;
-    UAVDataObject *obj3;
     QString field1;
     QString subfield1;
     bool haveSubField1;

@@ -26,13 +26,13 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "dialgadgetwidget.h"
+#include "dialwidget.h"
 #include <utils/stylehelper.h>
 #include <iostream>
 #include <QtOpenGL/QGLWidget>
 #include <QDebug>
 
-DialGadgetWidget::DialGadgetWidget(QWidget *parent) : QGraphicsView(parent)
+DialWidget::DialWidget(QWidget *parent) : QGraphicsView(parent)
 {
     // TODO: create a proper "needle" object instead of hardcoding all this
     // which is ugly (but easy).
@@ -44,9 +44,7 @@ DialGadgetWidget::DialGadgetWidget(QWidget *parent) : QGraphicsView(parent)
 
     m_renderer = new QSvgRenderer();
 
-    obj1    = NULL;
-    obj2    = NULL;
-    obj3    = NULL;
+
     m_text1 = NULL;
     m_text2 = NULL;
     m_text3 = NULL; // Should be initialized to NULL otherwise the setFont method
@@ -63,7 +61,7 @@ DialGadgetWidget::DialGadgetWidget(QWidget *parent) : QGraphicsView(parent)
     connect(&dialTimer, SIGNAL(timeout()), this, SLOT(rotateNeedles()));
 }
 
-DialGadgetWidget::~DialGadgetWidget()
+DialWidget::~DialWidget()
 {
     // Do nothing
 }
@@ -71,7 +69,7 @@ DialGadgetWidget::~DialGadgetWidget()
 /*!
    \brief Enables/Disables OpenGL
  */
-void DialGadgetWidget::enableOpenGL(bool flag)
+void DialWidget::enableOpenGL(bool flag)
 {
     if (flag) {
         setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
@@ -83,165 +81,113 @@ void DialGadgetWidget::enableOpenGL(bool flag)
 /*!
    \brief Connects the widget to the relevant UAVObjects
  */
-void DialGadgetWidget::connectNeedles(QString object1, QString nfield1,
+void DialWidget::connectNeedles(QString object1, QString nfield1,
                                       QString object2, QString nfield2,
                                       QString object3, QString nfield3)
 {
-    if (obj1 != NULL) {
-        disconnect(obj1, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle1(UAVObject *)));
-    }
-    if (obj2 != NULL) {
-        disconnect(obj2, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle2(UAVObject *)));
-    }
-    if (obj3 != NULL) {
-        disconnect(obj3, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle3(UAVObject *)));
-    }
+//    if (obj1 != NULL) {
+//        disconnect(obj1, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle1(UAVObject *)));
+//    }
+//    if (obj2 != NULL) {
+//        disconnect(obj2, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle2(UAVObject *)));
+//    }
+//    if (obj3 != NULL) {
+//        disconnect(obj3, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle3(UAVObject *)));
+//    }
 
-    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
-    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
+//    ExtensionSystem::PluginManager *pm = ExtensionSystem::PluginManager::instance();
+//    UAVObjectManager *objManager = pm->getObject<UAVObjectManager>();
 
     // Check validity of arguments first, reject empty args and unknown fields.
-    if (!(object1.isEmpty() || nfield1.isEmpty())) {
-        obj1 = dynamic_cast<UAVDataObject *>(objManager->getObject(object1));
-        if (obj1 != NULL) {
-            // qDebug() << "Connected Object 1 (" << object1 << ").";
-            connect(obj1, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle1(UAVObject *)));
-            if (nfield1.contains("-")) {
-                QStringList fieldSubfield = nfield1.split("-", QString::SkipEmptyParts);
-                field1        = fieldSubfield.at(0);
-                subfield1     = fieldSubfield.at(1);
-                haveSubField1 = true;
-            } else {
-                field1 = nfield1;
-                haveSubField1 = false;
-            }
-        } else {
-            qDebug() << "Error: Object is unknown (" << object1 << ").";
-        }
-    }
+//    if (!(object1.isEmpty() || nfield1.isEmpty())) {
+//        obj1 = dynamic_cast<UAVDataObject *>(objManager->getObject(object1));
+//        if (obj1 != NULL) {
+//            // qDebug() << "Connected Object 1 (" << object1 << ").";
+//            connect(obj1, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle1(UAVObject *)));
+//            if (nfield1.contains("-")) {
+//                QStringList fieldSubfield = nfield1.split("-", QString::SkipEmptyParts);
+//                field1        = fieldSubfield.at(0);
+//                subfield1     = fieldSubfield.at(1);
+//                haveSubField1 = true;
+//            } else {
+//                field1 = nfield1;
+//                haveSubField1 = false;
+//            }
+//        } else {
+//            qDebug() << "Error: Object is unknown (" << object1 << ").";
+//        }
+//    }
 
     // And do the same for the second needle.
-    if (!(object2.isEmpty() || nfield2.isEmpty())) {
-        obj2 = dynamic_cast<UAVDataObject *>(objManager->getObject(object2));
-        if (obj2 != NULL) {
-            // qDebug() << "Connected Object 2 (" << object2 << ").";
-            connect(obj2, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle2(UAVObject *)));
-            if (nfield2.contains("-")) {
-                QStringList fieldSubfield = nfield2.split("-", QString::SkipEmptyParts);
-                field2        = fieldSubfield.at(0);
-                subfield2     = fieldSubfield.at(1);
-                haveSubField2 = true;
-            } else {
-                field2 = nfield2;
-                haveSubField2 = false;
-            }
-        } else {
-            qDebug() << "Error: Object is unknown (" << object2 << ").";
-        }
-    }
+//    if (!(object2.isEmpty() || nfield2.isEmpty())) {
+//        obj2 = dynamic_cast<UAVDataObject *>(objManager->getObject(object2));
+//        if (obj2 != NULL) {
+//            // qDebug() << "Connected Object 2 (" << object2 << ").";
+//            connect(obj2, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle2(UAVObject *)));
+//            if (nfield2.contains("-")) {
+//                QStringList fieldSubfield = nfield2.split("-", QString::SkipEmptyParts);
+//                field2        = fieldSubfield.at(0);
+//                subfield2     = fieldSubfield.at(1);
+//                haveSubField2 = true;
+//            } else {
+//                field2 = nfield2;
+//                haveSubField2 = false;
+//            }
+//        } else {
+//            qDebug() << "Error: Object is unknown (" << object2 << ").";
+//        }
+//    }
 
     // And do the same for the third needle.
-    if (!(object3.isEmpty() || nfield3.isEmpty())) {
-        obj3 = dynamic_cast<UAVDataObject *>(objManager->getObject(object3));
-        if (obj3 != NULL) {
-            // qDebug() << "Connected Object 3 (" << object3 << ").";
-            connect(obj3, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle3(UAVObject *)));
-            if (nfield3.contains("-")) {
-                QStringList fieldSubfield = nfield3.split("-", QString::SkipEmptyParts);
-                field3        = fieldSubfield.at(0);
-                subfield3     = fieldSubfield.at(1);
-                haveSubField3 = true;
-            } else {
-                field3 = nfield3;
-                haveSubField3 = false;
-            }
-        } else {
-            qDebug() << "Error: Object is unknown (" << object3 << ").";
-        }
-    }
+//    if (!(object3.isEmpty() || nfield3.isEmpty())) {
+//        obj3 = dynamic_cast<UAVDataObject *>(objManager->getObject(object3));
+//        if (obj3 != NULL) {
+//            // qDebug() << "Connected Object 3 (" << object3 << ").";
+//            connect(obj3, SIGNAL(objectUpdated(UAVObject *)), this, SLOT(updateNeedle3(UAVObject *)));
+//            if (nfield3.contains("-")) {
+//                QStringList fieldSubfield = nfield3.split("-", QString::SkipEmptyParts);
+//                field3        = fieldSubfield.at(0);
+//                subfield3     = fieldSubfield.at(1);
+//                haveSubField3 = true;
+//            } else {
+//                field3 = nfield3;
+//                haveSubField3 = false;
+//            }
+//        } else {
+//            qDebug() << "Error: Object is unknown (" << object3 << ").";
+//        }
+//    }
 }
 
 /*!
    \brief Called by the UAVObject which got updated
  */
-void DialGadgetWidget::updateNeedle1(UAVObject *object1)
+void DialWidget::updateNeedle1(double value)
 {
-    // Double check that the field exists:
-    double value;
-    UAVObjectField *field = object1->getField(field1);
-
-    if (field) {
-        if (haveSubField1) {
-            int indexOfSubField = field->getElementNames().indexOf(QRegExp(subfield1, Qt::CaseSensitive, QRegExp::FixedString));
-            value = field->getDouble(indexOfSubField);
-        } else {
-            value = field->getDouble();
-        }
-        if (value != value) {
-            qDebug() << "Dial widget: encountered NaN !!";
-            return;
-        }
         setNeedle1(value);
-    } else {
-        qDebug() << "Wrong field, maybe an issue with object disconnection ?";
-    }
 }
 
 /*!
    \brief Called by the UAVObject which got updated
  */
-void DialGadgetWidget::updateNeedle2(UAVObject *object2)
+void DialWidget::updateNeedle2(double value)
 {
-    double value;
-    UAVObjectField *field = object2->getField(field2);
-
-    if (field) {
-        if (haveSubField2) {
-            int indexOfSubField = field->getElementNames().indexOf(QRegExp(subfield2, Qt::CaseSensitive, QRegExp::FixedString));
-            value = field->getDouble(indexOfSubField);
-        } else {
-            value = field->getDouble();
-        }
-        if (value != value) {
-            qDebug() << "Dial widget: encountered NaN !!";
-            return;
-        }
         setNeedle2(value);
-    } else {
-        qDebug() << "Wrong field, maybe an issue with object disconnection ?";
-    }
 }
 
 /*!
    \brief Called by the UAVObject which got updated
  */
-void DialGadgetWidget::updateNeedle3(UAVObject *object3)
+void DialWidget::updateNeedle3(double value)
 {
-    double value;
-    UAVObjectField *field = object3->getField(field3);
-
-    if (field) {
-        if (haveSubField3) {
-            int indexOfSubField = field->getElementNames().indexOf(QRegExp(subfield3, Qt::CaseSensitive, QRegExp::FixedString));
-            value = field->getDouble(indexOfSubField);
-        } else {
-            value = field->getDouble();
-        }
-        if (value != value) {
-            qDebug() << "Dial widget: encountered NaN !!";
-            return;
-        }
         setNeedle3(value);
-    } else {
-        qDebug() << "Wrong field, maybe an issue with object disconnection ?";
-    }
 }
 
 /*
    Initializes the dial file, and does all the one-time calculations for
    display later. This is the method which really initializes the dial.
  */
-void DialGadgetWidget::setDialFile(QString dfn, QString bg, QString fg, QString n1, QString n2,
+void DialWidget::setDialFile(QString dfn, QString bg, QString fg, QString n1, QString n2,
                                    QString n3, QString n1Move, QString n2Move, QString n3Move)
 {
     fgenabled = false;
@@ -441,12 +387,12 @@ void DialGadgetWidget::setDialFile(QString dfn, QString bg, QString fg, QString 
     }
 }
 
-void DialGadgetWidget::paint()
+void DialWidget::paint()
 {
     update();
 }
 
-void DialGadgetWidget::paintEvent(QPaintEvent *event)
+void DialWidget::paintEvent(QPaintEvent *event)
 {
     // Skip painting until the dial file is loaded
     if (!m_renderer->isValid()) {
@@ -459,13 +405,13 @@ void DialGadgetWidget::paintEvent(QPaintEvent *event)
 // This event enables the dial to be dynamically resized
 // whenever the gadget is resized, taking advantage of the vector
 // nature of SVG dials.
-void DialGadgetWidget::resizeEvent(QResizeEvent *event)
+void DialWidget::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     fitInView(m_background, Qt::KeepAspectRatio);
 }
 
-void DialGadgetWidget::setDialFont(QString fontProps)
+void DialWidget::setDialFont(QString fontProps)
 {
     QFont font = QFont("Arial", 12);
 
@@ -478,7 +424,7 @@ void DialGadgetWidget::setDialFont(QString fontProps)
 
 // Converts the value into an angle:
 // this enables smooth rotation in rotateNeedles below
-void DialGadgetWidget::setNeedle1(double value)
+void DialWidget::setNeedle1(double value)
 {
     if (rotateN1) {
         needle1Target = 360 * (value * n1Factor) / (n1MaxValue - n1MinValue);
@@ -499,7 +445,7 @@ void DialGadgetWidget::setNeedle1(double value)
     }
 }
 
-void DialGadgetWidget::setNeedle2(double value)
+void DialWidget::setNeedle2(double value)
 {
     if (rotateN2) {
         needle2Target = 360 * (value * n2Factor) / (n2MaxValue - n2MinValue);
@@ -520,7 +466,7 @@ void DialGadgetWidget::setNeedle2(double value)
     }
 }
 
-void DialGadgetWidget::setNeedle3(double value)
+void DialWidget::setNeedle3(double value)
 {
     if (rotateN3) {
         needle3Target = 360 * (value * n3Factor) / (n3MaxValue - n3MinValue);
@@ -548,7 +494,7 @@ void DialGadgetWidget::setNeedle3(double value)
 //
 // Note: this code is valid even if needle1 and needle2 point
 // to the same element.
-void DialGadgetWidget::rotateNeedles()
+void DialWidget::rotateNeedles()
 {
     if (dialError) {
         // We get there in case the dial file is missing or corrupt.
