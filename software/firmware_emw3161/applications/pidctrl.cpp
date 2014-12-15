@@ -73,10 +73,10 @@ void pidctrl::Motors_Ctrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTer
 {
 	uint8_t i = 0;
 	//六轴X型
-	motorPWM[0] = throttle - pidTermRoll + pidTermPitch + pidTermYaw; //后右
-	motorPWM[1] = throttle - pidTermRoll - pidTermPitch - pidTermYaw; //前右
-	motorPWM[2] = throttle + pidTermRoll + pidTermPitch - pidTermYaw; //后左
-	motorPWM[3] = throttle + pidTermRoll - pidTermPitch + pidTermYaw; //前左
+	motorPWM[0] = throttle - pidTermRoll - pidTermPitch + pidTermYaw; //后右
+	motorPWM[1] = throttle + pidTermRoll - pidTermPitch - pidTermYaw; //前右
+	motorPWM[2] = throttle + pidTermRoll + pidTermPitch + pidTermYaw; //后左
+	motorPWM[3] = throttle - pidTermRoll + pidTermPitch - pidTermYaw; //前左
 	
 	for (i = 0; i < MOTORS_NUM_MAX; i++) 
 		motorPWM[i] = constrain_uint16(motorPWM[i], THROTTLE_MIN, THROTTLE_MAX);

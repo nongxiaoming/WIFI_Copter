@@ -63,8 +63,8 @@ void Motors_SetPwm(uint16_t *pwm)
 			pwm[i] = MOTORS_PWM_MAX;
 	}
 	
-	TIM2->CCR1 = pwm[0]-MOTORS_PWM_MIN;
-	TIM2->CCR2 = pwm[2]-MOTORS_PWM_MIN;
-	TIM2->CCR3 = pwm[3]-MOTORS_PWM_MIN;
-	TIM2->CCR4 = pwm[1]-MOTORS_PWM_MIN;
+	TIM2->CCR1 = pwm[2]-MOTORS_PWM_MIN;
+	TIM2->CCR2 = pwm[1]-MOTORS_PWM_MIN;
+	TIM2->CCR3 = pwm[0]-MOTORS_PWM_MIN;
+	TIM2->CCR4 = pwm[3]-MOTORS_PWM_MIN;
 }
