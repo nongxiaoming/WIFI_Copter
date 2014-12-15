@@ -50,7 +50,8 @@ win32 {
     INSTALLS    += target
 }
 
-OTHER_FILES += groundstation.rc
+OTHER_FILES += groundstation.rc \
+    groundstation.pro.user
 
 RESOURCES += \
     groundstation.qrc
@@ -59,11 +60,13 @@ RESOURCES += \
 SOURCES += main.cpp\
         mainwindow.cpp\
 PrimaryFlightDisplay.cpp \
-    modelviewwidget.cpp
+    modelviewwidget.cpp \
+    dialwidget.cpp
 
 HEADERS  += mainwindow.h\
 PrimaryFlightDisplay.h \
-    modelviewwidget.h
+    modelviewwidget.h \
+    dialwidget.h
 
 
 FORMS    += mainwindow.ui
