@@ -20,10 +20,10 @@ static void ANO_Loop_1000Hz(void)	//1ms执行一次
 static void ANO_Loop_500Hz(void)	//2ms执行一次
 {	
 	//更新传感器数据	
-	imu.updateSensor();		
+	IMU_UpdateSensor();		
 	
 	//计算飞行器姿态
-	imu.getAttitude();
+	IMU_GetAttitude();
 	
 	//飞行器姿态内环控制
 	fc.Attitude_Inner_Loop();	

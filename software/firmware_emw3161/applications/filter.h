@@ -4,15 +4,6 @@
 #include "ANO_Math.h"
 
 
-
-class ANO_Filter
-{
-	
-public:
-
-	ANO_Filter(){
-	}
-	
 	struct LPF2ndData_t
 	{
 		float b0;
@@ -22,6 +13,7 @@ public:
 		Vector3f lastout;
 	};
 	
+
 	//Ò»½×µÍÍ¨ÂË²¨Æ÷ÏµÊý¼ÆËã
 	float LPF_1st_Factor_Cal(float deltaT, float Fcut);
 	
@@ -39,11 +31,6 @@ public:
 	
 	//Ò»½×»¥²¹ÂË²¨Æ÷
 	Vector3f CF_1st(Vector3f gyroData, Vector3f accData, float cf_factor);
-	
-
-
-};
-
 
 #endif
 

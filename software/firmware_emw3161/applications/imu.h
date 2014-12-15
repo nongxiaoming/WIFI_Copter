@@ -3,13 +3,9 @@
 
 #include "config.h"
 
-class ANO_IMU : public ANO_Filter
+struct IMU
 {
-	
-public:
 
-	ANO_IMU();
-	
 	//欧拉角表示的飞行器姿态
 	Vector3f angle;
 	
@@ -18,34 +14,18 @@ public:
 	LPF2ndData_t Acc_lpf_2nd;
 
 	float magHold;
-	
-	void Init();
-	
-	//更新传感器数据
-	void updateSensor();	
-	
-	//计算飞行器姿态
-	void getAttitude();
-	
-private:
-
-	Quaternion Q;
-
-	float getDeltaT(uint32_t time);
-
-	//基于余弦矩阵和互补滤波的姿态解算
-	void DCM_CF(Vector3f gyro,Vector3f acc, float deltaT);
-	//基于四元数和互补滤波的姿态解算
-	void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT);
-
-	//滤波器参数初始化
-	void filter_Init();
-	//传感器初始化
-	void sensor_Init();
 
 };
 
-extern ANO_IMU imu;
+void IMU_Init(void);
+	
+	//更新传感器数据
+void IMU_UpdateSensor(void);	
+	
+	//计算飞行器姿态
+void IMU_GetAttitude(void);
+
+extern struct IMU imu;
 
 #endif
 

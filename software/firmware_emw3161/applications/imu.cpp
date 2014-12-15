@@ -9,14 +9,24 @@
 #include "imu.h"
 #include "drv_mpu6050.h"
 
-ANO_IMU imu;
+struct IMU imu;
 
-ANO_IMU::ANO_IMU()
-{
-}
+	Quaternion Q;
+
+static float getDeltaT(uint32_t time);
+
+	//基于余弦矩阵和互补滤波的姿态解算
+static void DCM_CF(Vector3f gyro,Vector3f acc, float deltaT);
+	//基于四元数和互补滤波的姿态解算
+static void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT);
+
+	//滤波器参数初始化
+static	void filter_Init();
+	//传感器初始化
+static void sensor_Init();
 
 //IMU初始化
-void ANO_IMU::Init()
+void IMU_Init()
 {
 	//滤波器参数初始化
 	filter_Init();
@@ -25,21 +35,21 @@ void ANO_IMU::Init()
 }
 
 //更新传感器数据
-void ANO_IMU::updateSensor()
+void IMU_UpdateSensor()
 {
 	//读取加速度
 	MPU6050_ReadAccData();
 	//读取角速度
 	MPU6050_ReadGyroData();	
 	//获取角速度，单位为度每秒
-	Gyro = MPU6050_GetGyro_in_dps();
+	imu.Gyro = MPU6050_GetGyro_in_dps();
 	//获取加速度采样值
-	Acc = MPU6050_GetAcc();
+	imu.Acc = MPU6050_GetAcc();
 }
 
 
 //计算飞行器姿态
-void ANO_IMU::getAttitude()
+void IMU_GetAttitude()
 {
 	float deltaT;
 	
@@ -50,13 +60,13 @@ void ANO_IMU::getAttitude()
 	
 #ifdef ANO_IMU_USE_LPF_2nd	
 	//加速度数据二阶低通滤波
-	Acc_lpf = LPF_2nd(&Acc_lpf_2nd, Acc);
+	imu.Acc_lpf = LPF_2nd(&imu.Acc_lpf_2nd, imu.Acc);
 #endif
 	
 	deltaT = getDeltaT(GetSysTime_us());
 	
 #ifdef ANO_IMU_USE_DCM_CF
-	DCM_CF(Gyro,Acc_lpf,deltaT);
+	DCM_CF(imu.Gyro,imu.Acc_lpf,deltaT);
 #endif
 #ifdef ANO_IMU_USE_Quaternions_CF
 	Quaternion_CF(Gyro,Acc_lpf_1st,deltaT);
@@ -65,7 +75,7 @@ void ANO_IMU::getAttitude()
 
 
 //余弦矩阵更新姿态
-void ANO_IMU::DCM_CF(Vector3f gyro,Vector3f acc, float deltaT)
+static void DCM_CF(Vector3f gyro,Vector3f acc, float deltaT)
 {
 	static Vector3f deltaGyroAngle, LastGyro;
 	static Vector3f Vector_G(0, 0, ACC_1G), Vector_M(1000, 0, 0);
@@ -88,17 +98,17 @@ void ANO_IMU::DCM_CF(Vector3f gyro,Vector3f acc, float deltaT)
 	Vector_G = CF_1st(Vector_G, acc, ano.factor.gyro_cf);
 
 	//计算飞行器的ROLL和PITCH
-	Vector_G.get_rollpitch(angle);	
+	Vector_G.get_rollpitch(imu.angle);	
 	
 	//计算飞行器的YAW
-	Vector_M.get_yaw(angle);
+	Vector_M.get_yaw(imu.angle);
 }
 
 
 #define Kp 2.0f        //加速度权重，越大则向加速度测量值收敛越快
 #define Ki 0.001f      //误差积分增益
 //四元数更新姿态
-void ANO_IMU::Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
+static void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
 {
 	Vector3f V_gravity, V_error, V_error_I;
 	
@@ -115,37 +125,37 @@ void ANO_IMU::Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
 	V_error_I += V_error * Ki;
 	
 	//互补滤波，姿态误差补偿到角速度上，修正角速度积分漂移
-	Gyro += V_error * Kp + V_error_I;		
+	imu.Gyro += V_error * Kp + V_error_I;		
 	
 	//一阶龙格库塔法更新四元数
-	Q.Runge_Kutta_1st(Gyro, deltaT);
+	Q.Runge_Kutta_1st(imu.Gyro, deltaT);
 	
 	//四元数归一化
 	Q.normalize();
 	
 	//四元数转欧拉角
-	Q.to_euler(&angle.x, &angle.y, &angle.z);
+	Q.to_euler(&imu.angle.x, &imu.angle.y, &imu.angle.z);
 }
 
-void ANO_IMU::filter_Init()
+static void filter_Init()
 {
 	//加速度一阶低通滤波器系数计算
 	ano.factor.acc_lpf = LPF_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
 	
 	//加速度二阶低通滤波器系数计算
-	LPF_2nd_Factor_Cal(&Acc_lpf_2nd);
+	LPF_2nd_Factor_Cal(&imu.Acc_lpf_2nd);
 	
 	//互补滤波器系数计算
 	ano.factor.gyro_cf = CF_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);	
 }
 
-void ANO_IMU::sensor_Init()
+static void sensor_Init()
 {
 	//初始化MPU6050，1Khz采样率，42Hz低通滤波
 	MPU6050_Init(1000,42);
 }
 
-float ANO_IMU::getDeltaT(uint32_t currentT)
+static float getDeltaT(uint32_t currentT)
 {
 	static uint32_t previousT;
 	float	deltaT = (currentT - previousT) * 1e-6;	
