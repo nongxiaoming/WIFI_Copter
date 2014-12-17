@@ -81,7 +81,7 @@ static rt_err_t mpu6050_init(rt_device_t dev)
 	rt_thread_delay(1);
 	mpu6050_setFullScaleAccelRange(dev,MPU6050_ACCEL_FS_8);	//加速度度最大量程 +-8G
 	rt_thread_delay(1);
-	mpu6050_setDLPF(dev,MPU6050_DLPF_BW_98);
+	mpu6050_setDLPF(dev,MPU6050_DLPF_BW_42);
 	rt_thread_delay(1);
 	mpu6050_setI2CMasterModeEnabled(dev,0);	 //不让MPU6050 控制AUXI2C
 	rt_thread_delay(1);
