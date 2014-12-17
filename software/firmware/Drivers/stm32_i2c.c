@@ -73,8 +73,8 @@ static const struct rt_i2c_bit_ops bit_ops =
 
     gpio_udelay,
 
-    5,
-    100
+    4,
+    0
 };
 
 #else
