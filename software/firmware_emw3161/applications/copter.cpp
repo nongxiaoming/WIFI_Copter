@@ -17,7 +17,7 @@ int main(void)
 	board_Init();
 	
 	//初始化IMU（惯性测量单元）
-	imu.Init();	
+	IMU_Init();	
 	
 	//初始化参数
 	Params_Init();
