@@ -8,7 +8,7 @@
 **********************************************************************************/
 #include "params.h"
 #include "pidctrl.h"
-#include "drv_mpu6050.h"
+#include "sensor.h"
 
 
 
@@ -47,8 +47,8 @@ void Params_Init(void)
 		 fc.pid_group[PIDMAG].kI = params.mag_pid.ki;
 		 fc.pid_group[PIDMAG].kP = params.mag_pid.kp;
 
-     mpu6050.Acc_Offset = params.acc_offset;
-		 mpu6050.Gyro_Offset = params.gyro_offset;
+     sensor.Acc_Offset = params.acc_offset;
+		 sensor.Gyro_Offset = params.gyro_offset;
 
 	 }else
    {
@@ -76,8 +76,8 @@ void Params_Init(void)
 		 params.mag_pid.ki = fc.pid_group[PIDMAG].kI;
 		 params.mag_pid.kp = fc.pid_group[PIDMAG].kP ;
 
-     params.acc_offset = mpu6050.Acc_Offset ;
-		 params.gyro_offset = mpu6050.Gyro_Offset ;
+     params.acc_offset = sensor.Acc_Offset ;
+		 params.gyro_offset = sensor.Gyro_Offset ;
 		 
 	   Params_Save();
 	 }
@@ -87,14 +87,14 @@ void Params_Init(void)
 void Params_setAccOffset(Vector3i offset)
 {
  params.acc_offset = offset;
- mpu6050.Acc_Offset = offset;
+ sensor.Acc_Offset = offset;
 }
 
 
 void Params_setGyroOffset(Vector3i offset)
 {
  params.gyro_offset = offset;
- mpu6050.Gyro_Offset = offset;
+ sensor.Gyro_Offset = offset;
 }
 
 

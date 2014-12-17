@@ -7,8 +7,8 @@
  * 技术Q群 ：190169595
 **********************************************************************************/
 #include "scheduler.h"
-
-ANO_Scheduler scheduler;
+#include "config.h"
+ struct Scheduler scheduler;
 
 
 static void ANO_Loop_1000Hz(void)	//1ms执行一次
@@ -57,7 +57,7 @@ static void ANO_Loop_50Hz(void)	//20ms执行一次
 	ano.Pilot_Light();
 }
 
-void ANO_Loop(void)
+void Scheduler_Run(void)
 {
 	if(scheduler.cnt_1ms >= 1){
 		ANO_Loop_1000Hz();	
@@ -81,9 +81,9 @@ void ANO_Loop(void)
 	}
 }
 
-ANO_Scheduler::ANO_Scheduler()
+void Scheduler_Init(void)
 {
-	cnt_1ms = cnt_2ms = cnt_5ms = cnt_10ms = cnt_20ms	= 0;
+	scheduler.cnt_1ms = scheduler.cnt_2ms = scheduler.cnt_5ms = scheduler.cnt_10ms = scheduler.cnt_20ms	= 0;
 }
 
 

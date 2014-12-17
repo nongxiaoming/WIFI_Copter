@@ -25,9 +25,12 @@ int main(void)
 	//初始化TCPServer
 	tcpserver_init();
 	
+	//初始化调度器
+	Scheduler_Init();
+	
 	while(1)
 	{
-		ANO_Loop();
+		Scheduler_Run();
 	}
 	
 }

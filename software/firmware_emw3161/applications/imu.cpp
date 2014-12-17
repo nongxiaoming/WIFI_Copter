@@ -7,7 +7,7 @@
  * 技术Q群 ：190169595
 **********************************************************************************/
 #include "imu.h"
-#include "drv_mpu6050.h"
+#include "sensor.h"
 
 struct IMU imu;
 
@@ -22,8 +22,7 @@ static void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT);
 
 	//滤波器参数初始化
 static	void filter_Init();
-	//传感器初始化
-static void sensor_Init();
+
 
 //IMU初始化
 void IMU_Init()
@@ -31,20 +30,19 @@ void IMU_Init()
 	//滤波器参数初始化
 	filter_Init();
 	//传感器初始化
-	sensor_Init();	
+	Sensor_Init();	
 }
 
 //更新传感器数据
 void IMU_UpdateSensor()
 {
-	//读取加速度
-	MPU6050_ReadAccData();
-	//读取角速度
-	MPU6050_ReadGyroData();	
+	//读取加速度和角速度
+	Sensor_ReadData();
+
 	//获取角速度，单位为度每秒
-	imu.Gyro = MPU6050_GetGyro_in_dps();
+	imu.Gyro = Sensor_GetGyro_in_dps();
 	//获取加速度采样值
-	imu.Acc = MPU6050_GetAcc();
+	imu.Acc = Sensor_GetAcc();
 }
 
 
@@ -147,12 +145,6 @@ static void filter_Init()
 	
 	//互补滤波器系数计算
 	ano.factor.gyro_cf = ComplementaryFilter_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);	
-}
-
-static void sensor_Init()
-{
-	//初始化MPU6050，1Khz采样率，42Hz低通滤波
-	MPU6050_Init(1000,42);
 }
 
 static float getDeltaT(uint32_t currentT)

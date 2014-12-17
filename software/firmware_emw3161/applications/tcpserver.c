@@ -147,9 +147,6 @@ void tcp_flush(void)
             close(clientfd[i]);
             clientfd[i] = -1;
           }
-//        }
-//        else if (FD_ISSET(clientfd[i], &exceptfds))
-//          clientfd[i] = -1;
       }
     }
 	 mxchipTick();	

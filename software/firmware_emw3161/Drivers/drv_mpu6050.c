@@ -8,8 +8,7 @@
 **********************************************************************************/
 
 #include "drv_mpu6050.h"
-#include "config.h"
-#include "params.h"
+
 
 // MPU6050, 硬件I2c地址 0x68，模拟i2c地址0xD0
 #define MPU6050_ADDRESS         (0xD0)	// 0x68
@@ -124,11 +123,6 @@
 #define MPU6050G_s2000dps           ((float)0.0609756f)  // 0.0700000 dps/LSB
 
 
-static u8 mpu6050_buffer[14]; //接收数据缓存区
-static 	Vector3f Acc_ADC,Gyro_ADC;
-static 	Vector3f Gyro_dps;
-mpu6050_t mpu6050;
-
 	//加速度零偏矫正
 static 	void CalOffset_Acc(void);
 	//陀螺仪零偏矫正
@@ -138,7 +132,8 @@ static	void delayms(uint16_t ms);
 
 static void delayms(uint16_t ms){
 	uint16_t i = 200;
-	for(u8 j=0;j<ms;j++)
+	uint8_t j=0;
+	for(j=0;j<ms;j++)
 		while(i--);
 }
 
@@ -195,128 +190,38 @@ void MPU6050_Init(uint16_t sample_rate, uint16_t lpf)
 }
 
 //读取加速度
-void MPU6050_ReadAccData(void)
+void MPU6050_ReadData(uint8_t *buffer)
 {
-	int16_t acc_temp[3];
+//	int16_t acc_temp[3];
 	
-	mpu6050_buffer[0] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_XOUT_L); 
-	mpu6050_buffer[1] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_XOUT_H);
-	acc_temp[0] = ((((int16_t)mpu6050_buffer[1]) << 8) | mpu6050_buffer[0])- mpu6050.Acc_Offset.x;  //加速度X轴
+	buffer[0] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_XOUT_H); 
+	buffer[1] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_XOUT_L);
+	//acc_temp[0] = ((((int16_t)mpu6050_buffer[1]) << 8) | mpu6050_buffer[0])- mpu6050.Acc_Offset.x;  //加速度X轴
 
-	mpu6050_buffer[2] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_YOUT_L);
-	mpu6050_buffer[3] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_YOUT_H);
-	acc_temp[1] = ((((int16_t)mpu6050_buffer[3]) << 8) | mpu6050_buffer[2])- mpu6050.Acc_Offset.y;  //加速度Y轴
+	buffer[2] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_YOUT_H);
+	buffer[3] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_YOUT_L);
+	//acc_temp[1] = ((((int16_t)mpu6050_buffer[3]) << 8) | mpu6050_buffer[2])- mpu6050.Acc_Offset.y;  //加速度Y轴
 
-	mpu6050_buffer[4] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_ZOUT_L);
-	mpu6050_buffer[5] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_ZOUT_H);
-	acc_temp[2] = ((((int16_t)mpu6050_buffer[5]) << 8) | mpu6050_buffer[4])- mpu6050.Acc_Offset.z;  //加速度Z轴
+	buffer[4] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_ZOUT_H);
+	buffer[5] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_ACCEL_ZOUT_L);
+	//acc_temp[2] = ((((int16_t)mpu6050_buffer[5]) << 8) | mpu6050_buffer[4])- mpu6050.Acc_Offset.z;  //加速度Z轴
 	
-	Acc_ADC((float)acc_temp[0],(float)acc_temp[1],(float)acc_temp[2]);
-	
-	CalOffset_Acc();
-}
+	buffer[8] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_XOUT_H); 
+	buffer[9] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_XOUT_L);
+	//gyro_temp[0] = ((((int16_t)mpu6050_buffer[7]) << 8) | mpu6050_buffer[6])- mpu6050.Gyro_Offset.x;	//陀螺仪X轴
 
-//读取角速度
-void MPU6050_ReadGyroData(void)
-{
-	int16_t gyro_temp[3];
-	
-	mpu6050_buffer[6] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_XOUT_L); 
-	mpu6050_buffer[7] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_XOUT_H);
-	gyro_temp[0] = ((((int16_t)mpu6050_buffer[7]) << 8) | mpu6050_buffer[6])- mpu6050.Gyro_Offset.x;	//陀螺仪X轴
+	buffer[10] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_YOUT_H);
+	buffer[11] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_YOUT_L);
+	//gyro_temp[1] = ((((int16_t)mpu6050_buffer[9]) << 8) | mpu6050_buffer[8])- mpu6050.Gyro_Offset.y;	//陀螺仪Y轴
 
-	mpu6050_buffer[8] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_YOUT_L);
-	mpu6050_buffer[9] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_YOUT_H);
-	gyro_temp[1] = ((((int16_t)mpu6050_buffer[9]) << 8) | mpu6050_buffer[8])- mpu6050.Gyro_Offset.y;	//陀螺仪Y轴
-
-	mpu6050_buffer[10] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_ZOUT_L);
-	mpu6050_buffer[11] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_ZOUT_H);
-	gyro_temp[2] = ((((int16_t)mpu6050_buffer[11]) << 8) | mpu6050_buffer[10])- mpu6050.Gyro_Offset.z;	  //陀螺仪Z轴		
-	
-	Gyro_ADC((float)gyro_temp[0], (float)gyro_temp[1], (float)gyro_temp[2]);
-	
-	CalOffset_Gyro();
-}
-
-Vector3f MPU6050_GetAcc(void)
-{
- return Acc_ADC;	
-}
-
-Vector3f MPU6050_GetGyro(void)
-{
- return Gyro_ADC;		
-}
-
-Vector3f MPU6050_GetGyro_in_dps(void)
-{
-	Gyro_dps.x = radians(Gyro_ADC.x * MPU6050G_s2000dps);   // dps
-	Gyro_dps.y = radians(Gyro_ADC.y * MPU6050G_s2000dps);   // dps
-	Gyro_dps.z = radians(Gyro_ADC.z * MPU6050G_s2000dps);   // dps	
-	return Gyro_dps;
-}
-
-//加速度零偏矫正
-static void CalOffset_Acc(void)
-{
-	if(mpu6050.Acc_CALIBRATED)
-		{
-			static Vector3f	tempAcc;
-			static uint16_t cnt_a=0;
-
-			if(cnt_a==0)
-			{
-				mpu6050.Acc_Offset(0, 0, 0);
-				tempAcc(0, 0, 0);
-				cnt_a = 1;
-				return;
-			}			
-			tempAcc += Acc_ADC;
-			if(cnt_a == CALIBRATING_ACC_CYCLES)
-			{
-				mpu6050.Acc_Offset.x = tempAcc.x/cnt_a;
-				mpu6050.Acc_Offset.y = tempAcc.y/cnt_a;
-				mpu6050.Acc_Offset.z = tempAcc.z/cnt_a - ACC_1G;
-				cnt_a = 0;
-				mpu6050.Acc_CALIBRATED = 0;
-				Params_setAccOffset(mpu6050.Acc_Offset);
-				Params_Save();
-				return;
-			}
-			cnt_a++;		
-		}	
+	buffer[12] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_ZOUT_H);
+	buffer[13] = I2C_Single_Read(MPU6050_ADDRESS,MPU_RA_GYRO_ZOUT_L);
+	//gyro_temp[2] = ((((int16_t)mpu6050_buffer[11]) << 8) | mpu6050_buffer[10])- mpu6050.Gyro_Offset.z;	  //陀螺仪Z轴		
 	
 }
 
-//陀螺仪零偏矫正
-static void CalOffset_Gyro(void)
-{
-	if(mpu6050.Gyro_CALIBRATED)
-	{
-		static Vector3f	tempGyro;
-		static uint16_t cnt_g=0;
-		if(cnt_g==0)
-		{
-			mpu6050.Gyro_Offset(0, 0, 0);
-			tempGyro(0, 0, 0);
-			cnt_g = 1;
-			return;
-		}
-		tempGyro += Gyro_ADC;
-		if(cnt_g == CALIBRATING_GYRO_CYCLES)
-		{
-			mpu6050.Gyro_Offset.x = tempGyro.x/cnt_g;
-			mpu6050.Gyro_Offset.y = tempGyro.y/cnt_g;
-			mpu6050.Gyro_Offset.z = tempGyro.z/cnt_g;
-			cnt_g = 0;
-			mpu6050.Gyro_CALIBRATED = 0;
-			Params_setGyroOffset(mpu6050.Gyro_Offset);
-			Params_Save();
-			return;
-		}
-		cnt_g++;
-	}
-}
+
+
 
 
 /******************* (C) COPYRIGHT 2014 ANO TECH *****END OF FILE************/

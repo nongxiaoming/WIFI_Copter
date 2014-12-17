@@ -4,7 +4,16 @@
 
 #include "stm32f2xx.h"
 #include "string.h"
+#include "drv_led.h"
+#include "drv_i2c_soft.h"
+#include "drv_uart.h"
+#include "drv_wifi.h"
+#include "drv_motors.h"
 
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+	 
 #define ARMAPI extern "C"
 
 /***************I2C GPIO∂®“Â******************/
@@ -32,16 +41,14 @@
 #define NVIC_TIM4_S	1
 /***********************************************/
 
-#include "drv_led.h"
-#include "drv_i2c_soft.h"
-#include "drv_uart.h"
-#include "drv_wifi.h"
-#include "drv_motors.h"
 
 void board_Init(void);
 void SysTick_IRQ(void);
 uint32_t GetSysTime_us(void);
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* __BOARD_H__ */
 

@@ -7,7 +7,7 @@
  * 技术Q群 ：190169595
 **********************************************************************************/
 #include "pidctrl.h"
-#include "drv_mpu6050.h"
+#include "sensor.h"
 #include "rc.h"
 
 pidctrl fc;
@@ -41,7 +41,7 @@ void pidctrl::Attitude_Outter_Loop(void)
 	errorAngle[PITCH] = constrain_int32((rc.Command[PITCH] * 2) , -((int)FLYANGLE_MAX), +FLYANGLE_MAX) - imu.angle.y * 10; 
 	
 	//获取角速度
-	Gyro_ADC = MPU6050_GetGyro() / 4;
+	Gyro_ADC = Sensor_GetGyro() / 4;
 	
 	//得到外环PID输出
 	RateError[ROLL] = pid_group[PIDLEVEL].get_p(errorAngle[ROLL]) - Gyro_ADC.x;

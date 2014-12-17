@@ -10,6 +10,7 @@
 #include "drv_mpu6050.h"
 #include "config.h"
 #include "params.h"
+#include "sensor.h"
 
 #define BYTE0(dwTemp)       (*(char *)(&dwTemp))
 #define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))
@@ -32,13 +33,13 @@ void ANO_DT::Data_Receive_Anl(u8 *data_buf,u8 num)
 	if(*(data_buf+2)==0X01)
 	{
 		if(*(data_buf+4)==0X01)
-			mpu6050.Acc_CALIBRATED = 1;
+			sensor.Acc_CALIBRATED = 1;
 		if(*(data_buf+4)==0X02)
-			mpu6050.Gyro_CALIBRATED = 1;
+			sensor.Gyro_CALIBRATED = 1;
 		if(*(data_buf+4)==0X03)
 		{
-			mpu6050.Acc_CALIBRATED = 1;		
-			mpu6050.Gyro_CALIBRATED = 1;			
+			sensor.Acc_CALIBRATED = 1;		
+			sensor.Gyro_CALIBRATED = 1;			
 		}
 		if(*(data_buf+4)==0XA0)
 		{
@@ -259,13 +260,13 @@ void ANO_DT::Send_Senser(void)
 	_temp = imu.Acc.z;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = MPU6050_GetGyro().x;	
+	_temp = Sensor_GetGyro().x;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = MPU6050_GetGyro().y;	
+	_temp = Sensor_GetGyro().y;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-	_temp = MPU6050_GetGyro().z;	
+	_temp = Sensor_GetGyro().z;	
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
 	

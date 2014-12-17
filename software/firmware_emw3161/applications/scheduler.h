@@ -1,22 +1,23 @@
-#ifndef __ANO_SCHEDULER_H
-#define __ANO_SCHEDULER_H
+#ifndef __SCHEDULER_H
+#define __SCHEDULER_H
 
 #include "board.h"
-#include "config.h"
 
-class ANO_Scheduler
+
+struct Scheduler
 {
-public:
-	//构造函数
-	ANO_Scheduler();
-	//任务时基计数变量
-	uint16_t cnt_1ms,cnt_2ms,cnt_5ms,cnt_10ms,cnt_20ms;
-
+	uint16_t cnt_1ms;
+	uint16_t cnt_2ms;
+	uint16_t cnt_5ms;
+	uint16_t cnt_10ms;
+	uint16_t cnt_20ms;
 };
 
-void ANO_Loop(void);
+void Scheduler_Run(void);
 
-extern ANO_Scheduler scheduler;
+void Scheduler_Init(void);
+
+extern struct Scheduler scheduler;
 
 #endif
 
