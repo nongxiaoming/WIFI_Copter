@@ -10,19 +10,19 @@
 
 
 /*----------------------Ò»½×µÍÍ¨ÂË²¨Æ÷ÏµÊý¼ÆËã-------------------------*/
-float ANO_Filter::LPF_1st_Factor_Cal(float deltaT, float Fcut)
+float LowPassFilter_1st_Factor_Cal(float deltaT, float Fcut)
 {
 	return deltaT / (deltaT + 1 / (2 * M_PI * Fcut));
 }
 
 /*----------------------Ò»½×µÍÍ¨ÂË²¨Æ÷------------------------*/
-Vector3f ANO_Filter::LPF_1st(Vector3f oldData, Vector3f newData, float lpf_factor)
+Vector3f LowPassFilter_1st(Vector3f oldData, Vector3f newData, float lpf_factor)
 {
 	return oldData * (1 - lpf_factor) + newData * lpf_factor;
 }
 
 /*----------------------¶þ½×µÍÍ¨ÂË²¨Æ÷ÏµÊý¼ÆËã-------------------------*/
-void ANO_Filter::LPF_2nd_Factor_Cal(LPF2ndData_t* lpf_data)
+void LowPassFilter_2nd_Factor_Cal(LPF2ndData_t* lpf_data)
 {
 	//½ØÖ¹ÆµÂÊ:30Hz ²ÉÑùÆµÂÊ:500Hz
 	lpf_data->b0 = 0.1883633f;
@@ -31,7 +31,7 @@ void ANO_Filter::LPF_2nd_Factor_Cal(LPF2ndData_t* lpf_data)
 }
 
 /*----------------------¶þ½×µÍÍ¨ÂË²¨Æ÷------------------------*/
-Vector3f ANO_Filter::LPF_2nd(LPF2ndData_t* lpf_2nd, Vector3f newData)
+Vector3f LowPassFilter_2nd(LPF2ndData_t* lpf_2nd, Vector3f newData)
 {
 	Vector3f lpf_2nd_data;
 	
@@ -43,13 +43,13 @@ Vector3f ANO_Filter::LPF_2nd(LPF2ndData_t* lpf_2nd, Vector3f newData)
 }
 
 /*----------------------»¥²¹ÂË²¨Æ÷ÏµÊý¼ÆËã-------------------------*/
-float ANO_Filter::CF_Factor_Cal(float deltaT, float tau)
+float ComplementaryFilter_Factor_Cal(float deltaT, float tau)
 {
 	return tau / (deltaT + tau);
 }
 
 /*----------------------Ò»½×»¥²¹ÂË²¨Æ÷-----------------------------*/
-Vector3f ANO_Filter::CF_1st(Vector3f gyroData, Vector3f accData, float cf_factor)
+Vector3f ComplementaryFilter_1st(Vector3f gyroData, Vector3f accData, float cf_factor)
 { 
 	return (gyroData * cf_factor + accData *(1 - cf_factor));	
 }

@@ -55,12 +55,12 @@ void IMU_GetAttitude()
 	
 #ifdef ANO_IMU_USE_LPF_1st	
 	//加速度数据一阶低通滤波
-	Acc_lpf = LPF_1st(Acc_lpf, Acc, ano.factor.acc_lpf);
+	Acc_lpf = LowPassFilter_1st(Acc_lpf, Acc, ano.factor.acc_lpf);
 #endif	
 	
 #ifdef ANO_IMU_USE_LPF_2nd	
 	//加速度数据二阶低通滤波
-	imu.Acc_lpf = LPF_2nd(&imu.Acc_lpf_2nd, imu.Acc);
+	imu.Acc_lpf = LowPassFilter_2nd(&imu.Acc_lpf_2nd, imu.Acc);
 #endif
 	
 	deltaT = getDeltaT(GetSysTime_us());
@@ -95,7 +95,7 @@ static void DCM_CF(Vector3f gyro,Vector3f acc, float deltaT)
 	Vector_M = dcm * Vector_M;
 	
 	//互补滤波，使用加速度测量值矫正角速度积分漂移
-	Vector_G = CF_1st(Vector_G, acc, ano.factor.gyro_cf);
+	Vector_G = ComplementaryFilter_1st(Vector_G, acc, ano.factor.gyro_cf);
 
 	//计算飞行器的ROLL和PITCH
 	Vector_G.get_rollpitch(imu.angle);	
@@ -140,13 +140,13 @@ static void Quaternion_CF(Vector3f gyro,Vector3f acc, float deltaT)
 static void filter_Init()
 {
 	//加速度一阶低通滤波器系数计算
-	ano.factor.acc_lpf = LPF_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
+	ano.factor.acc_lpf = LowPassFilter_1st_Factor_Cal(IMU_LOOP_TIME * 1e-6, ACC_LPF_CUT);
 	
 	//加速度二阶低通滤波器系数计算
-	LPF_2nd_Factor_Cal(&imu.Acc_lpf_2nd);
+	LowPassFilter_2nd_Factor_Cal(&imu.Acc_lpf_2nd);
 	
 	//互补滤波器系数计算
-	ano.factor.gyro_cf = CF_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);	
+	ano.factor.gyro_cf = ComplementaryFilter_Factor_Cal(IMU_LOOP_TIME * 1e-6, GYRO_CF_TAU);	
 }
 
 static void sensor_Init()

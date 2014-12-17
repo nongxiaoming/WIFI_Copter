@@ -1,5 +1,5 @@
-#ifndef __ANO_IMU_H
-#define __ANO_IMU_H
+#ifndef __IMU_H
+#define __IMU_H
 
 #include "config.h"
 
