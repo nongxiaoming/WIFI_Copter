@@ -29,16 +29,41 @@ void Sensor_Init(uint16_t sample_rate, uint16_t lpf)
 
 //读取加速度和角速度
 void Sensor_ReadData(void)
-{
+{ 
+	int16_t acc_temp[3];
+	int16_t gyro_temp[3];
+	
 	  rt_device_read(mpu6050,MPU6050_RA_ACCEL_XOUT_H,mpu6050_buffer,sizeof(mpu6050_buffer));
     
-	  Acc_ADC.x = ((mpu6050_buffer[0] << 8) | mpu6050_buffer[1])- sensor.Acc_Offset.x;
-    Acc_ADC.y = ((mpu6050_buffer[2] << 8) | mpu6050_buffer[3])- sensor.Acc_Offset.y;
-    Acc_ADC.z = ((mpu6050_buffer[4] << 8) | mpu6050_buffer[5])- sensor.Acc_Offset.z;
-    Gyro_ADC.x = ((mpu6050_buffer[8] << 8) | mpu6050_buffer[9])- sensor.Gyro_Offset.x;
-    Gyro_ADC.y = ((mpu6050_buffer[10] << 8) | mpu6050_buffer[11])- sensor.Gyro_Offset.y;
-    Gyro_ADC.z = ((mpu6050_buffer[12] << 8) | mpu6050_buffer[13])- sensor.Gyro_Offset.z;
+//	  Acc_ADC.x = ((mpu6050_buffer[0] << 8) | mpu6050_buffer[1])- sensor.Acc_Offset.x;
+//    Acc_ADC.y = ((mpu6050_buffer[2] << 8) | mpu6050_buffer[3])- sensor.Acc_Offset.y;
+//    Acc_ADC.z = ((mpu6050_buffer[4] << 8) | mpu6050_buffer[5])- sensor.Acc_Offset.z;
+//    Gyro_ADC.x = ((mpu6050_buffer[8] << 8) | mpu6050_buffer[9])- sensor.Gyro_Offset.x;
+//    Gyro_ADC.y = ((mpu6050_buffer[10] << 8) | mpu6050_buffer[11])- sensor.Gyro_Offset.y;
+//    Gyro_ADC.z = ((mpu6050_buffer[12] << 8) | mpu6050_buffer[13])- sensor.Gyro_Offset.z;
+  
 
+	  //rt_device_read(mpu6050,MPU6050_RA_ACCEL_XOUT_H,mpu6050_buffer,sizeof(mpu6050_buffer));
+    
+	//MPU6050_ReadData(mpu6050_buffer);
+	
+	acc_temp[0] = ((((int16_t)mpu6050_buffer[0]) << 8) | mpu6050_buffer[1])- sensor.Acc_Offset.x;  //加速度X轴
+	acc_temp[1] = ((((int16_t)mpu6050_buffer[2]) << 8) | mpu6050_buffer[3])- sensor.Acc_Offset.y;  //加速度Y轴
+	acc_temp[2] = ((((int16_t)mpu6050_buffer[4]) << 8) | mpu6050_buffer[5])- sensor.Acc_Offset.z;  //加速度Z轴
+	
+	gyro_temp[0] = ((((int16_t)mpu6050_buffer[8]) << 8) | mpu6050_buffer[9])- sensor.Gyro_Offset.x;  //加速度X轴
+	gyro_temp[1] = ((((int16_t)mpu6050_buffer[10]) << 8) | mpu6050_buffer[11])- sensor.Gyro_Offset.y;  //加速度Y轴
+	gyro_temp[2] = ((((int16_t)mpu6050_buffer[12]) << 8) | mpu6050_buffer[13])- sensor.Gyro_Offset.z;  //加速度Z轴
+
+ //Acc_ADC((float)acc_temp[0],(float)acc_temp[1],(float)acc_temp[2]);
+ //Gyro_ADC((float)gyro_temp[0],(float)gyro_temp[1],(float)gyro_temp[2]);
+	  Acc_ADC.x = (float)acc_temp[0];
+    Acc_ADC.y = (float)acc_temp[1];
+    Acc_ADC.z = (float)acc_temp[2];
+    Gyro_ADC.x = (float)gyro_temp[0];
+    Gyro_ADC.y = (float)gyro_temp[1];
+    Gyro_ADC.z = (float)gyro_temp[2];
+	
 	Sensor_CalOffset_Gyro();
 	Sensor_CalOffset_Acc();
 }

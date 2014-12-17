@@ -64,15 +64,17 @@ static void receiver_thread_entry(void* parameter)
 int apps_copter_init(void)
 {
   rt_thread_t attitude_thread,data_transmit_thread,receiver_thread;
-	//初始化参数
-	Params_Init();
+//	//初始化参数
+//	Params_Init();
 	
 	//初始化IMU（惯性测量单元）
 	IMU_Init();	
 	
 	//初始化pid控制
 	PIDCtrl_Init();
-
+	
+	//初始化Transmiter
+  Transmiter_Init();
 	attitude_thread = rt_thread_create("attitude",attitude_thread_entry,RT_NULL,1024,12,5);
 	if(attitude_thread != RT_NULL)
 	{
@@ -83,7 +85,7 @@ int apps_copter_init(void)
 	{
 		rt_thread_startup(data_transmit_thread);
 	}
-		receiver_thread = rt_thread_create("transmit",receiver_thread_entry,RT_NULL,1024,14,5);
+		receiver_thread = rt_thread_create("receiver",receiver_thread_entry,RT_NULL,1024,14,5);
 	if(receiver_thread != RT_NULL)
 	{
 		rt_thread_startup(receiver_thread);

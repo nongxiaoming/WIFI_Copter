@@ -29,7 +29,24 @@ static	void Send_PID3(void);
 static	void Send_Check(u16 check);
 
 static	void Send_Data(u8 *dataToSend , u8 length);
+static rt_device_t uart_dev=RT_NULL;
 
+static void Send_Data(u8 *dataToSend , u8 length)
+{
+	rt_device_write(uart_dev,0,dataToSend,length);
+	
+}
+
+void Transmiter_Init(void)
+{
+ uart_dev  = rt_device_find("uart1");
+	if(uart_dev == RT_NULL)
+  {
+	 rt_kprintf("can not find uart1!\n");
+		return ;
+	}
+	rt_device_open(uart_dev,RT_DEVICE_FLAG_INT_RX|RT_DEVICE_FLAG_RDWR);
+}
 void Transmiter_Data_Anl(u8 *data_buf,u8 num)
 {
 		u8 i=0;
@@ -196,11 +213,16 @@ static void Send_Status(void)
 	_temp = (int)(imu.angle.z*100);
 	data_to_send[_cnt++]=BYTE1(_temp);
 	data_to_send[_cnt++]=BYTE0(_temp);
-
+  
+	data_to_send[_cnt++]=0;
+	data_to_send[_cnt++]=0;
+	
 	data_to_send[_cnt++]=BYTE3(_temp2);
 	data_to_send[_cnt++]=BYTE2(_temp2);
 	data_to_send[_cnt++]=BYTE1(_temp2);
 	data_to_send[_cnt++]=BYTE0(_temp2);
+	
+	data_to_send[_cnt++]=0;
 	
 	data_to_send[3] = _cnt-4;
 	
@@ -455,17 +477,7 @@ static void Send_Check(u16 check)
 	Send_Data(data_to_send, 8);
 }
 
-static void Send_Data(u8 *dataToSend , u8 length)
-{
-	
-#ifdef ANO_DT_USE_Bluetooth
-	Uart1_Put_Buf(data_to_send,length);
-#endif
-	
-#ifdef ANO_DT_USE_NRF24l01
-	nrf.TxPacket(data_to_send,length);
-#endif
-}
+
 
 
 void Transmiter_FailsafeCheck(void)

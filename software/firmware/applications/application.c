@@ -49,26 +49,26 @@ void rt_init_thread_entry(void* parameter)
 	rt_hw_mpu6050_init("i2c1", MPU6050_DEFAULT_ADDRESS);
 	rt_motors_hw_init();
 /* LwIP Initialization */
-#ifdef RT_USING_LWIP
-	{
-		extern void lwip_sys_init(void);
+//#ifdef RT_USING_LWIP
+//	{
+//		extern void lwip_sys_init(void);
 
-		/* register ethernetif device */
-		eth_system_device_init();
+//		/* register ethernetif device */
+//		eth_system_device_init();
 
-		/* initialize wifi interface */
-		rt_hw_wifi_init("spi10");
+//		/* initialize wifi interface */
+//		rt_hw_wifi_init("spi10");
 
-		/* init lwip system */
-		lwip_system_init();
-		rt_kprintf("TCP/IP initialized!\n");
-		
-		set_if("w0","192.168.1.9","192.168.1.1","255.255.255.0");
-		rw009_join("rtthread_11n","rtthread_finsh");
-	}
-#endif
+//		/* init lwip system */
+//		lwip_system_init();
+//		rt_kprintf("TCP/IP initialized!\n");
+//		
+//		set_if("w0","192.168.1.9","192.168.1.1","255.255.255.0");
+//		rw009_join("rtthread_11n","rtthread_finsh");
+//	}
+//#endif
 	  apps_copter_init();
-		telnet_server_init();
+		//telnet_server_init();
 	
 #ifdef RT_USING_FINSH
 	/* init finsh */

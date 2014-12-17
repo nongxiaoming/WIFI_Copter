@@ -22,7 +22,8 @@ void Transmiter_CheckEvent(void);
 void Transmiter_DataExchange(void);
 	//失控保护检查
 void Transmiter_FailsafeCheck(void);
-
+//初始化发送设备
+void Transmiter_Init(void);
 extern struct Transmiter dt;
 
 #endif
