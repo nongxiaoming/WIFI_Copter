@@ -41,7 +41,8 @@ void NVIC_Configuration(void)
 	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);
 #endif
 }
-
+// cycles per microsecond
+static volatile uint32_t usTicks = 0;
 /*******************************************************************************
  * Function Name  : SysTick_Configuration
  * Description    : Configures the SysTick for OS tick.
@@ -52,16 +53,22 @@ void NVIC_Configuration(void)
 void  SysTick_Configuration(void)
 {
 	RCC_ClocksTypeDef  rcc_clocks;
-	rt_uint32_t         cnts;
 
 	RCC_GetClocksFreq(&rcc_clocks);
 
-	cnts = (rt_uint32_t)rcc_clocks.HCLK_Frequency / RT_TICK_PER_SECOND;
+  usTicks = rcc_clocks.SYSCLK_Frequency / 1000000;
+	SysTick_Config(SystemCoreClock/ RT_TICK_PER_SECOND);
 
-	SysTick_Config(cnts);
-	SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK);
 }
-
+uint32_t GetSysTime_us(void) 
+{
+    register uint32_t ms, cycle_cnt;
+    do {
+        ms = rt_tick_get();
+        cycle_cnt = SysTick->VAL;
+    } while (ms != rt_tick_get());
+    return (ms * 1000) + (usTicks * 1000 - cycle_cnt) / usTicks;
+}
 /**
  * This is the timer interrupt service routine.
  *
