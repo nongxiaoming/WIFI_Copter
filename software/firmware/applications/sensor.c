@@ -1,20 +1,20 @@
+#include <rtthread.h>
 #include "params.h"
 #include "sensor.h"
 #include "mpu6050.h"
 
 struct Sensor  sensor;
 
-static rt_uint8_t mpu6050_buffer[14]; //接收数据缓存区
-static vector3f_t Acc_ADC,Gyro_ADC;
-static vector3f_t Gyro_dps;
-static rt_device_t  mpu6050;
-
+static uint8_t mpu6050_buffer[14]; //接收数据缓存区
+static Vector3f Acc_ADC,Gyro_ADC;
+static Vector3f Gyro_dps;
+static rt_device_t mpu6050 = RT_NULL;
 	//加速度零偏矫正
-static	void Sensor_CalOffset_Acc(void);
+static	void Sensor_CalOffsetAcc(void);
 	//陀螺仪零偏矫正
-static	void Sensor_CalOffset_Gyro(void);
+static	void Sensor_CalOffsetGyro(void);
 //MPU6050初始化，传入参数：采样率，低通滤波频率
-void Sensor_Init(uint16_t sample_rate, uint16_t lpf)
+void Sensor_Init(void)
 {
 	//uint8_t default_filter;
   mpu6050 = rt_device_find("mpu6050");
@@ -24,26 +24,16 @@ void Sensor_Init(uint16_t sample_rate, uint16_t lpf)
 	 return ;
 	}
 	rt_device_open(mpu6050,RT_DEVICE_FLAG_RDWR);
-
+  //初始化MPU6050，1Khz采样率，42Hz低通滤波
+	//MPU6050_Init(1000,42);
 }
 
 //读取加速度和角速度
 void Sensor_ReadData(void)
-{ 
+{
 	int16_t acc_temp[3];
 	int16_t gyro_temp[3];
-	
-	  rt_device_read(mpu6050,MPU6050_RA_ACCEL_XOUT_H,mpu6050_buffer,sizeof(mpu6050_buffer));
-    
-//	  Acc_ADC.x = ((mpu6050_buffer[0] << 8) | mpu6050_buffer[1])- sensor.Acc_Offset.x;
-//    Acc_ADC.y = ((mpu6050_buffer[2] << 8) | mpu6050_buffer[3])- sensor.Acc_Offset.y;
-//    Acc_ADC.z = ((mpu6050_buffer[4] << 8) | mpu6050_buffer[5])- sensor.Acc_Offset.z;
-//    Gyro_ADC.x = ((mpu6050_buffer[8] << 8) | mpu6050_buffer[9])- sensor.Gyro_Offset.x;
-//    Gyro_ADC.y = ((mpu6050_buffer[10] << 8) | mpu6050_buffer[11])- sensor.Gyro_Offset.y;
-//    Gyro_ADC.z = ((mpu6050_buffer[12] << 8) | mpu6050_buffer[13])- sensor.Gyro_Offset.z;
-  
-
-	  //rt_device_read(mpu6050,MPU6050_RA_ACCEL_XOUT_H,mpu6050_buffer,sizeof(mpu6050_buffer));
+	rt_device_read(mpu6050,MPU6050_RA_ACCEL_XOUT_H,mpu6050_buffer,sizeof(mpu6050_buffer));
     
 	//MPU6050_ReadData(mpu6050_buffer);
 	
@@ -55,30 +45,23 @@ void Sensor_ReadData(void)
 	gyro_temp[1] = ((((int16_t)mpu6050_buffer[10]) << 8) | mpu6050_buffer[11])- sensor.Gyro_Offset.y;  //加速度Y轴
 	gyro_temp[2] = ((((int16_t)mpu6050_buffer[12]) << 8) | mpu6050_buffer[13])- sensor.Gyro_Offset.z;  //加速度Z轴
 
- //Acc_ADC((float)acc_temp[0],(float)acc_temp[1],(float)acc_temp[2]);
- //Gyro_ADC((float)gyro_temp[0],(float)gyro_temp[1],(float)gyro_temp[2]);
-	  Acc_ADC.x = (float)acc_temp[0];
-    Acc_ADC.y = (float)acc_temp[1];
-    Acc_ADC.z = (float)acc_temp[2];
-    Gyro_ADC.x = (float)gyro_temp[0];
-    Gyro_ADC.y = (float)gyro_temp[1];
-    Gyro_ADC.z = (float)gyro_temp[2];
-	
-	Sensor_CalOffset_Gyro();
-	Sensor_CalOffset_Acc();
+ Acc_ADC((float)acc_temp[0],(float)acc_temp[1],(float)acc_temp[2]);
+ Gyro_ADC((float)gyro_temp[0],(float)gyro_temp[1],(float)gyro_temp[2]);
+	Sensor_CalOffsetGyro();
+	Sensor_CalOffsetAcc();
 }
 
-vector3f_t Sensor_GetAcc(void)
+Vector3f Sensor_GetAcc(void)
 {
  return Acc_ADC;	
 }
 
-vector3f_t Sensor_GetGyro(void)
+Vector3f Sensor_GetGyro(void)
 {
  return Gyro_ADC;		
 }
 
-vector3f_t Sensor_GetGyro_in_dps(void)
+Vector3f Sensor_GetGyro_in_dps(void)
 {
 	Gyro_dps.x = radians(Gyro_ADC.x * MPU6050G_S2000DPS);   // dps
 	Gyro_dps.y = radians(Gyro_ADC.y * MPU6050G_S2000DPS);   // dps
@@ -88,11 +71,11 @@ vector3f_t Sensor_GetGyro_in_dps(void)
 }
 
 //加速度零偏矫正
-static void Sensor_CalOffset_Acc(void)
+static void Sensor_CalOffsetAcc(void)
 {
 	if(sensor.Acc_CALIBRATED)
 		{
-			static vector3f_t	tempAcc;
+			static Vector3f	tempAcc;
 			static uint16_t cnt_a=0;
 
 			if(cnt_a==0)
@@ -123,11 +106,11 @@ static void Sensor_CalOffset_Acc(void)
 }
 
 //陀螺仪零偏矫正
-static void Sensor_CalOffset_Gyro(void)
+static void Sensor_CalOffsetGyro(void)
 {
 	if(sensor.Gyro_CALIBRATED)
 	{
-		static vector3f_t	tempGyro;
+		static Vector3f	tempGyro;
 		static uint16_t cnt_g=0;
 		if(cnt_g==0)
 		{

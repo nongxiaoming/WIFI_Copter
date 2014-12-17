@@ -6,98 +6,163 @@
  * Ã‘±¶    £∫anotc.taobao.com
  * ºº ıQ»∫ £∫190169595
 **********************************************************************************/
-#include <rthw.h>
 #include "params.h"
+#include "pidctrl.h"
 #include "sensor.h"
-#include "board.h"
-
+#include "string.h"
 
 
 #define PARAMS_SAVE_ADDRESS    ((uint32_t)0x080E0000) /* Base @ of Sector 11, 128 Kbytes */
 #define PARAMS_SAVE_Sector      FLASH_Sector_11
 
-static params_t *params;
-static rt_err_t Params_Read(void);
+static params_t params;
+static bool Params_Read(void);
 	 
 void Params_Init(void)
 {
 
-   params = (params_t*)rt_malloc(sizeof(params_t));
-	 if(Params_Read()==RT_EOK)
+	 if(Params_Read()==true)
    {
-	  
+	   fc.pid_group[PIDROLL].kD = params.roll_pid.kd;
+		 fc.pid_group[PIDROLL].kI = params.roll_pid.ki;
+		 fc.pid_group[PIDROLL].kP = params.roll_pid.kp;
+		 
+		 fc.pid_group[PIDPITCH].kD = params.pitch_pid.kd;
+		 fc.pid_group[PIDPITCH].kI = params.pitch_pid.ki;
+		 fc.pid_group[PIDPITCH].kP = params.pitch_pid.kp;
+		 
+		 fc.pid_group[PIDYAW].kD = params.yaw_pid.kd;
+		 fc.pid_group[PIDYAW].kI = params.yaw_pid.ki;
+		 fc.pid_group[PIDYAW].kP = params.yaw_pid.kp;
+		 
+		 fc.pid_group[PIDALT].kD = params.alt_pid.kd;
+		 fc.pid_group[PIDALT].kI = params.alt_pid.ki;
+		 fc.pid_group[PIDALT].kP = params.alt_pid.kp;
+		 
+		 fc.pid_group[PIDLEVEL].kD = params.level_pid.kd;
+		 fc.pid_group[PIDLEVEL].kI = params.level_pid.ki;
+		 fc.pid_group[PIDLEVEL].kP = params.level_pid.kp;
+		 
+		 fc.pid_group[PIDMAG].kD = params.mag_pid.kd;
+		 fc.pid_group[PIDMAG].kI = params.mag_pid.ki;
+		 fc.pid_group[PIDMAG].kP = params.mag_pid.kp;
+
+     sensor.Acc_Offset = params.acc_offset;
+		 sensor.Gyro_Offset = params.gyro_offset;
+
 	 }else
    {
+		 params.roll_pid.kd = fc.pid_group[PIDROLL].kD ;
+		 params.roll_pid.ki = fc.pid_group[PIDROLL].kI ;
+		 params.roll_pid.kp = fc.pid_group[PIDROLL].kP;
+		 
+		 params.pitch_pid.kd = fc.pid_group[PIDPITCH].kD ;
+		 params.pitch_pid.ki =  fc.pid_group[PIDPITCH].kI ;
+		 params.pitch_pid.kp = fc.pid_group[PIDPITCH].kP ;
+		 
+		 params.yaw_pid.kd = fc.pid_group[PIDYAW].kD ;
+		 params.yaw_pid.ki = fc.pid_group[PIDYAW].kI ;
+		 params.yaw_pid.kp = fc.pid_group[PIDYAW].kP ;
+		 
+		 params.alt_pid.kd = fc.pid_group[PIDALT].kD ;
+		 params.alt_pid.ki = fc.pid_group[PIDALT].kI ;
+		 params.alt_pid.kp = fc.pid_group[PIDALT].kP ;
+		 
+		 params.level_pid.kd = fc.pid_group[PIDLEVEL].kD ;
+		 params.level_pid.ki = fc.pid_group[PIDLEVEL].kI ;
+		 params.level_pid.kp = fc.pid_group[PIDLEVEL].kP;
+		 
+		 params.mag_pid.kd = fc.pid_group[PIDMAG].kD ;
+		 params.mag_pid.ki = fc.pid_group[PIDMAG].kI;
+		 params.mag_pid.kp = fc.pid_group[PIDMAG].kP ;
+
+     params.acc_offset = sensor.Acc_Offset ;
+		 params.gyro_offset = sensor.Gyro_Offset ;
+		 
 	   Params_Save();
 	 }
 	
 }
 
-void Params_setAccOffset(vector3i_t offset)
+void Params_setAccOffset(Vector3i offset)
 {
- params->acc_offset = offset;
-}
-vector3i_t Params_getAccOffset(void)
-{
-  return params->acc_offset;
+ params.acc_offset = offset;
+ sensor.Acc_Offset = offset;
 }
 
-void Params_setGyroOffset(vector3i_t offset)
+
+void Params_setGyroOffset(Vector3i offset)
 {
- params->gyro_offset = offset;
+ params.gyro_offset = offset;
+ sensor.Gyro_Offset = offset;
 }
-vector3i_t Params_getGyroOffset(void)
-{
- return params->gyro_offset;
-}
+
 
 void Params_setRollPid(pid_t val)
 {
-params->roll_pid = val;
+params.roll_pid = val;
+fc.pid_group[PIDROLL].kD = val.kd;
+fc.pid_group[PIDROLL].kI = val.ki;
+fc.pid_group[PIDROLL].kP = val.kp;
 }
-pid_t Params_getRollPid(void)
-{
- return params->roll_pid;
-}
+
 
 void Params_setPitchPid(pid_t val)
 {
-params->pitch_pid = val;
-}
-pid_t Params_getPitchPid(void)
-{
- return params->pitch_pid;
+params.pitch_pid = val;
+fc.pid_group[PIDPITCH].kD = val.kd;
+fc.pid_group[PIDPITCH].kI = val.ki;
+fc.pid_group[PIDPITCH].kP = val.kp;
 }
 
 void Params_setYawPid(pid_t val)
 {
-params->yaw_pid = val;
+params.yaw_pid = val;
+fc.pid_group[PIDYAW].kD = val.kd;
+fc.pid_group[PIDYAW].kI = val.ki;
+fc.pid_group[PIDYAW].kP = val.kp;
 }
-pid_t Params_getYawPid(void)
+void Params_setAltPid(pid_t val)
 {
- return params->yaw_pid;
+params.alt_pid = val;
+fc.pid_group[PIDALT].kD = val.kd;
+fc.pid_group[PIDALT].kI = val.ki;
+fc.pid_group[PIDALT].kP = val.kp;
 }
-
-rt_err_t Params_Read(void)
+void Params_setLevelPid(pid_t val)
+{
+params.level_pid = val;
+fc.pid_group[PIDLEVEL].kD = val.kd;
+fc.pid_group[PIDLEVEL].kI = val.ki;
+fc.pid_group[PIDLEVEL].kP = val.kp;
+}
+void Params_setMagPid(pid_t val)
+{
+params.mag_pid = val;
+fc.pid_group[PIDMAG].kD = val.kd;
+fc.pid_group[PIDMAG].kI = val.ki;
+fc.pid_group[PIDMAG].kP = val.kp;
+}
+bool Params_Read(void)
 {
   
-  rt_memcpy(params,(void*)PARAMS_SAVE_ADDRESS,sizeof(params_t));
-	if(params->magic != MAGIC)
+  memcpy(&params,(void*)PARAMS_SAVE_ADDRESS,sizeof(params_t));
+	if(params.magic != MAGIC)
   {
-	 return RT_ERROR;
+	 return false;
 	}
-	return RT_EOK;
+	return true;
 }
 void Params_Save(void)
 {
 	 uint32_t *data;
 	 uint32_t address, address_end;
-   params->magic = MAGIC;
+   params.magic = MAGIC;
 
     /* Unlock the Flash */
     FLASH_Unlock();
 
-    data = (uint32_t *)params;
+    data = (uint32_t *)&params;
     address = PARAMS_SAVE_ADDRESS;
     address_end = address + sizeof(params_t);
 	  
@@ -109,7 +174,6 @@ void Params_Save(void)
 	
     while(address < address_end)
     {
-        rt_base_t level;
         FLASH_Status status;
         const uint32_t *data_read;
 
@@ -121,9 +185,9 @@ void Params_Save(void)
             continue;
         }
 
-        level = rt_hw_interrupt_disable();
+        __disable_irq();
         status = FLASH_ProgramWord(address, *data);
-        rt_hw_interrupt_enable(level);
+        __enable_irq();
 
         if (status == FLASH_COMPLETE)
         {
@@ -132,7 +196,6 @@ void Params_Save(void)
         }
         else
         {
-            rt_kprintf("FLASH 0x%08X program failed!\n", address);
             continue;
         }
     }

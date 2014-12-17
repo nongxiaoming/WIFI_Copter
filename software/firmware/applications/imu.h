@@ -3,15 +3,20 @@
 
 #include "config.h"
 
-struct IMU 
+struct IMU
 {
 
 	//欧拉角表示的飞行器姿态
-	vector3f_t angle;
+	Vector3f angle;
 	
-	vector3f_t Gyro, Acc, Acc_lpf_1st, Acc_lpf_2nd; 
-	
+	Vector3f Gyro, Acc, Acc_lpf; 
+
+	LPF2ndData_t Acc_lpf_2nd;
+
+	float magHold;
+
 };
+
 void IMU_Init(void);
 	
 	//更新传感器数据
@@ -19,7 +24,8 @@ void IMU_UpdateSensor(void);
 	
 	//计算飞行器姿态
 void IMU_GetAttitude(void);
-extern struct IMU  imu;
+
+extern struct IMU imu;
 
 #endif
 

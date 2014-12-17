@@ -1,26 +1,42 @@
-#ifndef __PID_H
-#define __PID_H
+#ifndef __ANO_PID_H
+#define __ANO_PID_H
 
 #include <stdint.h>
 #include "ANO_Math.h"
-#include "params.h"
 
-
-#define PID_INIT(pid) (pid).kp=0;\
-                      (pid).ki=0;\
-                      (pid).kd=0;\
-                      (pid).imax=0
-											
-#define PID_GET_P(pid,err) (((int32_t)error) * (pid)->kp / 64)
-
-#define PID_RESET_I(pid) (pid).integrator = 0
-
-struct PID
+class PID
 {
+	
+public:
+	
+	PID(){
+		kP = kI = kD = 0;
+		imax = 0;
+	}
+
 	//PID参数
-  uint16_t kp;
-	uint16_t ki;
-	uint16_t kd;
+	uint16_t kP;
+	uint16_t kI;
+	uint16_t kD;
+	
+	//返回PID计算的值
+	int32_t get_pid(int32_t error, uint16_t dt);
+	int32_t get_pi(int32_t error, uint16_t dt);
+	int32_t get_p(int32_t error);
+	int32_t get_i(int32_t error, uint16_t dt);
+	int32_t get_d(int32_t error, uint16_t dt);
+	
+	//积分控制器的值清零
+	void reset_I(void);
+	
+	void set_pid(const uint16_t p,
+									 const uint16_t i,
+									 const uint16_t d,
+									 const uint32_t  imaxval) {
+			kP = p; kI = i; kD = d; imax = imaxval;
+	}
+	
+private:
 	
 	//积分上限
 	uint32_t imax;
@@ -30,21 +46,7 @@ struct PID
 	int32_t last_error;
 };
 
-void PID_SET_VALUE(struct PID *pid,const uint16_t p,
-									 const uint16_t i,
-									 const uint16_t d,
-									 const uint32_t  imaxval);
-//返回PID计算的值
-int32_t PID_GET_PID(struct PID *pid,int32_t error, uint16_t dt);
-int32_t PID_GET_PI(struct PID *pid,int32_t error, uint16_t dt);
 
-int32_t PID_GET_I(struct PID *pid,int32_t error, uint16_t dt);
-int32_t PID_GET_D(struct PID *pid,int32_t error, uint16_t dt);
-	
-
-	
-
-	
 
 #endif
 

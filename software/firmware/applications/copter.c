@@ -8,10 +8,11 @@
  * 淘宝    ：anotc.taobao.com
  * 技术Q群 ：190169595
 **********************************************************************************/
+#include <rtthread.h>
 #include "config.h"
 #include "params.h"
 #include "pidctrl.h"
-
+#include "dt.h"
 
 //static void rt_init_thread_entry(void* parameter)
 //{
@@ -29,8 +30,8 @@ static void attitude_thread_entry(void* parameter)
 	//计算飞行器姿态
 	IMU_GetAttitude();
 	
-	//飞行器姿态控制
-	PIDCtrl_Attitude();
+	//飞行器姿态内环控制
+	fc.Attitude_Inner_Loop();	
 	
   rt_thread_delay(2);	
 	}
@@ -40,7 +41,7 @@ static void data_transmit_thread_entry(void* parameter)
 {
 	while(1){
 	//发送飞行器数据
-	Transmiter_DataExchange();
+	dt.Data_Exchange();
 	rt_thread_delay(10);
 	}	
 }
@@ -48,14 +49,17 @@ static void data_transmit_thread_entry(void* parameter)
 static void receiver_thread_entry(void* parameter)
 {
 	while(1){
-	//遥控通道数据处理
-	Commander_Cal();
+//遥控通道数据处理
+	rc.Cal_Command();
 	
 	//摇杆位置检查
-	Commander_CheckSticks();
+	rc.check_sticks();
 	
 	//失控保护检查
-	Transmiter_FailsafeCheck();
+	dt.Failsafe_Check();
+	
+	//LED指示灯控制
+	config.Pilot_Light();
 	
 	rt_thread_delay(20);	
 	}
@@ -64,17 +68,16 @@ static void receiver_thread_entry(void* parameter)
 int apps_copter_init(void)
 {
   rt_thread_t attitude_thread,data_transmit_thread,receiver_thread;
-//	//初始化参数
-//	Params_Init();
 	
 	//初始化IMU（惯性测量单元）
 	IMU_Init();	
 	
-	//初始化pid控制
-	PIDCtrl_Init();
+	//初始化参数
+	Params_Init();
 	
 	//初始化Transmiter
-  Transmiter_Init();
+   dt.Init();
+	
 	attitude_thread = rt_thread_create("attitude",attitude_thread_entry,RT_NULL,1024,12,5);
 	if(attitude_thread != RT_NULL)
 	{

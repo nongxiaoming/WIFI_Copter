@@ -22,11 +22,10 @@
 #include <rtdevice.h>
 #include "drv_led.h"
 #include "spi_wifi_rw009.h"
-#include "telnet.h"
-#include "stm32_i2c.h"
 #include "copter.h"
-#include "mpu6050.h"
 #include "drv_motors.h"
+#include "stm32_i2c.h"
+#include "mpu6050.h"
 
 #ifdef RT_USING_FINSH
 #include "shell.h"
@@ -46,8 +45,10 @@ void rt_init_thread_entry(void* parameter)
 	rt_i2c_core_init();
 	rt_hw_i2c_init();
 	rt_hw_spi_init();
+	//³õÊ¼»¯Ä£ÄâI2C
+	//I2C_Soft_Init();
 	rt_hw_mpu6050_init("i2c1", MPU6050_DEFAULT_ADDRESS);
-	rt_motors_hw_init();
+//	rt_motors_hw_init();
 /* LwIP Initialization */
 //#ifdef RT_USING_LWIP
 //	{
