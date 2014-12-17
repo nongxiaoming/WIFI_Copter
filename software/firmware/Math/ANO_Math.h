@@ -6,7 +6,9 @@
 #include <math.h>
 #include "ANO_Rotations.h"
 #include "ANO_Vector3.h"
+#include "ANO_Matrix3.h"
 #include "ANO_Quaternion.h"
+
 
 #define M_PI 3.141592653f
 #define DEG_TO_RAD 0.01745329f
