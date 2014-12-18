@@ -4,15 +4,17 @@
 
 #include "stm32f2xx.h"
 #include "string.h"
-#include "ANO_Math.h"
+#include "drv_led.h"
+#include "drv_uart.h"
+#include "drv_motors.h"
+#include "drv_i2c_soft.h"
 
+#ifdef __cplusplus
+ extern "C" {
+#endif /* __cplusplus */
+	 
 #define ARMAPI extern "C"
 
-/***************LED GPIO定义******************/
-#define ANO_RCC_LED			RCC_AHB1Periph_GPIOD
-#define ANO_GPIO_LED		GPIOD
-#define ANO_Pin_LED			GPIO_Pin_2
-/*********************************************/
 /***************I2C GPIO定义******************/
 #define ANO_GPIO_I2C	GPIOB
 #define I2C_Pin_SCL		GPIO_Pin_10
@@ -38,16 +40,14 @@
 #define NVIC_TIM4_S	1
 /***********************************************/
 
-#include "ANO_Config.h"
-#include "ANO_Drv_LED.h"
-#include "ANO_Drv_I2C_soft.h"
-#include "ANO_Drv_MPU6050.h"
-#include "ANO_Drv_Uart.h"
 
-void ANO_Hexacopter_board_Init(void);
+void board_Init(void);
 void SysTick_IRQ(void);
 uint32_t GetSysTime_us(void);
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* __BOARD_H__ */
 

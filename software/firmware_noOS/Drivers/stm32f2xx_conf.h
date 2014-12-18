@@ -36,7 +36,7 @@
 #include "stm32f2xx_exti.h"
 #include "stm32f2xx_flash.h"
 #include "stm32f2xx_fsmc.h"
-// #include "stm32f2xx_hash.h"
+#include "stm32f2xx_hash.h"
 #include "stm32f2xx_gpio.h"
 #include "stm32f2xx_i2c.h"
 #include "stm32f2xx_iwdg.h"

@@ -127,29 +127,6 @@ void DebugMon_Handler(void)
   * @}
   */ 
 
-#if defined(RT_USING_DFS) && STM32_USE_SDIO
-/*******************************************************************************
-* Function Name  : SDIO_IRQHandler
-* Description    : This function handles SDIO global interrupt request.
-* Input          : None
-* Output         : None
-* Return         : None
-*******************************************************************************/
-void SDIO_IRQHandler(void)
-{
-    extern int SD_ProcessIRQSrc(void);
-
-    /* enter interrupt */
-    rt_interrupt_enter();
-
-    /* Process All SDIO Interrupt Sources */
-    if( SD_ProcessIRQSrc() == 2)
-		rt_kprintf("SD Error\n");
-
-    /* leave interrupt */
-    rt_interrupt_leave();
-}
-#endif
 
 ARMAPI void SysTick_Handler(void)
 {
@@ -159,6 +136,17 @@ ARMAPI void SysTick_Handler(void)
 
 ARMAPI void USART1_IRQHandler(void)
 {
-	uart1.Uart1_IRQ();
+	Uart1_IRQ();
 }
+
+
+/**
+  * @brief  This function handles PPP interrupt request.
+  * @param  None
+  * @retval None
+  */
+/*void PPP_IRQHandler(void)
+{
+}*/
+
 /******************* (C) COPYRIGHT 2011 STMicroelectronics *****END OF FILE****/

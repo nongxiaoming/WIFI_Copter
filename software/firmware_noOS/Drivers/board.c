@@ -7,6 +7,7 @@
  * 技术Q群 ：190169595
 **********************************************************************************/
 #include "board.h"
+#include "scheduler.h"
 
 // cycles per microsecond
 static volatile uint32_t usTicks = 0;
@@ -40,8 +41,9 @@ uint32_t GetSysTime_us(void)
     return (ms * 1000) + (usTicks * 1000 - cycle_cnt) / usTicks;
 }
 
-void ANO_Hexacopter_board_Init(void)
+void  board_Init(void)
 {
+
 	//中断优先级组别设置
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
 	
@@ -50,29 +52,22 @@ void ANO_Hexacopter_board_Init(void)
 	SysTick_Config(SystemCoreClock / 1000);	
 	
 	//初始化模拟I2C
-	ANO_I2C_Soft::Init();
+	I2C_Soft_Init();
 	
-#ifdef ANO_DT_USE_NRF24l01	//使能NRF通信
-	//初始化SPI2
-	ANO_SPI2::Init();
-	//初始化NRF
-	nrf.Init(MODEL_TX2,80);
-#endif
-#ifdef ANO_DT_USE_Bluetooth	//使能蓝牙通信
-	//初始化Uart1
-	ANO_UART1::Uart1_Init(115200);
-#endif
+	//初始化定时器输出PWM
+	Motors_Init();
 	
-	//初始化定时器输出PWM,24KHz
-	//ANO_PWM::out_Init(24000);
 
-	ANO_LED::Init();
-	led.ON();	
+	//初始化Uart1
+	Uart1_Init(115200);
+
+
+	LED_Init();
+	LED_ON();	
 	
 	//解锁flash
 	FLASH_Unlock();	
-	//初始化虚拟eeprom设置
-//	EE_Init();	
+
 	
 }
 
