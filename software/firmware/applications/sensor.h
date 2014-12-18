@@ -2,7 +2,7 @@
 #define __SENSOR_H
 
 #include "params.h"
-#include "ANO_Math.h"
+#include "AMath.h"
 
 #define CALIBRATING_GYRO_CYCLES             1000
 #define CALIBRATING_ACC_CYCLES              400
