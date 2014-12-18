@@ -12,13 +12,20 @@
 pidctrl fc;
 
 
-pidctrl::pidctrl()
+void pidctrl::Init()
 {
 	yawRate = 80;
 	//重置PID参数
 	PID_Reset();
+	
+  motor_dev = rt_device_find("motors");
+	if(motor_dev == RT_NULL)
+  {
+	 rt_kprintf("can not find motors!\n");
+		return;
+	}
+	rt_device_open(motor_dev,RT_DEVICE_FLAG_RDWR);
 }
-
 //重置PID参数
 void pidctrl::PID_Reset(void)
 {
@@ -86,7 +93,7 @@ void pidctrl::Motors_Ctrl(uint16_t throttle, int32_t pidTermRoll, int32_t pidTer
 			motorPWM[i] = 1000;
 
 	//写入电机PWM
-	//Motors_SetPwm(motorPWM);
+	rt_device_write(motor_dev,0,motorPWM,MOTORS_NUM_MAX);
 	
 }	
 void pidctrl::getMotorsPWM(uint16_t* pwm)

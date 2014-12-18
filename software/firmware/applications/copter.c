@@ -72,6 +72,9 @@ int apps_copter_init(void)
 	//初始化IMU（惯性测量单元）
 	IMU_Init();	
 	
+	//初始化飞行控制
+	fc.Init();
+	
 	//初始化参数
 	Params_Init();
 	
