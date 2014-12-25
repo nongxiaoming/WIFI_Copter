@@ -41,7 +41,7 @@ XTitleWidget::XTitleWidget(QWidget *parent)
 	skin_button->setContentsMargins(0, 0, 10, 0);
 
 	QStringList string_list;
-	string_list<<":/toolWidget/tiJian"<<":/toolWidget/muMa"<<":/toolWidget/louDong"<<":/toolWidget/xiTong"
+    string_list<<":/toolWidget/search"<<":/toolWidget/status"<<":/toolWidget/control"<<":/toolWidget/settings"
         <<":/toolWidget/qingLi"<<":/toolWidget/jiaSu"<<":/toolWidget/plot"<<":/toolWidget/fw_update";
 
 	QHBoxLayout *button_layout = new QHBoxLayout();
@@ -91,10 +91,10 @@ void XTitleWidget::translateLanguage()
 	max_button->setToolTip(tr("maximize"));
 	close_button->setToolTip(tr("close"));
 
-	button_list.at(0)->setText(tr("power"));
-	button_list.at(1)->setText(tr("mummy"));
-	button_list.at(2)->setText(tr("hole"));
-	button_list.at(3)->setText(tr("repair"));
+    button_list.at(0)->setText(tr("Search"));
+    button_list.at(1)->setText(tr("Status"));
+    button_list.at(2)->setText(tr("Control"));
+    button_list.at(3)->setText(tr("Settings"));
 	button_list.at(4)->setText(tr("clear"));
 	button_list.at(5)->setText(tr("optimize"));
     button_list.at(6)->setText(tr("Plot"));

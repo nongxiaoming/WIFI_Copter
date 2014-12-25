@@ -15,6 +15,10 @@
     <qresource prefix="/toolWidget">
         <file alias="fw_update">img/toolWidget/fw_update.png</file>
         <file alias="plot">img/toolWidget/plot.png</file>
+        <file alias="control">img/toolWidget/control.png</file>
+        <file alias="search">img/toolWidget/search.png</file>
+        <file alias="settings">img/toolWidget/settings.png</file>
+        <file alias="status">img/toolWidget/status.png</file>
     </qresource>
     <qresource prefix="/skin">
         <file alias="0">img/skin/0.png</file>
