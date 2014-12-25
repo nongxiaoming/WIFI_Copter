@@ -29,7 +29,7 @@ XMainWindow::XMainWindow(QWidget *parent)
     content_widget = new ContentWidget();
     main_menu = new XMainMenu();
 	character_widget = new CharacterWidget();
-	about_us_dialog = new AboutUsDialog(this);
+    //about_us_dialog = new AboutUsDialog(this);
     //setting_dialog = new SettingDialog(this);
     skin_manager = new XSkinManager(this);
     //system_tray = new SystemTray(this);
@@ -160,7 +160,7 @@ void XMainWindow::showWidget()
 
 void XMainWindow::showAboutUs()
 {
-	about_us_dialog->exec();
+    //about_us_dialog->exec();
 }
 
 void XMainWindow::showNewCharacter()

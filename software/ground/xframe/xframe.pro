@@ -13,7 +13,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    xframe/about_us.cpp \
     xframe/character_widget.cpp \
     xframe/content_widget.cpp \
     xframe/system_tray.cpp \
@@ -28,7 +27,6 @@ SOURCES += main.cpp\
     xframe/xmainmenu.cpp
 
 HEADERS += \
-    xframe/about_us.h \
     xframe/character_widget.h \
     xframe/content_widget.h \
     xframe/system_tray.h \
