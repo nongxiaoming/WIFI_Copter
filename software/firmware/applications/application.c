@@ -45,10 +45,8 @@ void rt_init_thread_entry(void* parameter)
 	rt_i2c_core_init();
 	rt_hw_i2c_init();
 	rt_hw_spi_init();
-	//³õÊ¼»¯Ä£ÄâI2C
-	//I2C_Soft_Init();
 	rt_hw_mpu6050_init("i2c1", MPU6050_DEFAULT_ADDRESS);
-//	rt_motors_hw_init();
+	rt_motors_hw_init();
 /* LwIP Initialization */
 #ifdef RT_USING_LWIP
 	{
@@ -64,11 +62,11 @@ void rt_init_thread_entry(void* parameter)
 		lwip_system_init();
 		rt_kprintf("TCP/IP initialized!\n");
 		
-		set_if("w0","192.168.1.9","192.168.1.1","255.255.255.0");
+		set_if("w0","192.168.3.44","192.168.3.1","255.255.255.0");
 		rw009_join("rtthread_11n","rtthread_finsh");
 	}
 #endif
-	  apps_copter_init();
+	  //apps_copter_init();
 		//telnet_server_init();
 	
 #ifdef RT_USING_FINSH

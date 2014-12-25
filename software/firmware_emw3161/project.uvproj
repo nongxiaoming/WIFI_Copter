@@ -512,11 +512,6 @@
               <FilePath>.\applications\copter.cpp</FilePath>
             </File>
             <File>
-              <FileName>drv_mpu6050.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>.\applications\drv_mpu6050.cpp</FilePath>
-            </File>
-            <File>
               <FileName>dt.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>.\applications\dt.cpp</FilePath>
