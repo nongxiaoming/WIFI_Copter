@@ -61,15 +61,33 @@ SOURCES += main.cpp\
         mainwindow.cpp\
 PrimaryFlightDisplay.cpp \
     modelviewwidget.cpp \
-    dialwidget.cpp
+    dialwidget.cpp \
+    copterctrlpage.cpp \
+    coptersettingpage.cpp \
+    discoverpage.cpp \
+    plotingpage.cpp \
+    statuspage.cpp \
+    upgradepage.cpp
 
 HEADERS  += mainwindow.h\
 PrimaryFlightDisplay.h \
     modelviewwidget.h \
-    dialwidget.h
+    dialwidget.h \
+    copterctrlpage.h \
+    coptersettingpage.h \
+    discoverpage.h \
+    plotingpage.h \
+    statuspage.h \
+    upgradepage.h
 
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    copterctrlpage.ui \
+    coptersettingpage.ui \
+    discoverpage.ui \
+    plotingpage.ui \
+    statuspage.ui \
+    upgradepage.ui
 
 INCLUDEPATH +=.
 
