@@ -67,4 +67,12 @@
         <file alias="23">resources/skin/23.jpg</file>
         <file alias="23_big">resources/skin/23_big.jpg</file>
     </qresource>
+    <qresource prefix="/models">
+        <file alias="default_background">resources/models/default_background.png</file>
+        <file>resources/models/easystar.3ds</file>
+        <file>resources/models/quad_+.3ds</file>
+        <file>resources/models/quad_X.3ds</file>
+        <file>resources/models/quad_X.jpg</file>
+        <file>resources/models/TEXTURE.JPG</file>
+    </qresource>
 </RCC>

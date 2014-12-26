@@ -82,7 +82,7 @@ void ModelViewWidget::setBgFilename(QString bgf)
         bgFilename = bgf;
     } else {
         qDebug() << "file " << bgf << " doesn't exists";
-        bgFilename = ":/models/default_background.png"; // will put a black background if there's no background
+        bgFilename = ":/models/default_background"; // will put a black background if there's no background
     }
 }
 
@@ -177,7 +177,7 @@ void ModelViewWidget::CreateScene()
 {
     // put a black background if the 3D model is invalid or if the background image is also invalid
     if (acFilename == ":/models/quad_X.3ds" or !QFile::exists(bgFilename)) {
-        bgFilename = ":/models/default_background.png";
+        bgFilename = ":/models/default_background";
     }
 
 
