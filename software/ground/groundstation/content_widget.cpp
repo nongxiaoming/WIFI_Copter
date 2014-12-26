@@ -24,7 +24,7 @@ ContentWidget::ContentWidget(QWidget *parent)
     this->initLeft();
     this->initStatusBar();
 
-    main_splitter->addWidget(left_widget);
+    main_splitter->addWidget(this->mainStackedWidget);
     main_splitter->addWidget(this->statusBar_widget);
 
 
@@ -47,61 +47,20 @@ ContentWidget::ContentWidget(QWidget *parent)
 
 void ContentWidget::initLeft()
 {
-    left_widget = new QWidget();
-    label = new QLabel();
-    suggest_label = new QLabel();
-    system_safe_label = new QLabel();
-    power_button = new QPushButton();
-
-    left_widget->resize(650, 500);
-
-    QPixmap label_pixmap(":/contentWidget/computer");
-    label->setPixmap(label_pixmap);
-    label->setFixedSize(label_pixmap.size());
-
-    QFont suggest_font = suggest_label->font();
-    suggest_font.setPointSize(12);
-    suggest_font.setBold(true);
-    suggest_label->setFont(suggest_font);
-    suggest_label->setStyleSheet("color:gray;");
-
-    QFont system_safe_font = system_safe_label->font();
-    system_safe_font.setBold(true);
-    system_safe_label->setFont(system_safe_font);
-    system_safe_label->setStyleSheet("color:gray;");
-
-    QPixmap pixmap(":/contentWidget/power");
-    power_button->setIcon(pixmap);
-    power_button->setIconSize(pixmap.size());
-    power_button->setFixedSize(180, 70);
-    power_button->setStyleSheet("QPushButton{border-radius:5px; background:rgb(110, 190, 10); color:white;}"
-        "QPushButton:hover{background:rgb(140, 220, 35);}");
-    QFont power_font = power_button->font();
-    power_font.setPointSize(16);
-    power_button->setFont(power_font);
-
-    QVBoxLayout *v_layout = new QVBoxLayout();
-    v_layout->addWidget(suggest_label);
-    v_layout->addWidget(system_safe_label);
-    v_layout->addStretch();
-    v_layout->setSpacing(15);
-    v_layout->setContentsMargins(0, 20, 0, 0);
-
-    QHBoxLayout *h_layout = new QHBoxLayout();
-    h_layout->addWidget(label, 0, Qt::AlignTop);
-    h_layout->addLayout(v_layout);
-    h_layout->addStretch();
-    h_layout->setSpacing(20);
-    h_layout->setContentsMargins(30, 20, 0, 0);
-
-    QVBoxLayout *main_layout = new QVBoxLayout();
-    main_layout->addLayout(h_layout);
-    main_layout->addWidget(power_button, 0, Qt::AlignCenter);
-    main_layout->addStretch();
-    main_layout->setSpacing(0);
-    main_layout->setContentsMargins(0, 0, 0, 0);
-
-    left_widget->setLayout(main_layout);
+    this->mainStackedWidget = new QStackedWidget(this);
+    this->discover_page = new DiscoverPage();
+    this->status_page = new StatusPage();
+    this->ctrl_page = new CopterCtrlPage;
+    this->setting_page = new CopterSettingPage();
+    this->plot_page = new PlotingPage();
+    this->upgrade_page = new UpgradePage();
+    this->mainStackedWidget->addWidget(this->discover_page);
+    this->mainStackedWidget->addWidget(this->status_page);
+    this->mainStackedWidget->addWidget(this->ctrl_page);
+    this->mainStackedWidget->addWidget(this->setting_page);
+    this->mainStackedWidget->addWidget(this->plot_page);
+    this->mainStackedWidget->addWidget(this->upgrade_page);
+    this->mainStackedWidget->setCurrentIndex(0);
 }
 
 void ContentWidget::initStatusBar()
@@ -135,9 +94,6 @@ void ContentWidget::initStatusBar()
 
 void ContentWidget::translateLanguage()
 {
-	suggest_label->setText(tr("suggest"));
-	system_safe_label->setText(tr("system safe"));
-	power_button->setText(tr("power"));
 
     connect_label->setText(tr("connect success"));
     version_label->setText(tr("version"));

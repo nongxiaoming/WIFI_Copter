@@ -2,6 +2,13 @@
 #define CONTENTWIDGET_H
 
 #include <QWidget>
+#include <QStackedWidget>
+#include <discoverpage.h>
+#include <statuspage.h>
+#include <copterctrlpage.h>
+#include <coptersettingpage.h>
+#include <upgradepage.h>
+#include <plotingpage.h>
 
 class QSplitter;
 class QPushButton;
@@ -28,14 +35,14 @@ private:
 
 	QSplitter *main_splitter;
 
-	QWidget *left_widget;
-	QLabel *label;
-	QLabel *suggest_label;
-	QLabel *system_safe_label;
-	QPushButton *power_button; //立即体检按钮
+    QStackedWidget *mainStackedWidget;
 
-
-
+    DiscoverPage *discover_page;
+    StatusPage *status_page;
+    CopterCtrlPage *ctrl_page;
+    CopterSettingPage *setting_page;
+    PlotingPage *plot_page;
+    UpgradePage *upgrade_page;
 
     QWidget *statusBar_widget;
 	QLabel *icon_label; //云图标
