@@ -26,10 +26,8 @@ public:
     explicit ContentWidget(QWidget *parent = 0);
 	void translateLanguage();
 
-private:
-
-	void initLeft();
-    void initStatusBar();
+public slots:
+    void turn_page(int index);
 
 private:
 
@@ -50,6 +48,8 @@ private:
 	QLabel *version_label; //°æ±¾ºÅ
     QPushButton *version_button; //°æ±¾Éý¼¶
 
+    void initMainStackedWidget();
+    void initStatusBar();
 };
 
 #endif // CONTENTWIDGET_H

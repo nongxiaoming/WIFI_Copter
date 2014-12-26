@@ -52,6 +52,7 @@ XMainWindow::XMainWindow(QWidget *parent)
 	connect(title_widget, SIGNAL(showMax()), this, SLOT(showMax()));
 	connect(title_widget, SIGNAL(showMin()), this, SLOT(showMinimized()));
     connect(title_widget, SIGNAL(closeWidget()), this, SLOT(close()));
+    connect(title_widget, SIGNAL(PageIndexChanged(int)), this->content_widget, SLOT(turn_page(int)));
 
 	connect(main_menu, SIGNAL(showSettingDialog()), this, SLOT(showSettingDialog()));
 	connect(main_menu, SIGNAL(showNewCharacter()), this, SLOT(showNewCharacter()));

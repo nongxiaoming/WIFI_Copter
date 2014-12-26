@@ -21,14 +21,12 @@ ContentWidget::ContentWidget(QWidget *parent)
     main_splitter->setHandleWidth(1);
     main_splitter->setStyleSheet("QSplitter::handle{background:lightgray;}");
 
-    this->initLeft();
+    this->initMainStackedWidget();
     this->initStatusBar();
 
     main_splitter->addWidget(this->mainStackedWidget);
     main_splitter->addWidget(this->statusBar_widget);
-
-
-
+    main_splitter->setStretchFactor(0,1);
     for(int i = 0; i<main_splitter->count();i++)
     {
         QSplitterHandle *handle = main_splitter->handle(i);
@@ -39,13 +37,12 @@ ContentWidget::ContentWidget(QWidget *parent)
     main_layout->addWidget(main_splitter);
     main_layout->setSpacing(0);
     main_layout->setContentsMargins(0, 0, 0, 0);
-
     setLayout(main_layout);
-	
+
     this->translateLanguage();
 }
 
-void ContentWidget::initLeft()
+void ContentWidget::initMainStackedWidget()
 {
     this->mainStackedWidget = new QStackedWidget(this);
     this->discover_page = new DiscoverPage();
@@ -61,6 +58,7 @@ void ContentWidget::initLeft()
     this->mainStackedWidget->addWidget(this->plot_page);
     this->mainStackedWidget->addWidget(this->upgrade_page);
     this->mainStackedWidget->setCurrentIndex(0);
+    this->mainStackedWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 void ContentWidget::initStatusBar()
@@ -90,8 +88,16 @@ void ContentWidget::initStatusBar()
     hlayout->setSpacing(5);
     hlayout->setContentsMargins(10, 0, 10, 0);
     this->statusBar_widget->setLayout(hlayout);
+    this->statusBar_widget->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Minimum);
+    this->statusBar_widget->setMinimumSize(0,24);
 }
-
+void ContentWidget::turn_page(int index)
+{
+ if(index != this->mainStackedWidget->currentIndex())
+ {
+    this->mainStackedWidget->setCurrentIndex(index);
+ }
+}
 void ContentWidget::translateLanguage()
 {
 
