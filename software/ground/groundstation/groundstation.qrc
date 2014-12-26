@@ -1,10 +1,70 @@
 <RCC>
-    <qresource prefix="/">
-        <file>models/default_background.png</file>
-        <file>models/easystar.3ds</file>
-        <file>models/quad_+.3ds</file>
-        <file>models/quad_X.3ds</file>
-        <file>models/quad_X.jpg</file>
-        <file>models/TEXTURE.JPG</file>
+    <qresource prefix="/"/>
+    <qresource prefix="/sysButton">
+        <file alias="arrow_down">resources/sysButton/arrow_down.png</file>
+        <file alias="close">resources/sysButton/close.png</file>
+        <file alias="close_button">resources/sysButton/close_button.png</file>
+        <file alias="main_menu">resources/sysButton/main_menu.png</file>
+        <file alias="max_button">resources/sysButton/max_button.png</file>
+        <file alias="min_button">resources/sysButton/min_button.png</file>
+        <file alias="skin_button">resources/sysButton/skin_button.png</file>
+    </qresource>
+    <qresource prefix="/toolWidget">
+        <file alias="control">resources/toolWidget/control.png</file>
+        <file alias="fw_update">resources/toolWidget/fw_update.png</file>
+        <file alias="plot">resources/toolWidget/plot.png</file>
+        <file alias="search">resources/toolWidget/search.png</file>
+        <file alias="settings">resources/toolWidget/settings.png</file>
+        <file alias="status">resources/toolWidget/status.png</file>
+    </qresource>
+    <qresource prefix="/skins">
+        <file alias="0">resources/skin/0.png</file>
+        <file alias="0_big">resources/skin/0_big.png</file>
+        <file alias="1">resources/skin/1.png</file>
+        <file alias="1_big">resources/skin/1_big.png</file>
+        <file alias="2">resources/skin/2.png</file>
+        <file alias="2_big">resources/skin/2_big.png</file>
+        <file alias="3">resources/skin/3.png</file>
+        <file alias="3_big">resources/skin/3_big.png</file>
+        <file alias="4">resources/skin/4.png</file>
+        <file alias="4_big">resources/skin/4_big.png</file>
+        <file alias="5">resources/skin/5.png</file>
+        <file alias="5_big">resources/skin/5_big.png</file>
+        <file alias="6">resources/skin/6.png</file>
+        <file alias="6_big">resources/skin/6_big.png</file>
+        <file alias="7">resources/skin/7.png</file>
+        <file alias="7_big">resources/skin/7_big.png</file>
+        <file alias="8">resources/skin/8.png</file>
+        <file alias="8_big">resources/skin/8_big.png</file>
+        <file alias="9">resources/skin/9.png</file>
+        <file alias="9_big">resources/skin/9_big.png</file>
+        <file alias="10">resources/skin/10.png</file>
+        <file alias="10_big">resources/skin/10_big.png</file>
+        <file alias="11">resources/skin/11.png</file>
+        <file alias="11_big">resources/skin/11_big.png</file>
+        <file alias="12">resources/skin/12.png</file>
+        <file alias="12_big">resources/skin/12_big.png</file>
+        <file alias="13">resources/skin/13.png</file>
+        <file alias="13_big">resources/skin/13_big.png</file>
+        <file alias="14">resources/skin/14.png</file>
+        <file alias="14_big">resources/skin/14_big.png</file>
+        <file alias="15">resources/skin/15.jpg</file>
+        <file alias="15_big">resources/skin/15_big.jpg</file>
+        <file alias="16">resources/skin/16.jpg</file>
+        <file alias="16_big">resources/skin/16_big.jpg</file>
+        <file alias="17">resources/skin/17.jpg</file>
+        <file alias="17_big">resources/skin/17_big.jpg</file>
+        <file alias="18">resources/skin/18.jpg</file>
+        <file alias="18_big">resources/skin/18_big.jpg</file>
+        <file alias="19">resources/skin/19.jpg</file>
+        <file alias="19_big">resources/skin/19_big.jpg</file>
+        <file alias="20">resources/skin/20.jpg</file>
+        <file alias="20_big">resources/skin/20_big.jpg</file>
+        <file alias="21">resources/skin/21.jpg</file>
+        <file alias="21_big">resources/skin/21_big.jpg</file>
+        <file alias="22">resources/skin/22.jpg</file>
+        <file alias="22_big">resources/skin/22_big.jpg</file>
+        <file alias="23">resources/skin/23.jpg</file>
+        <file alias="23_big">resources/skin/23_big.jpg</file>
     </qresource>
 </RCC>

@@ -67,7 +67,21 @@ PrimaryFlightDisplay.cpp \
     discoverpage.cpp \
     plotingpage.cpp \
     statuspage.cpp \
-    upgradepage.cpp
+    upgradepage.cpp \
+    content_widget.cpp \
+    xmainwindow.cpp\
+    xtitlewidget.cpp \
+    xframe/character_widget.cpp \
+    xframe/system_tray.cpp \
+    xframe/util.cpp \
+    xframe/xlabel.cpp \
+    xframe/xmainmenu.cpp \
+    xframe/xpushbutton.cpp \
+    xframe/xskinitem.cpp \
+    xframe/xskinmanager.cpp \
+    xframe/xtoolbutton.cpp
+
+    xframe/xtoolbutton.cpp
 
 HEADERS  += mainwindow.h\
 PrimaryFlightDisplay.h \
@@ -78,7 +92,22 @@ PrimaryFlightDisplay.h \
     discoverpage.h \
     plotingpage.h \
     statuspage.h \
-    upgradepage.h
+    upgradepage.h \
+    xtitlewidget.h \
+    content_widget.h \
+    xmainwindow.h\
+    xframe/character_widget.h \
+    xframe/common.h \
+    xframe/resource.h \
+    xframe/system_tray.h \
+    xframe/util.h \
+    xframe/xlabel.h \
+    xframe/xmainmenu.h \
+    xframe/xpushbutton.h \
+    xframe/xskinitem.h \
+    xframe/xskinmanager.h \
+    xframe/xtoolbutton.h
+
 
 
 FORMS    += mainwindow.ui \
