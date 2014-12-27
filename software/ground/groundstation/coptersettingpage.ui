@@ -6,14 +6,45 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>675</width>
-    <height>454</height>
+    <width>816</width>
+    <height>545</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>40</y>
+     <width>641</width>
+     <height>351</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>仪表盘</string>
+   </property>
+   <widget class="MeterWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>40</y>
+      <width>201</width>
+      <height>171</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MeterWidget</class>
+   <extends>QWidget</extends>
+   <header>meterwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

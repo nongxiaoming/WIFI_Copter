@@ -26,13 +26,13 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
-#include "dialwidget.h"
+#include "meterwidget.h"
 #include <utils/stylehelper.h>
 #include <iostream>
 #include <QtOpenGL/QGLWidget>
 #include <QDebug>
 
-DialWidget::DialWidget(QWidget *parent) : QGraphicsView(parent)
+MeterWidget::MeterWidget(QWidget *parent) : QGraphicsView(parent)
 {
     // TODO: create a proper "needle" object instead of hardcoding all this
     // which is ugly (but easy).
@@ -54,14 +54,13 @@ DialWidget::DialWidget(QWidget *parent) : QGraphicsView(parent)
     needle2Target = 0;
     needle3Target = 0;
 
-// beSmooth = true;
     beSmooth = false;
 
     // This timer mechanism makes needles rotate smoothly
     connect(&dialTimer, SIGNAL(timeout()), this, SLOT(rotateNeedles()));
 }
 
-DialWidget::~DialWidget()
+MeterWidget::~MeterWidget()
 {
     // Do nothing
 }
@@ -69,7 +68,7 @@ DialWidget::~DialWidget()
 /*!
    \brief Enables/Disables OpenGL
  */
-void DialWidget::enableOpenGL(bool flag)
+void MeterWidget::enableOpenGL(bool flag)
 {
     if (flag) {
         setViewport(new QGLWidget(QGLFormat(QGL::SampleBuffers)));
@@ -81,7 +80,7 @@ void DialWidget::enableOpenGL(bool flag)
 /*!
    \brief Connects the widget to the relevant UAVObjects
  */
-void DialWidget::connectNeedles(QString object1, QString nfield1,
+void MeterWidget::connectNeedles(QString object1, QString nfield1,
                                       QString object2, QString nfield2,
                                       QString object3, QString nfield3)
 {
@@ -162,7 +161,7 @@ void DialWidget::connectNeedles(QString object1, QString nfield1,
 /*!
    \brief Called by the UAVObject which got updated
  */
-void DialWidget::updateNeedle1(double value)
+void MeterWidget::updateNeedle1(double value)
 {
         setNeedle1(value);
 }
@@ -170,7 +169,7 @@ void DialWidget::updateNeedle1(double value)
 /*!
    \brief Called by the UAVObject which got updated
  */
-void DialWidget::updateNeedle2(double value)
+void MeterWidget::updateNeedle2(double value)
 {
         setNeedle2(value);
 }
@@ -178,7 +177,7 @@ void DialWidget::updateNeedle2(double value)
 /*!
    \brief Called by the UAVObject which got updated
  */
-void DialWidget::updateNeedle3(double value)
+void MeterWidget::updateNeedle3(double value)
 {
         setNeedle3(value);
 }
@@ -187,7 +186,7 @@ void DialWidget::updateNeedle3(double value)
    Initializes the dial file, and does all the one-time calculations for
    display later. This is the method which really initializes the dial.
  */
-void DialWidget::setDialFile(QString dfn, QString bg, QString fg, QString n1, QString n2,
+void MeterWidget::setDialFile(QString dfn, QString bg, QString fg, QString n1, QString n2,
                                    QString n3, QString n1Move, QString n2Move, QString n3Move)
 {
     fgenabled = false;
@@ -387,12 +386,12 @@ void DialWidget::setDialFile(QString dfn, QString bg, QString fg, QString n1, QS
     }
 }
 
-void DialWidget::paint()
+void MeterWidget::paint()
 {
     update();
 }
 
-void DialWidget::paintEvent(QPaintEvent *event)
+void MeterWidget::paintEvent(QPaintEvent *event)
 {
     // Skip painting until the dial file is loaded
     if (!m_renderer->isValid()) {
@@ -405,13 +404,13 @@ void DialWidget::paintEvent(QPaintEvent *event)
 // This event enables the dial to be dynamically resized
 // whenever the gadget is resized, taking advantage of the vector
 // nature of SVG dials.
-void DialWidget::resizeEvent(QResizeEvent *event)
+void MeterWidget::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
     fitInView(m_background, Qt::KeepAspectRatio);
 }
 
-void DialWidget::setDialFont(QString fontProps)
+void MeterWidget::setDialFont(QString fontProps)
 {
     QFont font = QFont("Arial", 12);
 
@@ -424,7 +423,7 @@ void DialWidget::setDialFont(QString fontProps)
 
 // Converts the value into an angle:
 // this enables smooth rotation in rotateNeedles below
-void DialWidget::setNeedle1(double value)
+void MeterWidget::setNeedle1(double value)
 {
     if (rotateN1) {
         needle1Target = 360 * (value * n1Factor) / (n1MaxValue - n1MinValue);
@@ -445,7 +444,7 @@ void DialWidget::setNeedle1(double value)
     }
 }
 
-void DialWidget::setNeedle2(double value)
+void MeterWidget::setNeedle2(double value)
 {
     if (rotateN2) {
         needle2Target = 360 * (value * n2Factor) / (n2MaxValue - n2MinValue);
@@ -466,7 +465,7 @@ void DialWidget::setNeedle2(double value)
     }
 }
 
-void DialWidget::setNeedle3(double value)
+void MeterWidget::setNeedle3(double value)
 {
     if (rotateN3) {
         needle3Target = 360 * (value * n3Factor) / (n3MaxValue - n3MinValue);
@@ -494,7 +493,7 @@ void DialWidget::setNeedle3(double value)
 //
 // Note: this code is valid even if needle1 and needle2 point
 // to the same element.
-void DialWidget::rotateNeedles()
+void MeterWidget::rotateNeedles()
 {
     if (dialError) {
         // We get there in case the dial file is missing or corrupt.

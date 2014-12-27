@@ -58,10 +58,8 @@ RESOURCES += \
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp\
 PrimaryFlightDisplay.cpp \
     modelviewwidget.cpp \
-    dialwidget.cpp \
     copterctrlpage.cpp \
     coptersettingpage.cpp \
     discoverpage.cpp \
@@ -79,14 +77,13 @@ PrimaryFlightDisplay.cpp \
     xframe/xpushbutton.cpp \
     xframe/xskinitem.cpp \
     xframe/xskinmanager.cpp \
-    xframe/xtoolbutton.cpp
+    xframe/xtoolbutton.cpp \
+    meterwidget.cpp
 
     xframe/xtoolbutton.cpp
 
-HEADERS  += mainwindow.h\
-PrimaryFlightDisplay.h \
+HEADERS  += PrimaryFlightDisplay.h \
     modelviewwidget.h \
-    dialwidget.h \
     copterctrlpage.h \
     coptersettingpage.h \
     discoverpage.h \
@@ -106,11 +103,12 @@ PrimaryFlightDisplay.h \
     xframe/xpushbutton.h \
     xframe/xskinitem.h \
     xframe/xskinmanager.h \
-    xframe/xtoolbutton.h
+    xframe/xtoolbutton.h \
+    meterwidget.h
 
 
 
-FORMS    += mainwindow.ui \
+FORMS    += \
     copterctrlpage.ui \
     coptersettingpage.ui \
     discoverpage.ui \
