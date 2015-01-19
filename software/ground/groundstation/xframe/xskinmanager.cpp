@@ -143,10 +143,10 @@ void XSkinManager::initBottom()
 	next_page_button->setStyleSheet("color:rgb(0, 120, 230); background:transparent;");
 	last_page_button->setStyleSheet("color:rgb(0, 120, 230); background:transparent;");
 
-	first_page_button->setText(tr("first page"));
-	previous_page_button->setText(tr("previous page"));
-	next_page_button->setText(tr("next page"));
-	last_page_button->setText(tr("last page"));
+    first_page_button->setText(tr("first"));
+    previous_page_button->setText(tr("previous"));
+    next_page_button->setText(tr("next"));
+    last_page_button->setText(tr("last"));
 
 	connect(first_page_button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
 	connect(previous_page_button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
