@@ -16,6 +16,16 @@
 #include <qdebug.h>
 #endif
 
+#ifndef QT_STATIC_CONST
+#if defined(Q_CC_MSVC)
+#define QT_STATIC_CONST static
+#define QT_STATIC_CONST_IMPL
+#else
+#define QT_STATIC_CONST static const
+#define QT_STATIC_CONST_IMPL const
+#endif
+#endif
+
 class QRectF;
 
 /*!
@@ -101,8 +111,8 @@ public:
     double pDist() const;
     double sDist() const;
 
-    QT_STATIC_CONST double LogMin;
-    QT_STATIC_CONST double LogMax;
+    static const double LogMin;
+    static const  double LogMax;
 
     static QRectF transform( const QwtScaleMap &,
         const QwtScaleMap &, const QRectF & );
