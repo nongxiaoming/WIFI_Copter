@@ -28,10 +28,10 @@
    <widget class="MeterWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>40</y>
-      <width>201</width>
-      <height>171</height>
+      <x>80</x>
+      <y>50</y>
+      <width>241</width>
+      <height>211</height>
      </rect>
     </property>
    </widget>
@@ -41,7 +41,7 @@
   <customwidget>
    <class>MeterWidget</class>
    <extends>QWidget</extends>
-   <header>meterwidget.h</header>
+   <header location="global">meterwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

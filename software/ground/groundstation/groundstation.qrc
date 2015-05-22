@@ -76,14 +76,15 @@
         <file>resources/models/TEXTURE.JPG</file>
     </qresource>
     <qresource prefix="/meters">
-        <file>resources/meters/altimeter.svg</file>
-        <file>resources/meters/attitude.svg</file>
-        <file>resources/meters/barometer.svg</file>
+        <file alias="altimeter.svg">resources/meters/altimeter.svg</file>
+        <file alias="attitude.svg">resources/meters/attitude.svg</file>
+        <file alias="barometer.svg">resources/meters/barometer.svg</file>
         <file>resources/meters/compass.svg</file>
         <file>resources/meters/lineardial-horizontal.svg</file>
         <file>resources/meters/lineardial-vertical.svg</file>
         <file>resources/meters/speed.svg</file>
         <file>resources/meters/thermometer.svg</file>
         <file>resources/meters/vsi.svg</file>
+        <file alias="empty.svg">resources/meters/empty.svg</file>
     </qresource>
 </RCC>

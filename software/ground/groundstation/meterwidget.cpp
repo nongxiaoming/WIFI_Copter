@@ -371,7 +371,7 @@ void MeterWidget::setDialFile(QString dfn, QString bg, QString fg, QString n1, Q
         dialError = false;
     } else {
         qDebug() << "no file: display default background.";
-        m_renderer->load(QString(":/dial/images/empty.svg"));
+        m_renderer->load(QString(":/meters/empty.svg"));
         l_scene->clear(); // This also deletes all items contained in the scene.
         m_background = new QGraphicsSvgItem();
         m_background->setSharedRenderer(m_renderer);

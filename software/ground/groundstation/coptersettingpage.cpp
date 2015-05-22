@@ -6,6 +6,7 @@ CopterSettingPage::CopterSettingPage(QWidget *parent) :
     ui(new Ui::CopterSettingPage)
 {
     ui->setupUi(this);
+    ui->widget->setDialFile(":/meters/attitude.svg","","","","","","","","");
 }
 
 CopterSettingPage::~CopterSettingPage()
