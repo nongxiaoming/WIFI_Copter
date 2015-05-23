@@ -52,11 +52,11 @@ XTitleWidget::XTitleWidget(QWidget *parent)
         XToolButton *tool_button = new XToolButton(string_list.at(i));
 		button_list.append(tool_button);
 		connect(tool_button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
-		signal_mapper->setMapping(tool_button, QString::number(i, 10));
+        signal_mapper->setMapping(tool_button, i);
 
 		button_layout->addWidget(tool_button, 0, Qt::AlignBottom);
 	}
-	connect(signal_mapper, SIGNAL(mapped(QString)), this, SLOT(turnPage(QString)));
+    connect(signal_mapper, SIGNAL(mapped(int)), this, SLOT(turnPage(int)));
 	
 //	QLabel *logo_label = new QLabel();
 //	QPixmap pixmap(":/img/logo");
@@ -132,10 +132,8 @@ void XTitleWidget::mouseDoubleClickEvent(QMouseEvent *)
     emit showMax();
 }
 
-void XTitleWidget::turnPage(QString current_page)
+void XTitleWidget::turnPage(int current_index)
 {
-	bool ok;  
-	int current_index = current_page.toInt(&ok, 10);
 
 	for(int i=0; i<button_list.count(); i++)
 	{

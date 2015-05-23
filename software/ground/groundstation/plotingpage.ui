@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
    <item>
-    <widget class="Chart" name="widget" native="true">
+    <widget class="QCustomPlot" name="customPlot" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -60,9 +60,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>Chart</class>
+   <class>QCustomPlot</class>
    <extends>QWidget</extends>
-   <header>qchart/chart.h</header>
+   <header location="global">qcustomplot/qcustomplot.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

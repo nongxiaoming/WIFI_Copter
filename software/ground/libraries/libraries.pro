@@ -7,7 +7,7 @@ SUBDIRS   = \
     glc_lib \
     utils \
     qwt\
-	qchart\
+	qcustomplot\
 extensionsystem\
 sdlgamepad\
 opmapcontrol

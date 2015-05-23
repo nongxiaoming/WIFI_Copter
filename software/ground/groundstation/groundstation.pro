@@ -29,7 +29,7 @@ QT       += core gui\
           declarative\
           network
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = QGroundStation
 TEMPLATE = app
@@ -119,7 +119,7 @@ FORMS    += \
 INCLUDEPATH +=.
 
 
-LIBS +=-l$$qtLibraryName(QChart)\
+LIBS +=-l$$qtLibraryName(QCustomPlot)\
        -l$$qtLibraryName(ExtensionSystem)\
        -l$$qtLibraryName(Utils)\
        -l$$qtLibraryName(GLC_lib)

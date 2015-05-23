@@ -22,7 +22,7 @@ signals:
     void PageIndexChanged(int index);
 public slots:
 
-	void turnPage(QString current_page);
+    void turnPage(int current_index);
 
 protected:
     void mousePressEvent(QMouseEvent *);
