@@ -7,6 +7,7 @@
 #include "xframe/xmainmenu.h"
 #include "xframe/character_widget.h"
 #include "xframe/xskinmanager.h"
+#include "connectdialog.h"
 #include <QSystemTrayIcon>
 
 class XMainWindow : public QDialog
@@ -44,6 +45,7 @@ private:
 	ContentWidget *content_widget; //主界面内容
     //XSystemTray *system_tray; //托盘项
     //SettingDialog *setting_dialog; //设置界面
+    ConnectDialog *connect_dialog;
 	CharacterWidget *character_widget; //新版特性界面
     QString skin_name;//主窗口背景图片的名称
     XMainMenu *main_menu; //主菜单

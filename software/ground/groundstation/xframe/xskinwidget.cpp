@@ -28,6 +28,10 @@ void XSkinWidget::changeSkin(QString skin_name)
 {
     this->skin_name = skin_name;
 }
+int XSkinWidget::show()
+{
+ return 0;
+}
 void XSkinWidget::initTitle()
 {
 	title_label = new QLabel();

@@ -79,7 +79,8 @@ PrimaryFlightDisplay.cpp \
     xframe/xskinmanager.cpp \
     xframe/xskinwidget.cpp \
     xframe/xtoolbutton.cpp \
-    meterwidget.cpp
+    meterwidget.cpp \
+    connectdialog.cpp
 
     xframe/xtoolbutton.cpp
 
@@ -106,7 +107,8 @@ HEADERS  += PrimaryFlightDisplay.h \
     xframe/xskinmanager.h \
     xframe/xskinwidget.h \
     xframe/xtoolbutton.h \
-    meterwidget.h
+    meterwidget.h \
+    connectdialog.h
 
 
 
@@ -116,7 +118,8 @@ FORMS    += \
     discoverpage.ui \
     plotingpage.ui \
     statuspage.ui \
-    upgradepage.ui
+    upgradepage.ui \
+    connectdialog.ui
 
 INCLUDEPATH +=.
 

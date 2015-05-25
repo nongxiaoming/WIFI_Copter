@@ -15,6 +15,7 @@ class XSkinWidget : public QDialog
 public:
 
     explicit XSkinWidget(QWidget *parent = 0);
+    int show();
 
 protected:
 
@@ -22,6 +23,7 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *event);
 	void mouseMoveEvent(QMouseEvent *event);
 	void paintEvent(QPaintEvent *event);
+
 
 private slots:
 

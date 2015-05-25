@@ -28,12 +28,13 @@ XMainWindow::XMainWindow(QWidget *parent)
     title_widget = new XTitleWidget();
     content_widget = new ContentWidget();
     main_menu = new XMainMenu();
+    this->connect_dialog = new ConnectDialog(this);
 	character_widget = new CharacterWidget();
     //about_us_dialog = new AboutUsDialog(this);
     //setting_dialog = new SettingDialog(this);
     skin_manager = new XSkinManager(this);
     //system_tray = new SystemTray(this);
-  content_widget->setWindowOpacity(0.8);
+     content_widget->setWindowOpacity(0.8);
 	QVBoxLayout *center_layout = new QVBoxLayout();
     center_layout->addWidget(content_widget);
 	center_layout->setSpacing(0);
@@ -166,7 +167,7 @@ void XMainWindow::showAboutUs()
 
 void XMainWindow::ShowConnectDialog()
 {
-	character_widget->show();
+    connect_dialog->exec();
 }
 
 void XMainWindow::showSettingDialog()
