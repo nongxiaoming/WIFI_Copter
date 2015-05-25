@@ -4,7 +4,7 @@
 #include <QLabel>
 
 XSkinWidget::XSkinWidget(QWidget *parent)
-	:QWidget(parent)
+        :QDialog(parent)
 {
 	this->resize(620, 445);
 
@@ -15,24 +15,19 @@ XSkinWidget::XSkinWidget(QWidget *parent)
 	this->setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
 
 	this->initTitle();
-	this->initCenter();
-	this->initBottom();
 
 	QVBoxLayout *main_layout = new QVBoxLayout();
 	main_layout->addLayout(title_layout);
-	main_layout->addLayout(center_layout);
-	main_layout->addLayout(bottom_layout);
 	main_layout->addStretch();
 	main_layout->setSpacing(0);
 	main_layout->setContentsMargins(0, 0, 0, 0);
 
 	setLayout(main_layout);
-
-	this->translateLanguage();
-
-	this->showSkin(QString::number(current_page, 10));
 }
-
+void XSkinWidget::changeSkin(QString skin_name)
+{
+    this->skin_name = skin_name;
+}
 void XSkinWidget::initTitle()
 {
 	title_label = new QLabel();
@@ -59,30 +54,9 @@ void XSkinWidget::initTitle()
 	connect(close_button, SIGNAL(clicked()), this, SLOT(hide()));
 }
 
-
-void XSkinWidget::translateLanguage()
-{
-	title_label->setText(tr("title"));
-	close_button->setToolTip(tr("close"));
-}
-
 void XSkinWidget::paintEvent(QPaintEvent *)
 {
-	if(!is_change)
-	{
-        bool is_read = Util::readInit(QString("./user.ini"), QString("skin"), skin_name);
-		if(is_read)
-		{
-			if(skin_name.isEmpty())
-			{
-                skin_name = QString(":/skins/17_big");
-			}
-		}
-		else
-		{
-            skin_name = QString(":/skins/17_big");
-		}
-	}
+
 	QPainter painter(this);
 	painter.drawPixmap(rect(), QPixmap(skin_name));
 
