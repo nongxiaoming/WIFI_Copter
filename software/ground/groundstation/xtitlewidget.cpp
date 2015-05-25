@@ -2,6 +2,8 @@
 #include "xframe/xtoolbutton.h"
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QPushButton>
+
 XTitleWidget::XTitleWidget(QWidget *parent)
 	:QWidget(parent)
 {
@@ -58,14 +60,17 @@ XTitleWidget::XTitleWidget(QWidget *parent)
 	}
     connect(signal_mapper, SIGNAL(mapped(int)), this, SLOT(turnPage(int)));
 	
-//	QLabel *logo_label = new QLabel();
-//	QPixmap pixmap(":/img/logo");
-//	logo_label->setPixmap(pixmap);
-//	logo_label->setFixedSize(pixmap.size());
-//	logo_label->setCursor(Qt::PointingHandCursor);
+    //QPushButton *conn_button = new QPushButton();
+    //QPixmap pixmap(":/toolWidget/search");
+    //QIcon icon(":/toolWidget/search");
+    //conn_button->setPixmap(pixmap);
+    //conn_button->setIcon(icon);
+    //logo_label->setFixedSize(pixmap.size());
+    //conn_button->setContentsMargins(0, 0, 40, 0);
+   // conn_button->setCursor(Qt::PointingHandCursor);
 
 	button_layout->addStretch();
-    //button_layout->addWidget(logo_label);
+    //button_layout->addWidget(conn_button);
 	button_layout->setSpacing(8);
 	button_layout->setContentsMargins(15, 0, 0, 0);
 

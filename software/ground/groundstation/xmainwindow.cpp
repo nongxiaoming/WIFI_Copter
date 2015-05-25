@@ -55,7 +55,7 @@ XMainWindow::XMainWindow(QWidget *parent)
     connect(title_widget, SIGNAL(PageIndexChanged(int)), this->content_widget, SLOT(turn_page(int)));
 
 	connect(main_menu, SIGNAL(showSettingDialog()), this, SLOT(showSettingDialog()));
-	connect(main_menu, SIGNAL(showNewCharacter()), this, SLOT(showNewCharacter()));
+    connect(main_menu, SIGNAL(ShowConnectDialog()), this, SLOT(ShowConnectDialog()));
 	connect(main_menu, SIGNAL(showAboutUs()), this, SLOT(showAboutUs()));
 
     connect(this->skin_manager, SIGNAL(changeSkin(QString)), this, SLOT(changeSkin(QString)));
@@ -164,7 +164,7 @@ void XMainWindow::showAboutUs()
     //about_us_dialog->exec();
 }
 
-void XMainWindow::showNewCharacter()
+void XMainWindow::ShowConnectDialog()
 {
 	character_widget->show();
 }

@@ -77,6 +77,7 @@ PrimaryFlightDisplay.cpp \
     xframe/xpushbutton.cpp \
     xframe/xskinitem.cpp \
     xframe/xskinmanager.cpp \
+    xframe/xskinwidget.cpp \
     xframe/xtoolbutton.cpp \
     meterwidget.cpp
 
@@ -103,6 +104,7 @@ HEADERS  += PrimaryFlightDisplay.h \
     xframe/xpushbutton.h \
     xframe/xskinitem.h \
     xframe/xskinmanager.h \
+    xframe/xskinwidget.h \
     xframe/xtoolbutton.h \
     meterwidget.h
 

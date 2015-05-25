@@ -33,7 +33,7 @@ private slots:
 	void showMainMenu();
 	void showSettingDialog();
 	void showAboutUs();
-	void showNewCharacter();
+    void ShowConnectDialog();
 	void changeSkin(QString skin_name);
 	void iconIsActived(QSystemTrayIcon::ActivationReason reason);
 
